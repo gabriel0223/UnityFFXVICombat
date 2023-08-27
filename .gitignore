@@ -1,0 +1,71 @@
+# =============== #
+# Unity generated #
+# =============== #
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Ll]ibrary/
+**/[Uu]ser[Ss]ettings/
+**/sysinfo.txt
+**/Assets/AssetStoreTools*
+**/[Ll]ogs/
+**/.[Gg]radle
+
+
+# =========== #
+# Build File #
+# =========== #
+**/*.apk
+**/*.aab
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+**/*.userprefs
+**/[Ee]xported[Oo]bj/
+**/*.csproj
+**/*.unityproj
+**/*.sln
+**/*.suo
+**/*.tmp
+**/*.user
+**/*.pidb
+**/*.booproj
+**/*.svd
+**/VSCode
+**/VSCode.meta
+
+# ========================================== #
+# Other stuff to be excluded from repository #
+# ========================================== #
+**/Assets/StreamingAssets/AssetBundles*
+**/Assets/StreamingAssets/Bundles*
+**/AssetBundles
+**/Builds
+**/Thumbs.db
+**/Thumbs.db.meta
+**/StreamingAssets/build_info.txt
+**/StreamingAssets/Coimbra.BuildManagement.BuildMetadata.json*
+
+# =============== #
+# TPBuildSetupper #
+# =============== #
+**/Assets/GoogleService-Info*
+**/Assets/google-services*
+
+# ================= #
+# Text editor files #
+# ================= #
+**/*~
+**/.vscode/
+.idea/
+**JetBrains.Rider*
+*.vs*
+*Assets/Plugins/Editor.meta
+*Assets/Plugins/Editor/JetBrains*
+
+# =========== #
+# MacOS files #
+# =========== #
+.DS_Store
+
+**__pycache__**
