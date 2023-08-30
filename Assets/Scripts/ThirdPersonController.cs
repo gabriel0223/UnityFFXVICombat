@@ -225,6 +225,13 @@ namespace StarterAssets
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
+            if (_playerStateManager.PlayerState != PlayerState.Idle &&
+                _playerStateManager.PlayerState != PlayerState.Running &&
+                _playerStateManager.PlayerState != PlayerState.Jumping)
+            {
+                return;
+            }
+
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
             if (_input.move == Vector2.zero || 
@@ -237,6 +244,7 @@ namespace StarterAssets
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+            //Debug.Log(currentHorizontalSpeed);
 
             float speedOffset = 0.1f;
             float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
