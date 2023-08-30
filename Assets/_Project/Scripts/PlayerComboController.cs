@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class PlayerComboController : MonoBehaviour
 {
+    [SerializeField] private PlayerCombatController _combatController;
     [SerializeField] private StarterAssetsInputs _input;
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private PlayerStateManager _playerStateManager;
@@ -36,22 +37,16 @@ public class PlayerComboController : MonoBehaviour
             return;
         }
 
-        float rotationVelocity = 10f;
-
-        var targetRotation = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
+        float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
                              _mainCamera.transform.eulerAngles.y;
 
-        float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
-            Time.deltaTime);
-
         Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
-            Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
+            Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
 
-        Vector3 dashDirection = _input.move == Vector2.zero ? transform.forward
-            : targetDirection;
+        Vector3 dashDirection = _input.move == Vector2.zero ? transform.forward * _moveDistanceBetweenHits
+            : targetDirection * _moveDistanceBetweenHits;
 
-        Vector3 comboDirection = dashDirection * _moveDistanceBetweenHits;
-        _characterController.Move(comboDirection * _dashSpeed * Time.deltaTime);
+        _characterController.Move(dashDirection * _dashSpeed * Time.deltaTime);
     }
 
     public void OnAttack()
@@ -86,15 +81,14 @@ public class PlayerComboController : MonoBehaviour
     private IEnumerator ComboDashCoroutine()
     {
         _isDashing = true;
-
         _inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
         if (_inputDirection.magnitude > 0)
         {
-            var targetRotation = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
+            float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
                                  _mainCamera.transform.eulerAngles.y;
-            var quaternion = Quaternion.Euler(0.0f, targetRotation, 0.0f);
-            transform.DORotateQuaternion(quaternion, 0.25f);
+            Quaternion targetRotation = Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f);
+            transform.DORotateQuaternion(targetRotation, 0.25f);
         }
 
         Sequence dashSequence = DOTween.Sequence();
@@ -114,8 +108,6 @@ public class PlayerComboController : MonoBehaviour
         {
             _animator.SetTrigger(_attackQueue.Dequeue());
         }
-
-        //ComboDashForward();
     }
 
     public void OnAttackAnimationStart()
