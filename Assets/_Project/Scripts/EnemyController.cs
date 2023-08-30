@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
+    public event Action<EnemyController> OnDie; 
+
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Animator _animator;
     [SerializeField] private int _initialHealth;
@@ -37,5 +39,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         _animator.SetTrigger("Death");
         _controller.enabled = false;
+
+        OnDie?.Invoke(this);
     }
 }

@@ -8,7 +8,7 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField] private EnemyDetector _enemyDetector;
     [SerializeField] private PlayerWeapon _playerWeapon;
 
-    private List<EnemyController> _enemiesDetectedList;
+    private List<EnemyController> _enemiesDetectedList = new List<EnemyController>();
 
     public bool IsOnCombatMode { get; private set; }
 
@@ -24,6 +24,12 @@ public class PlayerCombatController : MonoBehaviour
         _enemyDetector.OnEnemyLeaveDetection += RemoveEnemyFromList;
     }
 
+    public EnemyController GetNearestEnemy()
+    {
+        //implement later
+        return _enemiesDetectedList[0];
+    }
+
     private void AddEnemyToList(EnemyController enemy)
     {
         if (_enemiesDetectedList.Contains(enemy))
@@ -32,6 +38,7 @@ public class PlayerCombatController : MonoBehaviour
         }
 
         _enemiesDetectedList.Add(enemy);
+        enemy.OnDie += RemoveEnemyFromList;
 
         IsOnCombatMode = true;
     }
@@ -39,6 +46,7 @@ public class PlayerCombatController : MonoBehaviour
     private void RemoveEnemyFromList(EnemyController enemy)
     {
         _enemiesDetectedList.Remove(enemy);
+        enemy.OnDie -= RemoveEnemyFromList;
 
         if (_enemiesDetectedList.Count == 0)
         {

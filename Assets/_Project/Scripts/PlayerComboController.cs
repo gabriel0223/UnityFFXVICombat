@@ -12,7 +12,9 @@ public class PlayerComboController : MonoBehaviour
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private PlayerStateManager _playerStateManager;
     [SerializeField] private Animator _animator;
-    [SerializeField] private float _moveDistanceBetweenHits;
+    [SerializeField] private float _dashDistanceBetweenHits;
+    [SerializeField] private float _maxDashDistance;
+    [SerializeField] private float _dashStoppingDistance;
 
     private Camera _mainCamera;
     private bool _isInAttackAnimation;
@@ -23,6 +25,8 @@ public class PlayerComboController : MonoBehaviour
     private Queue<string> _attackQueue;
     private bool _isDashing;
     private float _dashSpeed;
+    private float _dashDistance;
+    private Vector3 _dashDirection;
     private Vector3 _inputDirection;
 
     private void Awake()
@@ -37,16 +41,7 @@ public class PlayerComboController : MonoBehaviour
             return;
         }
 
-        float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
-                             _mainCamera.transform.eulerAngles.y;
-
-        Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
-            Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
-
-        Vector3 dashDirection = _input.move == Vector2.zero ? transform.forward * _moveDistanceBetweenHits
-            : targetDirection * _moveDistanceBetweenHits;
-
-        _characterController.Move(dashDirection * _dashSpeed * Time.deltaTime);
+        _characterController.Move(_dashDirection * _dashSpeed * Time.deltaTime);
     }
 
     public void OnAttack()
@@ -81,14 +76,14 @@ public class PlayerComboController : MonoBehaviour
     private IEnumerator ComboDashCoroutine()
     {
         _isDashing = true;
-        _inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
-        if (_inputDirection.magnitude > 0)
+        if (_combatController.IsOnCombatMode)
         {
-            float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
-                                 _mainCamera.transform.eulerAngles.y;
-            Quaternion targetRotation = Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f);
-            transform.DORotateQuaternion(targetRotation, 0.25f);
+            DashToNearestEnemy();
+        }
+        else
+        {
+            DashForward();
         }
 
         Sequence dashSequence = DOTween.Sequence();
@@ -98,6 +93,43 @@ public class PlayerComboController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         _isDashing = false;
+    }
+
+    private void DashToNearestEnemy()
+    {
+        EnemyController nearestEnemy = _combatController.GetNearestEnemy();
+        float distanceToEnemy = Vector3.Distance(nearestEnemy.transform.position, transform.position);
+        Vector3 enemyDirection = nearestEnemy.transform.position - transform.position; 
+
+        _dashDistance = _maxDashDistance;
+        _dashDistance = Mathf.Clamp(_dashDistance, 0, _maxDashDistance);
+
+        if (distanceToEnemy < _dashStoppingDistance)
+        {
+            _dashDistance = 0;
+        }
+
+        _dashDirection = enemyDirection * _dashDistance;
+
+        Quaternion targetRotation = Quaternion.LookRotation(enemyDirection);
+        transform.DORotateQuaternion(targetRotation, 0.25f);
+    }
+
+    private void DashForward()
+    {
+        _inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+        float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
+                                    _mainCamera.transform.eulerAngles.y;
+
+        Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
+            Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
+
+        _dashDistance = _dashDistanceBetweenHits;
+        _dashDirection = _input.move == Vector2.zero ? transform.forward * _dashDistance
+            : targetDirection * _dashDistance;
+
+        Quaternion targetRotation = Quaternion.LookRotation(_dashDirection);
+        transform.DORotateQuaternion(targetRotation, 0.25f);
     }
 
     private void ExecuteNextAttack()
