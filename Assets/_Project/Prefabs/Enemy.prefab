@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 942966549}
   - component: {fileID: 942966550}
   - component: {fileID: 942966551}
+  - component: {fileID: 7672949781690803553}
   m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
@@ -188,6 +189,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _referenceCamera: {fileID: 0}
   _referenceDistance: 10
+--- !u!225 &7672949781690803553
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942966547}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1188588152
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +514,7 @@ GameObject:
   - component: {fileID: 7409486671650213990}
   - component: {fileID: 7409486671650213988}
   - component: {fileID: 7409486671650213989}
+  - component: {fileID: 1405522574}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -578,6 +592,20 @@ MonoBehaviour:
   _controller: {fileID: 7409486671650213990}
   _animator: {fileID: 7409486671650213988}
   _initialHealth: 1000
+--- !u!114 &1405522574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7409486671650213985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66192102fe26cb543b3543fb6bdf4f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyController: {fileID: 7409486671650213989}
+  _targetMarker: {fileID: 7672949781690803553}
 --- !u!1 &8515110107679532394
 GameObject:
   m_ObjectHideFlags: 0

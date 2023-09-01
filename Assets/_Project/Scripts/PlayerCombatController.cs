@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using StarterAssets;
 using UnityEngine;
@@ -48,16 +49,33 @@ public class PlayerCombatController : MonoBehaviour
             CurrentTarget = _enemiesDetectedList[0];
             return;
         }
-        
-        Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+
+        Vector3 inputDirection = _input.move.magnitude == 0 ? transform.forward :
+            new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
         if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 2f, inputDirection,
                 out RaycastHit hitInfo, _maxDetectionDistance, _enemyLayer))
         {
             EnemyController enemy = hitInfo.collider.gameObject.GetComponent<EnemyController>();
 
-            CurrentTarget = enemy;
+            SetTarget(enemy);
         }
+    }
+
+    private void SetTarget(EnemyController enemy)
+    {
+        if (CurrentTarget == enemy)
+        {
+            return;
+        }
+
+        if (CurrentTarget != null)
+        {
+            CurrentTarget.HandleUntargeted();
+        }
+
+        CurrentTarget = enemy;
+        CurrentTarget.HandleTargeted();
     }
 
     private void AddEnemyToList(EnemyController enemy)
@@ -86,6 +104,14 @@ public class PlayerCombatController : MonoBehaviour
 
     private void HandleEnemyDie(EnemyController enemy)
     {
+        if (enemy == CurrentTarget)
+        {
+            EnemyController closestEnemy = _enemiesDetectedList.OrderByDescending(e => 
+                Vector3.Distance(transform.position, e.transform.position)).First();
+
+            SetTarget(closestEnemy);
+        }
+
         DOVirtual.DelayedCall(1f, () => RemoveEnemyFromList(enemy));
     }
 

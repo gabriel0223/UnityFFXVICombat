@@ -6,7 +6,9 @@ using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
-    public event Action<EnemyController> OnDie; 
+    public event Action<EnemyController> OnDie;
+    public event Action OnTargeted;
+    public event Action OnUntargeted;
 
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Animator _animator;
@@ -33,6 +35,16 @@ public class EnemyController : MonoBehaviour, IDamageable
         int randomAnimationIndex = Random.Range(0, _takeDamageAnimations.Length);
 
         _animator.SetTrigger(_takeDamageAnimations[randomAnimationIndex]);
+    }
+
+    public void HandleTargeted()
+    {
+        OnTargeted?.Invoke();
+    }
+
+    public void HandleUntargeted()
+    {
+        OnUntargeted?.Invoke();
     }
 
     private void Die()
