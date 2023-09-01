@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.alelievr.hdrp-ui-camera-stacking": {
+      "version": "1.4.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.render-pipelines.high-definition": "10.1.0"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.unity.burst": {
       "version": "1.7.3",
       "depth": 1,

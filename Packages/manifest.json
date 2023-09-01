@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.alelievr.hdrp-ui-camera-stacking": "1.4.1",
     "com.unity.cinemachine": "2.8.9",
     "com.unity.collab-proxy": "1.17.7",
     "com.unity.feature.development": "1.0.1",
@@ -45,5 +46,14 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Open UPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.alelievr"
+      ]
+    }
+  ]
 }

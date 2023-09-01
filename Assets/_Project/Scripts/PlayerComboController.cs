@@ -79,7 +79,7 @@ public class PlayerComboController : MonoBehaviour
 
         if (_combatController.IsOnCombatMode)
         {
-            DashToNearestEnemy();
+            DashToCurrentTarget();
         }
         else
         {
@@ -95,11 +95,11 @@ public class PlayerComboController : MonoBehaviour
         _isDashing = false;
     }
 
-    private void DashToNearestEnemy()
+    private void DashToCurrentTarget()
     {
-        EnemyController nearestEnemy = _combatController.GetNearestEnemy();
-        float distanceToEnemy = Vector3.Distance(nearestEnemy.transform.position, transform.position);
-        Vector3 enemyDirection = nearestEnemy.transform.position - transform.position; 
+        EnemyController currentTarget = _combatController.CurrentTarget;
+        float distanceToEnemy = Vector3.Distance(currentTarget.transform.position, transform.position);
+        Vector3 enemyDirection = currentTarget.transform.position - transform.position; 
 
         _dashDistance = _maxDashDistance;
         _dashDistance = Mathf.Clamp(_dashDistance, 0, _maxDashDistance);
@@ -118,11 +118,8 @@ public class PlayerComboController : MonoBehaviour
     private void DashForward()
     {
         _inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-        float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
-                                    _mainCamera.transform.eulerAngles.y;
 
-        Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
-            Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
+        Vector3 targetDirection = _inputDirection.magnitude == 0 ? transform.forward : _inputDirection;
 
         _dashDistance = _dashDistanceBetweenHits;
         _dashDirection = _input.move == Vector2.zero ? transform.forward * _dashDistance
