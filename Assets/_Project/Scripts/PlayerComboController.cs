@@ -119,7 +119,11 @@ public class PlayerComboController : MonoBehaviour
     {
         _inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
-        Vector3 targetDirection = _inputDirection.magnitude == 0 ? transform.forward : _inputDirection;
+        float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
+                                    _mainCamera.transform.eulerAngles.y;
+
+        Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
+            Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
 
         _dashDistance = _dashDistanceBetweenHits;
         _dashDirection = _input.move == Vector2.zero ? transform.forward * _dashDistance

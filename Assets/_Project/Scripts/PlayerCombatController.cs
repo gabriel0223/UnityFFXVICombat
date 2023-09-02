@@ -17,9 +17,15 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField] private float _maxDetectionDistance;
 
     private List<EnemyController> _enemiesDetectedList = new List<EnemyController>();
+    private Camera _mainCamera;
 
     public bool IsOnCombatMode { get; private set; }
     public EnemyController CurrentTarget { get; private set; }
+
+    private void Awake()
+    {
+        _mainCamera = Camera.main;
+    }
 
     private void OnEnable()
     {
@@ -52,10 +58,15 @@ public class PlayerCombatController : MonoBehaviour
             return;
         }
 
-        Vector3 inputDirection = _input.move.magnitude == 0 ? transform.forward :
-            new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+        Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
-        if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 2f, inputDirection,
+        float inputDirectionAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+                                    _mainCamera.transform.eulerAngles.y;
+
+        Vector3 targetDirection = inputDirection.magnitude == 0? transform.forward :
+            Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
+
+        if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 2f, targetDirection,
                 out RaycastHit hitInfo, _maxDetectionDistance, _enemyLayer))
         {
             EnemyController enemy = hitInfo.collider.gameObject.GetComponent<EnemyController>();
@@ -64,9 +75,15 @@ public class PlayerCombatController : MonoBehaviour
         }
     }
 
-    private void SetTarget(EnemyController enemy)
+    private void SetTarget(EnemyController newTarget)
     {
-        if (CurrentTarget == enemy)
+        if (newTarget == null && CurrentTarget != null)
+        {
+            CurrentTarget.HandleUntargeted();
+            CurrentTarget = null;
+        }
+
+        if (CurrentTarget == newTarget)
         {
             return;
         }
@@ -76,7 +93,7 @@ public class PlayerCombatController : MonoBehaviour
             CurrentTarget.HandleUntargeted();
         }
 
-        CurrentTarget = enemy;
+        CurrentTarget = newTarget;
         CurrentTarget.HandleTargeted();
     }
 
@@ -106,15 +123,23 @@ public class PlayerCombatController : MonoBehaviour
 
     private void HandleEnemyDie(EnemyController enemy)
     {
-        if (enemy == CurrentTarget)
-        {
-            EnemyController closestEnemy = _enemiesDetectedList.OrderByDescending(e => 
-                Vector3.Distance(transform.position, e.transform.position)).First();
+        RemoveEnemyFromList(enemy);
 
-            SetTarget(closestEnemy);
+        if (enemy != CurrentTarget)
+        {
+            return;
         }
 
-        DOVirtual.DelayedCall(1f, () => RemoveEnemyFromList(enemy));
+        if (_enemiesDetectedList.Count == 0)
+        {
+            SetTarget(null);
+            return;
+        }
+
+        EnemyController closestEnemy = _enemiesDetectedList.OrderByDescending(e => 
+            Vector3.Distance(transform.position, e.transform.position)).First();
+
+        SetTarget(closestEnemy);
     }
 
     public void EnableWeaponCollider()
