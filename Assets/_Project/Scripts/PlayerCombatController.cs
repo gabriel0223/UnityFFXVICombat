@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
 {
+    public event Action OnEnableWeaponCollider;
+
     [SerializeField] private StarterAssetsInputs _input;
     [SerializeField] private EnemyDetector _enemyDetector;
     [SerializeField] private PlayerWeapon _playerWeapon;
@@ -46,7 +48,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if (_enemiesDetectedList.Count == 1)
         {
-            CurrentTarget = _enemiesDetectedList[0];
+            SetTarget(_enemiesDetectedList[0]);
             return;
         }
 
@@ -118,6 +120,8 @@ public class PlayerCombatController : MonoBehaviour
     public void EnableWeaponCollider()
     {
         _playerWeapon.SetColliderActive(true);
+
+        OnEnableWeaponCollider?.Invoke();
     }
 
     public void DisableWeaponCollider()
