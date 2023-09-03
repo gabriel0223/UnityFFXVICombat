@@ -66,7 +66,7 @@ public class PlayerCombatController : MonoBehaviour
         Vector3 targetDirection = inputDirection.magnitude == 0? transform.forward :
             Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
 
-        if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 2f, targetDirection,
+        if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 1f, targetDirection,
                 out RaycastHit hitInfo, _maxDetectionDistance, _enemyLayer))
         {
             EnemyController enemy = hitInfo.collider.gameObject.GetComponent<EnemyController>();
