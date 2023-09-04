@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.026147813, g: 0.037018597, b: 0.06833446, a: 1}
+  m_IndirectSpecularColor: {r: 0.023374, g: 0.03260187, b: 0.057996936, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -297,6 +297,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &199716874 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2025593660}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &199716878 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 7409486671650213990, guid: 9b9c768bbc5288d429b00dba514c767a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2025593660}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &199716881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199716874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54919783cabd6f4fa196461f7cb04ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterController: {fileID: 199716878}
+  _rotationSpeed: 10
 --- !u!1001 &230767450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -530,6 +556,70 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3309452216064274679}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &354253196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 354253198}
+  - component: {fileID: 354253197}
+  m_Layer: 0
+  m_Name: Local Volumetric Fog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &354253197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354253196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    albedo: {r: 1, g: 1, b: 1, a: 1}
+    meanFreePath: 30
+    anisotropy: 0
+    volumeMask: {fileID: 11700000, guid: 068ef3f5bb6ecc649b9fcf0d83402f68, type: 3}
+    textureScrollingSpeed: {x: 0.02, y: 0, z: 0.02}
+    textureTiling: {x: 3, y: 3, z: 3}
+    positiveFade: {x: 0, y: 0, z: 0}
+    negativeFade: {x: 0, y: 0, z: 0}
+    m_EditorUniformFade: 0
+    m_EditorPositiveFade: {x: 0, y: 0, z: 0}
+    m_EditorNegativeFade: {x: 0, y: 0, z: 0}
+    m_EditorAdvancedFade: 0
+    size: {x: 50, y: 50, z: 50}
+    invertFade: 0
+    distanceFadeStart: 10000
+    distanceFadeEnd: 10000
+    textureOffset: {x: 0, y: 0, z: 0}
+    falloffMode: 0
+  m_Version: 2
+--- !u!4 &354253198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354253196}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &462478580
 GameObject:
   m_ObjectHideFlags: 0

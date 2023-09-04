@@ -515,6 +515,8 @@ GameObject:
   - component: {fileID: 7409486671650213988}
   - component: {fileID: 7409486671650213989}
   - component: {fileID: 1405522574}
+  - component: {fileID: 1637033053675113902}
+  - component: {fileID: 199716881}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -606,6 +608,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyController: {fileID: 7409486671650213989}
   _targetMarker: {fileID: 7672949781690803553}
+--- !u!114 &1637033053675113902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7409486671650213985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3666e06d1d52d1b4ea1d607baa4cc9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &199716881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7409486671650213985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54919783cabd6f4fa196461f7cb04ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterController: {fileID: 7409486671650213990}
+  _rotationSpeed: 10
 --- !u!1 &8515110107679532394
 GameObject:
   m_ObjectHideFlags: 0
