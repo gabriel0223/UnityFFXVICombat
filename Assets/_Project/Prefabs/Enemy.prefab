@@ -572,7 +572,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 36fb426471084cf449674a4d8d1b50c1, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -620,6 +620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3666e06d1d52d1b4ea1d607baa4cc9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyController: {fileID: 7409486671650213989}
 --- !u!114 &199716881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,6 +634,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterController: {fileID: 7409486671650213990}
+  _animator: {fileID: 7409486671650213988}
+  _movementSpeed: 0.5
   _rotationSpeed: 10
 --- !u!1 &8515110107679532394
 GameObject:
