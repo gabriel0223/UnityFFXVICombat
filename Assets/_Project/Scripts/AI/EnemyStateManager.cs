@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyStateManager : MonoBehaviour
 {
     [SerializeField] private EnemyController _enemyController;
+    [SerializeField] private float _minTimeBetweenStateReevaluation;
+    [SerializeField] private float _maxTimeBetweenStateReevaluation;
 
     public EnemyBaseState CurrentState { get; private set; }
     public EnemyBaseState PreviousState { get; private set; }
-    public EnemyOrbitingState OrbitingState { get; private set; }
+    public EnemyMovingState MovingState { get; private set; }
     public EnemyBeingHitState BeingHitState { get; private set; }
 
     private void OnEnable()
@@ -26,14 +29,16 @@ public class EnemyStateManager : MonoBehaviour
 
     private void Awake()
     {
-        OrbitingState = new EnemyOrbitingState();
+        MovingState = new EnemyMovingState();
         BeingHitState = new EnemyBeingHitState();
     }
 
     private void Start()
     {
-        CurrentState = OrbitingState;
+        CurrentState = MovingState;
         CurrentState.EnterState(this);
+
+        StartCoroutine(StateReevalutation());
     }
 
     private void Update()
@@ -49,7 +54,17 @@ public class EnemyStateManager : MonoBehaviour
         CurrentState = newState;
 
         CurrentState?.EnterState(this);
-    } 
+    }
+
+    private IEnumerator StateReevalutation()
+    {
+        while (CurrentState != null)
+        {
+            yield return new WaitForSeconds(Random.Range(_minTimeBetweenStateReevaluation, _maxTimeBetweenStateReevaluation));
+
+            CurrentState?.ReevaluateState(this);
+        }
+    }
 
     private void HandleEnemyDie(EnemyController enemy)
     {

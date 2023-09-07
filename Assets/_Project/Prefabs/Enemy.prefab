@@ -493,7 +493,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7409486671616409550}
-  m_LocalRotation: {x: -0.8781373, y: -0.4087968, z: 0.10497446, w: 0.22525647}
+  m_LocalRotation: {x: -0.84621733, y: -0.46586952, z: 0.25052917, w: -0.064163364}
   m_LocalPosition: {x: -0.071, y: 0.144, z: 0.061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -501,7 +501,7 @@ Transform:
   - {fileID: 3677387775648328810}
   m_Father: {fileID: 9180134930209735209}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: -18.046, y: 202.805, z: -233.595}
+  m_LocalEulerAnglesHint: {x: 20, y: 202.805, z: -233.595}
 --- !u!1 &7409486671650213985
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,8 +533,8 @@ Transform:
   m_GameObject: {fileID: 7409486671650213985}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 3.78}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7014762842026416650}
   - {fileID: 942966548}
@@ -621,6 +621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyController: {fileID: 7409486671650213989}
+  _minTimeBetweenStateReevaluation: 2
+  _maxTimeBetweenStateReevaluation: 4
 --- !u!114 &199716881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,7 +637,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 7409486671650213990}
   _animator: {fileID: 7409486671650213988}
-  _movementSpeed: 0.5
+  _movementSpeed: 0.25
+  _chaseSpeed: 3
   _rotationSpeed: 10
 --- !u!1 &8515110107679532394
 GameObject:
