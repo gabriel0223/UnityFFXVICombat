@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private Animator _animator;
+    [SerializeField] private PlayerStateManager _playerStateManager;
     [SerializeField] private int _initialHealth;
 
     private int _health;
@@ -24,9 +25,23 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         else
         {
-            _animator.SetTrigger("TakeDamage");
+            StartCoroutine(TakeDamageCoroutine());
             //OnTakeHit?.Invoke(this);
         }
     }
 
+    private IEnumerator TakeDamageCoroutine()
+    {
+        if (_playerStateManager.PlayerState == PlayerState.TakingDamage)
+        {
+            yield break;
+        }
+
+        _animator.SetTrigger("TakeDamage");
+        _playerStateManager.SetPlayerState(PlayerState.TakingDamage);
+
+        yield return new WaitForSeconds(1f);
+
+        _playerStateManager.SetPlayerState(PlayerState.Idle);
+    }
 }

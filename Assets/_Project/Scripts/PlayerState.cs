@@ -8,4 +8,5 @@ public enum PlayerState
     Running,
     Jumping,
     Attacking,
+    TakingDamage,
 }

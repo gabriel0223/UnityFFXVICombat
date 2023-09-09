@@ -9,7 +9,6 @@ public class PlayerComboController : MonoBehaviour
 {
     [SerializeField] private PlayerCombatController _combatController;
     [SerializeField] private StarterAssetsInputs _input;
-    [SerializeField] private CharacterController _characterController;
     [SerializeField] private PlayerStateManager _playerStateManager;
     [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
@@ -109,6 +108,11 @@ public class PlayerComboController : MonoBehaviour
 
     private void ExecuteNextAttack()
     {
+        if (_playerStateManager.PlayerState == PlayerState.TakingDamage)
+        {
+            return;
+        }
+
         _isCheckingForAttack = false;
 
         if (_attackQueue.Count != 0)
