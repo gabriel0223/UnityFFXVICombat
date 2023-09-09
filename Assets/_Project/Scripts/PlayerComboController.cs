@@ -11,6 +11,7 @@ public class PlayerComboController : MonoBehaviour
     [SerializeField] private StarterAssetsInputs _input;
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private PlayerStateManager _playerStateManager;
+    [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _dashDistanceBetweenHits;
     [SerializeField] private float _maxDashDistance;
@@ -23,25 +24,11 @@ public class PlayerComboController : MonoBehaviour
 
     private readonly string[] _attackList = new[] { "Slash1", "Slash2", "Slash3", "Slash4", "Slash5" };
     private Queue<string> _attackQueue;
-    private bool _isDashing;
-    private float _dashSpeed;
-    private float _dashDistance;
-    private Vector3 _dashDirection;
     private Vector3 _inputDirection;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
-    }
-
-    private void Update()
-    {
-        if (!_isDashing)
-        {
-            return;
-        }
-
-        _characterController.Move(_dashDirection * _dashSpeed * Time.deltaTime);
     }
 
     public void OnAttack()
@@ -63,7 +50,14 @@ public class PlayerComboController : MonoBehaviour
 
     public void ComboDashForward()
     {
-        StartCoroutine(ComboDashCoroutine());
+        if (_combatController.IsOnCombatMode)
+        {
+            DashToCurrentTarget();
+        }
+        else
+        {
+            DashForward();
+        }
     }
 
     private void StartCombo()
@@ -73,46 +67,25 @@ public class PlayerComboController : MonoBehaviour
         ExecuteNextAttack();
     }
 
-    private IEnumerator ComboDashCoroutine()
-    {
-        _isDashing = true;
-
-        if (_combatController.IsOnCombatMode)
-        {
-            DashToCurrentTarget();
-        }
-        else
-        {
-            DashForward();
-        }
-
-        Sequence dashSequence = DOTween.Sequence();
-        dashSequence.Append(DOVirtual.Float(0f, 1f, 0.15f, value => _dashSpeed = value).SetEase(Ease.Unset));
-        dashSequence.Append(DOVirtual.Float(1f, 0f, 0.15f, value => _dashSpeed = value).SetEase(Ease.Unset));
-
-        yield return new WaitForSeconds(0.3f);
-
-        _isDashing = false;
-    }
-
     private void DashToCurrentTarget()
     {
         EnemyController currentTarget = _combatController.CurrentTarget;
         float distanceToEnemy = Vector3.Distance(currentTarget.transform.position, transform.position);
-        Vector3 enemyDirection = currentTarget.transform.position - transform.position; 
+        Vector3 enemyDirection = currentTarget.transform.position - transform.position;
+        float dashDistance = _maxDashDistance;
 
-        _dashDistance = _maxDashDistance;
-        _dashDistance = Mathf.Clamp(_dashDistance, 0, _maxDashDistance);
+        dashDistance = Mathf.Clamp(dashDistance, 0, _maxDashDistance);
 
         if (distanceToEnemy < _dashStoppingDistance)
         {
-            _dashDistance = 0;
+            dashDistance = 0;
         }
 
-        _dashDirection = enemyDirection * _dashDistance;
-
+        Vector3 dashDirection = enemyDirection * dashDistance;
         Quaternion targetRotation = Quaternion.LookRotation(enemyDirection);
+
         transform.DORotateQuaternion(targetRotation, 0.25f);
+        _dashController.ExecuteDash(dashDirection, 0.3f);
     }
 
     private void DashForward()
@@ -125,12 +98,13 @@ public class PlayerComboController : MonoBehaviour
         Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
             Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
 
-        _dashDistance = _dashDistanceBetweenHits;
-        _dashDirection = _input.move == Vector2.zero ? transform.forward * _dashDistance
-            : targetDirection * _dashDistance;
+        float dashDistance = _dashDistanceBetweenHits;
+        Vector3 dashDirection = _input.move == Vector2.zero ? transform.forward * dashDistance
+            : targetDirection * dashDistance;
+        Quaternion targetRotation = Quaternion.LookRotation(dashDirection);
 
-        Quaternion targetRotation = Quaternion.LookRotation(_dashDirection);
         transform.DORotateQuaternion(targetRotation, 0.25f);
+        _dashController.ExecuteDash(dashDirection, 0.3f);
     }
 
     private void ExecuteNextAttack()

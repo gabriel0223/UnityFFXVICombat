@@ -12,7 +12,7 @@ public class PlayerCombatController : MonoBehaviour
 
     [SerializeField] private StarterAssetsInputs _input;
     [SerializeField] private EnemyDetector _enemyDetector;
-    [SerializeField] private PlayerWeapon _playerWeapon;
+    [SerializeField] private WeaponController _playerWeapon;
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private float _maxDetectionDistance;
 
@@ -66,11 +66,23 @@ public class PlayerCombatController : MonoBehaviour
         Vector3 targetDirection = inputDirection.magnitude == 0? transform.forward :
             Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
 
-        if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 1f, targetDirection,
+
+        Collider[] enemiesInFront = Physics.OverlapSphere(
+            transform.position + new Vector3(0f, 1f, 0f) + (targetDirection.normalized * 0.5f),
+            0.5f, _enemyLayer);
+
+        if (enemiesInFront.Length > 0)
+        {
+            EnemyController enemy = enemiesInFront[0].gameObject.GetComponent<EnemyController>();
+            SetTarget(enemy);
+            
+            return;
+        }
+
+        if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 1.5f, targetDirection,
                 out RaycastHit hitInfo, _maxDetectionDistance, _enemyLayer))
         {
             EnemyController enemy = hitInfo.collider.gameObject.GetComponent<EnemyController>();
-
             SetTarget(enemy);
         }
     }
@@ -170,5 +182,8 @@ public class PlayerCombatController : MonoBehaviour
         Vector3 startPosition = transform.position + new Vector3(0, 0.25f, 0);
         Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
         Gizmos.DrawLine(startPosition, startPosition + inputDirection * 10);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(transform.position + new Vector3(0f, 1f, 0f) + (inputDirection.normalized * 0.5f), 0.2f);
     }
 }

@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PlayerWeapon : MonoBehaviour
+public class WeaponController : MonoBehaviour
 {
     [SerializeField] private GameObject _vfxImpactPrefab;
     [SerializeField] private Transform _raycastOrigin;
     [SerializeField] private Collider _collider;
+    [SerializeField] private LayerMask _targetLayer;
     [SerializeField] private int _initialDamage;
     [SerializeField] private int _damageVariation;
 
@@ -19,19 +20,20 @@ public class PlayerWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.TryGetComponent(out IDamageable damageable))
+        if (!other.gameObject.TryGetComponent(out IDamageable damageable) || 
+            ((1 << other.gameObject.layer) & _targetLayer) == 0)
         {
-             return;
+            return;
         }
 
         damageable.TakeDamage(_initialDamage + Random.Range(-_damageVariation, _damageVariation));
 
-        CharacterController enemyCc = other.gameObject.GetComponent<CharacterController>();
-        Vector3 enemyCenterPosition = other.bounds.center;
-        Vector3 enemyDirection = (enemyCenterPosition - _raycastOrigin.position).normalized;
-        float enemyDistance = Vector3.Distance(_raycastOrigin.position, enemyCenterPosition);
-        Vector3 impactOffset = enemyDirection + (transform.root.position - enemyCenterPosition) * enemyCc.radius / 2;
-        Vector3 impactPoint = _raycastOrigin.position + (enemyDirection * enemyDistance) - impactOffset;
+        CharacterController targetCC = other.gameObject.GetComponent<CharacterController>();
+        Vector3 targetCenterPosition = other.bounds.center;
+        Vector3 targetDirection = (targetCenterPosition - _raycastOrigin.position).normalized;
+        float targetDistance = Vector3.Distance(_raycastOrigin.position, targetCenterPosition);
+        Vector3 impactOffset = targetDirection + (transform.root.position - targetCenterPosition) * targetCC.radius / 2;
+        Vector3 impactPoint = _raycastOrigin.position + (targetDirection * targetDistance) - impactOffset;
 
         SpawnHitVFX(impactPoint);
     }

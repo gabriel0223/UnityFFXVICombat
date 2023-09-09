@@ -14,6 +14,7 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyBaseState PreviousState { get; private set; }
     public EnemyMovingState MovingState { get; private set; }
     public EnemyBeingHitState BeingHitState { get; private set; }
+    public EnemyAttackingState AttackingState { get; private set; }
 
     private void OnEnable()
     {
@@ -31,6 +32,7 @@ public class EnemyStateManager : MonoBehaviour
     {
         MovingState = new EnemyMovingState();
         BeingHitState = new EnemyBeingHitState();
+        AttackingState = new EnemyAttackingState();
     }
 
     private void Start()
@@ -48,6 +50,11 @@ public class EnemyStateManager : MonoBehaviour
 
     public void SwitchState(EnemyBaseState newState)
     {
+        if (newState == CurrentState)
+        {
+            return;
+        }
+
         CurrentState.ExitState(this);
 
         PreviousState = CurrentState;
