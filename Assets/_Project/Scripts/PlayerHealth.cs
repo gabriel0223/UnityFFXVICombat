@@ -1,25 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    public event Action OnTakeDamage;
+
     [SerializeField] private Animator _animator;
     [SerializeField] private PlayerStateManager _playerStateManager;
+    [SerializeField] private int _maxHealth;
     [SerializeField] private int _initialHealth;
-
-    private int _health;
+    public int CurrentHealth { get; private set; }
+    public int MaxHealth => _maxHealth;
 
     private void Awake()
     {
-        _health = _initialHealth;
+        CurrentHealth = _initialHealth;
     }
 
     public void TakeDamage(int damage)
     {
-        _health -= damage;
+        CurrentHealth -= damage;
 
-        if (_health <= 0)
+        if (CurrentHealth <= 0)
         {
             //Die();
         }
@@ -39,6 +43,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         _animator.SetTrigger("TakeDamage");
         _playerStateManager.SetPlayerState(PlayerState.TakingDamage);
+        OnTakeDamage?.Invoke();
 
         yield return new WaitForSeconds(1f);
 

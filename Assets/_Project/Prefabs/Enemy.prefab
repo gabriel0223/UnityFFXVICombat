@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 942966550}
   - component: {fileID: 942966551}
   - component: {fileID: 7672949781690803553}
+  - component: {fileID: 404134851573524736}
   m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
@@ -116,8 +117,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 942966547}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.07}
+  m_LocalRotation: {x: 8.6208115e-29, y: 1.323489e-23, z: 5.684342e-14, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.07000023}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -128,7 +129,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.37}
+  m_AnchoredPosition: {x: 0, y: 1.3700002}
   m_SizeDelta: {x: 2, y: 1.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &942966549
@@ -201,6 +202,32 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1773428102 &404134851573524736
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942966547}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 1.3700002, z: 0.07000023}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets:
+  - {x: 0, y: -0.023777485, z: 0.066339016}
+  m_RotationOffsets:
+  - {x: 5.4363546, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 8537812017904459237}
+    weight: 1
 --- !u!1 &1188588152
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +554,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7409486671616409550}
   m_LocalRotation: {x: -0.6348993, y: -0.12308376, z: 0.69107634, w: 0.32274866}
-  m_LocalPosition: {x: 0.781, y: -0.069, z: -0.085}
+  m_LocalPosition: {x: 0.808, y: -0.091, z: -0.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -554,7 +581,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 8
-  _initialDamage: 100
+  _initialDamage: 200
   _damageVariation: 10
 --- !u!65 &2288977933756408141
 BoxCollider:
@@ -895,6 +922,12 @@ PrefabInstance:
 --- !u!4 &7014762842026416650 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fb1336a663ff7b64ebfde49c98d07cc7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7409486671657663969}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8537812017904459237 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8021001004253913084, guid: fb1336a663ff7b64ebfde49c98d07cc7,
     type: 3}
   m_PrefabInstance: {fileID: 7409486671657663969}
   m_PrefabAsset: {fileID: 0}
