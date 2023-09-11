@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class WeaponController : MonoBehaviour
 {
+    public static event Action<HealthBase, int> OnWeaponHitHealth; 
+
     [SerializeField] private GameObject _vfxImpactPrefab;
     [SerializeField] private Transform _raycastOrigin;
     [SerializeField] private Collider _collider;
@@ -26,7 +28,14 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
-        damageable.TakeDamage(_initialDamage + Random.Range(-_damageVariation, _damageVariation));
+        int hitDamage = _initialDamage + Random.Range(-_damageVariation, _damageVariation);
+
+        if (other.gameObject.TryGetComponent(out HealthBase health))
+        {
+            OnWeaponHitHealth?.Invoke(health, hitDamage);
+        }
+
+        damageable.TakeDamage(hitDamage);
 
         CharacterController targetCC = other.gameObject.GetComponent<CharacterController>();
         Vector3 targetCenterPosition = other.bounds.center;
