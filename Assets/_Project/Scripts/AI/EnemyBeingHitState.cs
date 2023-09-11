@@ -9,7 +9,7 @@ public class EnemyBeingHitState : EnemyBaseState
     private const float KnockbackDuration = 0.5f;
 
     private EnemyMovement _enemyMovement;
-    private EnemyController _enemyController;
+    private EnemyHealth _enemyHealth;
     private DashController _dashController;
     private PlayerCombatController _player;
     private float _timer;
@@ -18,14 +18,14 @@ public class EnemyBeingHitState : EnemyBaseState
     {
         _timer = TimeToReturnToMovement;
         _enemyMovement = ctx.gameObject.GetComponent<EnemyMovement>();
-        _enemyController = ctx.gameObject.GetComponent<EnemyController>();
+        _enemyHealth = ctx.gameObject.GetComponent<EnemyHealth>();
         _dashController = ctx.gameObject.GetComponent<DashController>();
         _player = GameObject.FindObjectOfType<PlayerCombatController>();
 
         _enemyMovement.SetMovementDirection(Vector3.zero);
         ApplyKnockbackAwayFromPlayer();
 
-        _enemyController.OnTakeHit += HandleEnemyTakeHit;
+        _enemyHealth.OnTakeDamage += HandleEnemyTakeHit;
 
     }
 
@@ -41,7 +41,7 @@ public class EnemyBeingHitState : EnemyBaseState
 
     public override void ExitState(EnemyStateManager ctx)
     {
-        _enemyController.OnTakeHit -= HandleEnemyTakeHit;
+        _enemyHealth.OnTakeDamage -= HandleEnemyTakeHit;
     }
 
     public override void ReevaluateState(EnemyStateManager ctx)
@@ -49,7 +49,7 @@ public class EnemyBeingHitState : EnemyBaseState
         
     }
 
-    private void HandleEnemyTakeHit(EnemyController enemy)
+    private void HandleEnemyTakeHit(HealthBase enemy)
     {
         _timer = TimeToReturnToMovement;
 
@@ -58,7 +58,7 @@ public class EnemyBeingHitState : EnemyBaseState
 
     private void ApplyKnockbackAwayFromPlayer()
     {
-        Vector3 playerDirection = (_player.transform.position - _enemyController.transform.position).normalized;
+        Vector3 playerDirection = (_player.transform.position - _enemyHealth.transform.position).normalized;
 
         _enemyMovement.SetMovementDirection(Vector3.zero);
         _dashController.ExecuteDash(-playerDirection * KnockbackForce, KnockbackDuration);

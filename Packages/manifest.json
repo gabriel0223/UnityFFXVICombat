@@ -53,7 +53,8 @@
       "name": "Open UPM",
       "url": "https://package.openupm.com",
       "scopes": [
-        "com.alelievr"
+        "com.alelievr",
+        "com.coffee.ui-particle"
       ]
     }
   ]

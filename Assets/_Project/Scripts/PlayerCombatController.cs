@@ -16,11 +16,11 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private float _maxDetectionDistance;
 
-    private List<EnemyController> _enemiesDetectedList = new List<EnemyController>();
+    private List<EnemyHealth> _enemiesDetectedList = new List<EnemyHealth>();
     private Camera _mainCamera;
 
     public bool IsOnCombatMode { get; private set; }
-    public EnemyController CurrentTarget { get; private set; }
+    public EnemyHealth CurrentTarget { get; private set; }
 
     private void Awake()
     {
@@ -73,7 +73,7 @@ public class PlayerCombatController : MonoBehaviour
 
         if (enemiesInFront.Length > 0)
         {
-            EnemyController enemy = enemiesInFront[0].gameObject.GetComponent<EnemyController>();
+            EnemyHealth enemy = enemiesInFront[0].gameObject.GetComponent<EnemyHealth>();
             SetTarget(enemy);
             
             return;
@@ -82,12 +82,12 @@ public class PlayerCombatController : MonoBehaviour
         if (Physics.SphereCast(transform.position + new Vector3(0f, 1f, 0f), 1.5f, targetDirection,
                 out RaycastHit hitInfo, _maxDetectionDistance, _enemyLayer))
         {
-            EnemyController enemy = hitInfo.collider.gameObject.GetComponent<EnemyController>();
+            EnemyHealth enemy = hitInfo.collider.gameObject.GetComponent<EnemyHealth>();
             SetTarget(enemy);
         }
     }
 
-    private void SetTarget(EnemyController newTarget)
+    private void SetTarget(EnemyHealth newTarget)
     {
         if (newTarget == null && CurrentTarget != null)
         {
@@ -109,7 +109,7 @@ public class PlayerCombatController : MonoBehaviour
         CurrentTarget.HandleTargeted();
     }
 
-    private void AddEnemyToList(EnemyController enemy)
+    private void AddEnemyToList(EnemyHealth enemy)
     {
         if (_enemiesDetectedList.Contains(enemy))
         {
@@ -122,7 +122,7 @@ public class PlayerCombatController : MonoBehaviour
         IsOnCombatMode = true;
     }
 
-    private void RemoveEnemyFromList(EnemyController enemy)
+    private void RemoveEnemyFromList(EnemyHealth enemy)
     {
         _enemiesDetectedList.Remove(enemy);
         enemy.OnDie -= HandleEnemyDie;
@@ -133,11 +133,12 @@ public class PlayerCombatController : MonoBehaviour
         }
     }
 
-    private void HandleEnemyDie(EnemyController enemy)
+    private void HandleEnemyDie(HealthBase enemy)
     {
-        RemoveEnemyFromList(enemy);
+        EnemyHealth enemyHealth = enemy.gameObject.GetComponent<EnemyHealth>();
+        RemoveEnemyFromList(enemyHealth);
 
-        if (enemy != CurrentTarget)
+        if (enemyHealth != CurrentTarget)
         {
             return;
         }
@@ -148,7 +149,7 @@ public class PlayerCombatController : MonoBehaviour
             return;
         }
 
-        EnemyController closestEnemy = _enemiesDetectedList.OrderByDescending(e => 
+        EnemyHealth closestEnemy = _enemiesDetectedList.OrderByDescending(e => 
             Vector3.Distance(transform.position, e.transform.position)).First();
 
         SetTarget(closestEnemy);

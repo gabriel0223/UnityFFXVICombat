@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class EnemyStateManager : MonoBehaviour
 {
-    [SerializeField] private EnemyController _enemyController;
+    [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] private float _minTimeBetweenStateReevaluation;
     [SerializeField] private float _maxTimeBetweenStateReevaluation;
 
@@ -18,14 +18,14 @@ public class EnemyStateManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _enemyController.OnDie += HandleEnemyDie;
-        _enemyController.OnTakeHit += HandleEnemyTakeHit;
+        _enemyHealth.OnDie += HandleEnemyDie;
+        _enemyHealth.OnTakeDamage += HandleEnemyTakeHit;
     }
 
     private void OnDisable()
     {
-        _enemyController.OnDie -= HandleEnemyDie;
-        _enemyController.OnTakeHit -= HandleEnemyTakeHit;
+        _enemyHealth.OnDie -= HandleEnemyDie;
+        _enemyHealth.OnTakeDamage -= HandleEnemyTakeHit;
     }
 
     private void Awake()
@@ -73,12 +73,12 @@ public class EnemyStateManager : MonoBehaviour
         }
     }
 
-    private void HandleEnemyDie(EnemyController enemy)
+    private void HandleEnemyDie(HealthBase enemy)
     {
         SwitchState(null);
     }
 
-    private void HandleEnemyTakeHit(EnemyController enemy)
+    private void HandleEnemyTakeHit(HealthBase enemy)
     {
         SwitchState(BeingHitState);
     }

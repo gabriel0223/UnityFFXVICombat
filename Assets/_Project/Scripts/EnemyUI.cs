@@ -6,35 +6,43 @@ using UnityEngine;
 
 public class EnemyUI : MonoBehaviour
 {
-    [SerializeField] private EnemyController _enemyController;
+    [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] private CanvasGroup _targetMarker;
+    [SerializeField] private CanvasGroup _enemyText;
 
     private void Awake()
     {
         _targetMarker.alpha = 0;
+        _enemyText.alpha = 0;
     }
 
     private void OnEnable()
     {
-        _enemyController.OnTargeted += HandleTargeted;
-        _enemyController.OnUntargeted += HandleUntargeted;
+        _enemyHealth.OnTargeted += HandleTargeted;
+        _enemyHealth.OnUntargeted += HandleUntargeted;
     }
 
     private void OnDisable()
     {
-        _enemyController.OnTargeted -= HandleTargeted;
-        _enemyController.OnUntargeted -= HandleUntargeted;
+        _enemyHealth.OnTargeted -= HandleTargeted;
+        _enemyHealth.OnUntargeted -= HandleUntargeted;
     }
 
     private void HandleTargeted()
     {
         _targetMarker.DOKill();
+        _enemyText.DOKill();
+
         _targetMarker.DOFade(1f, 0.2f);
+        _enemyText.DOFade(1f, 0.2f);
     }
 
     private void HandleUntargeted()
     {
         _targetMarker.DOKill();
+        _enemyText.DOKill();
+
         _targetMarker.DOFade(0f, 0.2f);
+        _enemyText.DOFade(0f, 0.2f);
     }
 }

@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class EnemyDetector : MonoBehaviour
 {
-    public event Action<EnemyController> OnEnemyDetected;
-    public event Action<EnemyController> OnEnemyLeaveDetection;
+    public event Action<EnemyHealth> OnEnemyDetected;
+    public event Action<EnemyHealth> OnEnemyLeaveDetection;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.TryGetComponent(out EnemyController enemy))
+        if (!other.TryGetComponent(out EnemyHealth enemy))
         {
             return;
         }
@@ -20,7 +20,7 @@ public class EnemyDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.TryGetComponent(out EnemyController enemy))
+        if (!other.TryGetComponent(out EnemyHealth enemy))
         {
             return;
         }

@@ -68,7 +68,7 @@ public class PlayerComboController : MonoBehaviour
 
     private void DashToCurrentTarget()
     {
-        EnemyController currentTarget = _combatController.CurrentTarget;
+        EnemyHealth currentTarget = _combatController.CurrentTarget;
         float distanceToEnemy = Vector3.Distance(currentTarget.transform.position, transform.position);
         Vector3 enemyDirection = currentTarget.transform.position - transform.position;
         float dashDistance = _maxDashDistance;

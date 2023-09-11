@@ -10,63 +10,67 @@ public class HealthBarView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _currentHpText;
     [SerializeField] private Image _lifeBar;
-    [SerializeField] private Image _damageBarImage;
-    [SerializeField] private PlayerHealth _health;
+    [SerializeField] private Image _damageBar;
+    [SerializeField] private HealthBase _ownerHealth;
+    [SerializeField] private float _animationDuration;
 
     private void OnEnable()
     {
-        _health.OnTakeDamage += HandleTakeDamage;
+        _ownerHealth.OnTakeDamage += HandleTakeDamage;
     }
 
     private void OnDisable()
     {
-        _health.OnTakeDamage -= HandleTakeDamage;
+        _ownerHealth.OnTakeDamage -= HandleTakeDamage;
     }
 
     private void Start()
     {
-        _currentHpText.SetText(_health.CurrentHealth.ToString());
-        _lifeBar.fillAmount = (float)_health.CurrentHealth / _health.MaxHealth;
+        if (_currentHpText != null)
+        {
+            _currentHpText.SetText(_ownerHealth.CurrentHealth.ToString());
+        }
+
+        _lifeBar.fillAmount = (float)_ownerHealth.CurrentHealth / _ownerHealth.MaxHealth;
     }
 
-    private void HandleTakeDamage()
+    private void HandleTakeDamage(HealthBase healthOwner)
     {
-        Sequence lifeBarAnim = DOTween.Sequence();
+        Sequence healthBarDamage = DOTween.Sequence();
 
-        float fillAmountToBeLost = _lifeBar.fillAmount - (float)_health.CurrentHealth / _health.MaxHealth;
-        Vector3 damageBarPosition = new Vector2(GetEndPointOfFill(_lifeBar).x, _damageBarImage.rectTransform.position.y);
+        float fillAmountToBeLost = _lifeBar.fillAmount - (float)_ownerHealth.CurrentHealth / _ownerHealth.MaxHealth;
+        Vector3 damageBarPosition = new Vector2(GetEndPointOfBar(_lifeBar).x, _damageBar.rectTransform.anchoredPosition.y);
         Vector2 damageBarInitialSize = new Vector2(_lifeBar.rectTransform.rect.width * fillAmountToBeLost,
-            _damageBarImage.rectTransform.sizeDelta.y);
-        Vector2 damageBarFinalSize = new Vector2(0, _damageBarImage.rectTransform.sizeDelta.y);
+            _damageBar.rectTransform.sizeDelta.y);
+        Vector2 damageBarFinalSize = new Vector2(0, _damageBar.rectTransform.sizeDelta.y);
 
-        lifeBarAnim.AppendCallback(() => _currentHpText.SetText(_health.CurrentHealth.ToString()));
-        lifeBarAnim.AppendCallback(() => _damageBarImage.rectTransform.pivot = new Vector2(1, 0.5f));
-        lifeBarAnim.AppendCallback(() => _damageBarImage.rectTransform.sizeDelta = new Vector2(0, 
-            _damageBarImage.rectTransform.sizeDelta.y));
-        lifeBarAnim.AppendCallback(() => _damageBarImage.rectTransform.position = damageBarPosition);
+        if (_currentHpText != null)
+        {
+            healthBarDamage.AppendCallback(() => _currentHpText.SetText(_ownerHealth.CurrentHealth.ToString()));
+        }
 
+        //setup damage bar
+        healthBarDamage.AppendCallback(() => _damageBar.rectTransform.pivot = new Vector2(1, 0.5f));
+        healthBarDamage.AppendCallback(() => _damageBar.rectTransform.sizeDelta = new Vector2(0, 
+            _damageBar.rectTransform.sizeDelta.y));
+        healthBarDamage.AppendCallback(() => _damageBar.rectTransform.anchoredPosition = damageBarPosition);
 
-        lifeBarAnim.Append(_lifeBar.DOFillAmount((float)_health.CurrentHealth / _health.MaxHealth, 0.25f));
-        lifeBarAnim.Join(_damageBarImage.rectTransform.DOSizeDelta(damageBarInitialSize, 0.25f));
+        //animate health bar and damage bar
+        healthBarDamage.Append(_lifeBar.DOFillAmount((float)_ownerHealth.CurrentHealth / _ownerHealth.MaxHealth, _animationDuration));
+        healthBarDamage.Join(_damageBar.rectTransform.DOSizeDelta(damageBarInitialSize, _animationDuration));
 
-        lifeBarAnim.AppendCallback(() => _damageBarImage.rectTransform.SetPivot(new Vector2(0, 0.5f)));
-        lifeBarAnim.Append(_damageBarImage.rectTransform.DOSizeDelta(damageBarFinalSize, 0.25f));
+        healthBarDamage.AppendCallback(() => _damageBar.rectTransform.SetPivot(new Vector2(0, 0.5f)));
+        healthBarDamage.Append(_damageBar.rectTransform.DOSizeDelta(damageBarFinalSize, _animationDuration));
     }
 
-    private Vector3 GetEndPointOfFill(Image fillImage)
+    private Vector3 GetEndPointOfBar(Image fillImage)
     {
-        RectTransform rectTransform = fillImage.rectTransform;
+        float width = fillImage.rectTransform.rect.width;
+        Vector3 endPoint = Vector3.zero;
         
-        // Width of the health bar in local space
-        float totalWidth = rectTransform.rect.width;
+        endPoint.x = -width / 2;
+        endPoint.x += width * fillImage.fillAmount;
 
-        // Calculate end point in local space of the Image's RectTransform
-        float filledWidth = totalWidth * fillImage.fillAmount;
-        Vector3 endPointLocal = new Vector3(-totalWidth * 0.5f + filledWidth, 0, 0);
-
-        // If you want the endpoint in world space
-        Vector3 endPointWorld = rectTransform.TransformPoint(endPointLocal);
-
-        return endPointWorld;
+        return endPoint;
     }
 }
