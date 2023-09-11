@@ -138,6 +138,12 @@ public class PlayerComboController : MonoBehaviour
         }
 
         _isInAttackAnimation = false;
+
+        if (_playerStateManager.PlayerState == PlayerState.TakingDamage)
+        {
+            return;
+        }
+
         _playerStateManager.SetPlayerState(PlayerState.Idle);
     }
 

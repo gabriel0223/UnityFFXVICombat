@@ -73,7 +73,7 @@ public class EnemyMovingState : EnemyBaseState
         {
             int randomNum = Random.Range(0, 10);
 
-            if (randomNum >= 5)
+            if (randomNum >= 4)
             {
                 ctx.SwitchState(ctx.AttackingState);
             }
