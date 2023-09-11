@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.025813855, g: 0.03603278, b: 0.06420237, a: 1}
+  m_IndirectSpecularColor: {r: 0.02581472, g: 0.036033094, b: 0.064195454, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2172,6 +2172,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059866736996601181, guid: 9b9c768bbc5288d429b00dba514c767a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7189753533414583694, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -5154,6 +5159,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 7059866736996601181, guid: 9b9c768bbc5288d429b00dba514c767a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7189753533414583694, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7363,6 +7373,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 7059866736996601181, guid: 9b9c768bbc5288d429b00dba514c767a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7189753533414583694, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8367,10 +8382,25 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 404134851573524736, guid: 9b9c768bbc5288d429b00dba514c767a,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].y
+      value: -0.023777485
+      objectReference: {fileID: 0}
+    - target: {fileID: 404134851573524736, guid: 9b9c768bbc5288d429b00dba514c767a,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].z
+      value: 0.066339016
+      objectReference: {fileID: 0}
     - target: {fileID: 2293630516705496918, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.000012457371
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059866736996601181, guid: 9b9c768bbc5288d429b00dba514c767a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}

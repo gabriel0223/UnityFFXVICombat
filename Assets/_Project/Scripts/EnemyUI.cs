@@ -9,6 +9,7 @@ public class EnemyUI : MonoBehaviour
     [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] private CanvasGroup _targetMarker;
     [SerializeField] private CanvasGroup _enemyText;
+    [SerializeField] private CanvasGroup _healthBar;
 
     private void Awake()
     {
@@ -20,12 +21,14 @@ public class EnemyUI : MonoBehaviour
     {
         _enemyHealth.OnTargeted += HandleTargeted;
         _enemyHealth.OnUntargeted += HandleUntargeted;
+        _enemyHealth.OnDie += HandleDie;
     }
 
     private void OnDisable()
     {
         _enemyHealth.OnTargeted -= HandleTargeted;
         _enemyHealth.OnUntargeted -= HandleUntargeted;
+        _enemyHealth.OnDie += HandleDie;
     }
 
     private void HandleTargeted()
@@ -44,5 +47,13 @@ public class EnemyUI : MonoBehaviour
 
         _targetMarker.DOFade(0f, 0.2f);
         _enemyText.DOFade(0f, 0.2f);
+    }
+
+    private void HandleDie(HealthBase enemyHealth)
+    {
+        Sequence deathUiSequence = DOTween.Sequence();
+
+        deathUiSequence.AppendInterval(1f);
+        deathUiSequence.Join(_healthBar.DOFade(0f, 0.5f));
     }
 }

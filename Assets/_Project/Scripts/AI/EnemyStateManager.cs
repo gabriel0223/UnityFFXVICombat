@@ -45,12 +45,17 @@ public class EnemyStateManager : MonoBehaviour
 
     private void Update()
     {
+        if (_enemyHealth.CurrentHealth <= 0)
+        {
+            return;
+        }
+
         CurrentState?.UpdateState(this);
     }
 
     public void SwitchState(EnemyBaseState newState)
     {
-        if (newState == CurrentState)
+        if (newState == CurrentState || _enemyHealth.CurrentHealth <= 0)
         {
             return;
         }

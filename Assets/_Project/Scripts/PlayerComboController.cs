@@ -32,7 +32,9 @@ public class PlayerComboController : MonoBehaviour
 
     public void OnAttack()
     {
-        if (!_isInAttackAnimation)
+        bool isInLastAttack = _isCheckingForAttack && _attackQueue.Count == 0;
+
+        if (!_isInAttackAnimation || isInLastAttack)
         {
             StartCombo();
         }
