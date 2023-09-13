@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.02581472, g: 0.036033094, b: 0.064195454, a: 1}
+  m_IndirectSpecularColor: {r: 0.02581472, g: 0.036033094, b: 0.06419557, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3684,7 +3684,7 @@ MonoBehaviour:
     type: 3}
   _playerDamageNumberPrefab: {fileID: 3221330386679622075, guid: a6d1e35780cea3e428ebec9421bafdf9,
     type: 3}
-  _positionRandomness: 200
+  _positionRandomness: 0.1
 --- !u!4 &1070005243
 Transform:
   m_ObjectHideFlags: 0

@@ -35,8 +35,9 @@ public class DamageNumberSpawner : MonoBehaviour
         Vector3 healthPosition = new Vector3(health.transform.position.x,
             health.transform.position.y + CharacterYOffset, health.transform.position.z);
         Vector2 screenPosition = _mainCamera.WorldToScreenPoint(healthPosition);
-        Vector2 randomScreenPosition = new Vector2(screenPosition.x + Random.Range(-_positionRandomness, _positionRandomness),
-            screenPosition.y + Random.Range(-_positionRandomness, _positionRandomness));
+        Vector2 randomScreenPosition = new Vector2(
+            screenPosition.x + (Random.Range(-_positionRandomness, _positionRandomness) * Screen.width),
+            screenPosition.y + (Random.Range(-_positionRandomness, _positionRandomness) * Screen.height));
 
         // Convert Screen Space position to Canvas Local Position
         RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvas.GetComponent<RectTransform>(), 
