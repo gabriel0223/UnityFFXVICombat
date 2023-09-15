@@ -26,17 +26,18 @@ Material:
   m_Name: Projection_Mat
   m_Shader: {fileID: -6465566751694194690, guid: 2eddbcad5e2773945b800aea7c79caf4,
     type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
+  - _TRANSPARENT_WRITES_MOTION_VEC
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2750
   stringTagMap:
     MotionVector: User
+    RenderType: Transparent
   disabledShaderPasses:
-  - TransparentDepthPrepass
-  - TransparentDepthPostpass
   - TransparentBackface
   - MOTIONVECTORS
   m_SavedProperties:
@@ -57,33 +58,40 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
+    - _Alpha: 1
     - _AlphaCutoffEnable: 0
-    - _AlphaDstBlend: 0
+    - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
-    - _AlphaToMaskInspectorValue: 0
+    - _AlphaToMaskInspectorValue: 1
     - _BlendMode: 0
     - _ConservativeDepthOffsetEnable: 0
-    - _Cos: 1.15
+    - _Cos: 0.79
     - _CullMode: 2
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
+    - _DitherStep: 0.15
     - _DoubleSidedEnable: 0
-    - _DoubleSidedGIMode: 0
+    - _DoubleSidedGIMode: 2
     - _DoubleSidedNormalMode: 2
-    - _DstBlend: 0
-    - _Edge: 0.57
+    - _DstBlend: 10
+    - _Edge: 0.96
     - _EnableBlendModePreserveSpecularLighting: 0
-    - _EnableFogOnTransparent: 1
-    - _FresnelEdge: 0.07
-    - _FresnelPower: 10
-    - _GradientScale: 7
-    - _LineDefinition: 0.1
-    - _LinePower: 0.09
-    - _LineQuantity: 3.28
-    - _NoiseScale: 1500
+    - _EnableFogOnTransparent: 0
+    - _FresnelEdge: 0.7
+    - _FresnelPower: 1.14
+    - _GradientScale: -1000
+    - _LineDefinition: 0.02
+    - _LinePower: 0.1
+    - _LineQuantity: 11.36
+    - _LineScale: 21.3
+    - _NoiseAlpha: 1.42
+    - _NoiseEdge: 0.38
+    - _NoiseScale: 5000
     - _OpaqueCullMode: 2
-    - _RenderQueueType: 1
+    - _RenderQueueType: 3
+    - _SecondLineDefinition: 0.89
+    - _SecondLineQuantity: -6.16
     - _Sin: 3.38
     - _SrcBlend: 1
     - _StencilRef: 0
@@ -96,23 +104,25 @@ Material:
     - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 40
-    - _SurfaceType: 0
+    - _SurfaceType: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
-    - _TransparentDepthPostpassEnable: 0
-    - _TransparentDepthPrepassEnable: 0
+    - _TransparentDepthPostpassEnable: 1
+    - _TransparentDepthPrepassEnable: 1
     - _TransparentSortPriority: 0
-    - _TransparentWritingMotionVec: 0
-    - _TransparentZWrite: 0
+    - _TransparentWritingMotionVec: 1
+    - _TransparentZWrite: 1
     - _UseShadowThreshold: 0
-    - _ZTestDepthEqualForOpaque: 3
+    - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 4.287094, g: 1.6367639, b: 1.0100483, a: 0}
+    - _Color: {r: 2.0114107, g: 0.81427544, b: 0.6950425, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0.94509804, g: 0.3915101, b: 0.34901965, a: 0}
     - _LineRemap: {r: 0, g: 0.87, b: 0, a: 0}
+    - _NoiseColor: {r: 1, g: 1, b: 1, a: 0}
     - _NoiseScale: {r: 1, g: 5.31, b: 0, a: 0}
   m_BuildTextureStacks: []
