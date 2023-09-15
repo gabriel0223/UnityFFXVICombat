@@ -61,6 +61,6 @@ public class EnemyBeingHitState : EnemyBaseState
         Vector3 playerDirection = (_player.transform.position - _enemyHealth.transform.position).normalized;
 
         _enemyMovement.SetMovementDirection(Vector3.zero);
-        _dashController.ExecuteDash(-playerDirection * KnockbackForce, KnockbackDuration);
+        _dashController.DashTowardsDirection(-playerDirection * KnockbackForce, KnockbackDuration);
     }
 }

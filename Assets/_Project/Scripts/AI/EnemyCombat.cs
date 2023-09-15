@@ -27,6 +27,6 @@ public class EnemyCombat : MonoBehaviour
 
     public void DashForward()
     {
-        _dashController.ExecuteDash(transform.forward * _attackDashSpeed, _attackDashDuration);
+        _dashController.DashTowardsDirection(transform.forward * _attackDashSpeed, _attackDashDuration);
     }
 }

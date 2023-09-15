@@ -9,4 +9,5 @@ public enum PlayerState
     Jumping,
     Attacking,
     TakingDamage,
+    Shifting,
 }
