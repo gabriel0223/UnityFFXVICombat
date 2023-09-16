@@ -21,14 +21,14 @@ public class EnemyMovingState : EnemyBaseState
     private MovementDirection _movementDirection;
     private Vector3 _moveVector;
 
-    public override void EnterState(EnemyStateManager ctx)
+    public override void EnterState(BaseStateManager ctx)
     {
         _player = GameObject.FindObjectOfType<PlayerCombatController>();
         _enemyMovement = ctx.gameObject.GetComponent<EnemyMovement>();
         _movementDirection = GetRandomMovementDirection();
     }
 
-    public override void UpdateState(EnemyStateManager ctx)
+    public override void UpdateState(BaseStateManager ctx)
     {
         Vector3 playerDirection = (_player.transform.position - ctx.transform.position).normalized;
         float distanceToPlayer = Vector3.Distance(ctx.transform.position, _player.transform.position);
@@ -60,7 +60,7 @@ public class EnemyMovingState : EnemyBaseState
         }
     }
 
-    public override void ExitState(EnemyStateManager ctx)
+    public override void ExitState(BaseStateManager ctx)
     {
         
     }

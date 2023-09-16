@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -5,13 +6,14 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : MonoBehaviour
+	public class InputManager : MonoBehaviour
 	{
+		public event Action OnAttackPressed;
+		public event Action OnPhoenixShiftPressed;
+
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
-		public bool jump;
-		public bool sprint;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -20,7 +22,6 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
 			MoveInput(value.Get<Vector2>());
@@ -34,17 +35,15 @@ namespace StarterAssets
 			}
 		}
 
-		public void OnJump(InputValue value)
+		public void OnAttack()
 		{
-			JumpInput(value.isPressed);
+			OnAttackPressed?.Invoke();
 		}
 
-		public void OnSprint(InputValue value)
+		public void OnPhoenixShift()
 		{
-			SprintInput(value.isPressed);
+			OnPhoenixShiftPressed?.Invoke();
 		}
-#endif
-
 
 		public void MoveInput(Vector2 newMoveDirection)
 		{
@@ -54,16 +53,6 @@ namespace StarterAssets
 		public void LookInput(Vector2 newLookDirection)
 		{
 			look = newLookDirection;
-		}
-
-		public void JumpInput(bool newJumpState)
-		{
-			jump = newJumpState;
-		}
-
-		public void SprintInput(bool newSprintState)
-		{
-			sprint = newSprintState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)

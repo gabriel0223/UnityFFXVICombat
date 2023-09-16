@@ -14,7 +14,7 @@ public class EnemyBeingHitState : EnemyBaseState
     private PlayerCombatController _player;
     private float _timer;
 
-    public override void EnterState(EnemyStateManager ctx)
+    public override void EnterState(BaseStateManager ctx)
     {
         _timer = TimeToReturnToMovement;
         _enemyMovement = ctx.gameObject.GetComponent<EnemyMovement>();
@@ -29,17 +29,17 @@ public class EnemyBeingHitState : EnemyBaseState
 
     }
 
-    public override void UpdateState(EnemyStateManager ctx)
+    public override void UpdateState(BaseStateManager ctx)
     {
         _timer -= Time.deltaTime;
 
         if (_timer < 0)
         {
-            ctx.SwitchState(ctx.MovingState);
+            ctx.SwitchState(new EnemyMovingState());
         }
     }
 
-    public override void ExitState(EnemyStateManager ctx)
+    public override void ExitState(BaseStateManager ctx)
     {
         _enemyHealth.OnTakeDamage -= HandleEnemyTakeHit;
     }

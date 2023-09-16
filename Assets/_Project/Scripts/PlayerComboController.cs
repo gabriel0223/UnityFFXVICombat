@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class PlayerComboController : MonoBehaviour
 {
+    public event Action OnComboEnd;
+
     [SerializeField] private PlayerCombatController _combatController;
-    [SerializeField] private StarterAssetsInputs _input;
-    [SerializeField] private PlayerStateManager _playerStateManager;
     [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _dashDistanceBetweenHits;
@@ -25,10 +25,10 @@ public class PlayerComboController : MonoBehaviour
     private Queue<string> _attackQueue;
     private Vector3 _inputDirection;
 
-    public void OnAttack()
+    public void Attack()
     {
         bool isInLastAttack = _isCheckingForAttack && _attackQueue.Count == 0;
-
+        
         if (!_isInAttackAnimation || isInLastAttack)
         {
             StartCombo();
@@ -39,7 +39,7 @@ public class PlayerComboController : MonoBehaviour
             {
                 return;
             }
-
+        
             ExecuteNextAttack();
         }
     }
@@ -88,12 +88,6 @@ public class PlayerComboController : MonoBehaviour
 
     private void ExecuteNextAttack()
     {
-        if (_playerStateManager.PlayerState == PlayerState.TakingDamage ||
-            _playerStateManager.PlayerState == PlayerState.Shifting)
-        {
-            return;
-        }
-
         _isCheckingForAttack = false;
 
         if (_attackQueue.Count != 0)
@@ -105,7 +99,6 @@ public class PlayerComboController : MonoBehaviour
     public void OnAttackAnimationStart()
     {
         _isInAttackAnimation = true;
-        _playerStateManager.SetPlayerState(PlayerState.Attacking);
     }
 
     public void OnAttackAnimationEnd()
@@ -117,14 +110,6 @@ public class PlayerComboController : MonoBehaviour
         }
 
         _isInAttackAnimation = false;
-
-        if (_playerStateManager.PlayerState == PlayerState.TakingDamage ||
-            _playerStateManager.PlayerState == PlayerState.Shifting)
-        {
-            return;
-        }
-
-        _playerStateManager.SetPlayerState(PlayerState.Idle);
     }
 
     public void StartCheckingForAttack()
@@ -134,6 +119,12 @@ public class PlayerComboController : MonoBehaviour
 
     public void EndCheckingForAttack()
     {
+        //if there's no attack buffered
+        if (_isCheckingForAttack)
+        {
+            OnComboEnd?.Invoke();
+        }
+
         _isCheckingForAttack = false;
     }
 }

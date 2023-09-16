@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class PhoenixShift : MonoBehaviour
 {
+    public event Action OnShiftEnd;
+
     [SerializeField] private Material _projectionMaterial;
     [SerializeField] private GameObject _beginShiftVfxPrefab;
     [SerializeField] private GameObject _endShiftVfxPrefab;
@@ -26,6 +28,8 @@ public class PhoenixShift : MonoBehaviour
     private Vector3 _shiftDirection;
     private Material _materialInstance;
 
+    public bool IsWaitingForAttack { get; private set; }
+
     private void Awake()
     {
         _meshes = GetComponentsInChildren<Renderer>();
@@ -38,9 +42,26 @@ public class PhoenixShift : MonoBehaviour
         }
     }
 
+    public void StartPhoenixShift()
+    {
+        _animator.SetTrigger("PhoenixShift");
+
+        AnimatePhoenixGlow(0, 10 ,0.2f);
+    }
+
     public void ExecuteShift()
     {
         StartCoroutine(ShiftCoroutine());
+    }
+
+    public void StartWaitingForAttack()
+    {
+        IsWaitingForAttack = true;
+    }
+
+    public void StopWaitingForAttack()
+    {
+        IsWaitingForAttack = false;
     }
 
     private IEnumerator ShiftCoroutine()
@@ -85,7 +106,7 @@ public class PhoenixShift : MonoBehaviour
 
         yield return new WaitForSeconds(_dashDuration);
 
-        OnShiftEnd();
+        EndShift();
     }
 
     private void DisableMeshes()
@@ -111,27 +132,20 @@ public class PhoenixShift : MonoBehaviour
         }
     }
 
-    private void OnShiftEnd()
+    private void EndShift()
     {
         _cameraImpulseSource.GenerateImpulse();
         Instantiate(_endShiftVfxPrefab, transform.position, quaternion.identity);
         _playerStateManager.SetPlayerState(PlayerState.Idle);
 
-        AnimatePhoenixGlow(10, -10 ,0.5f);
+        AnimatePhoenixGlow(10, -10 ,0.5f).OnComplete(() => OnShiftEnd?.Invoke());
     }
 
-    public void OnPhoenixShift()
-    {
-        _animator.SetTrigger("PhoenixShift");
-
-        AnimatePhoenixGlow(0, 10 ,0.2f);
-    }
-
-    private void AnimatePhoenixGlow(float startValue, float endValue, float duration)
+    private Tween AnimatePhoenixGlow(float startValue, float endValue, float duration)
     {
         Color currentColor = _materialInstance.GetColor("_OutlineColor");
 
-        DOVirtual.Float(startValue, endValue, duration,
+        return DOVirtual.Float(startValue, endValue, duration,
             value => _materialInstance.SetColor(
                 "_OutlineColor", currentColor * Mathf.Pow(2, value)));
     }

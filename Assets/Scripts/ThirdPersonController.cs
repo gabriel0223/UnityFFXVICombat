@@ -14,14 +14,9 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
-        [SerializeField] private PlayerStateManager _playerStateManager;
-
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
-
-        [Tooltip("Sprint speed of the character in m/s")]
-        public float SprintSpeed = 5.335f;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -33,23 +28,8 @@ namespace StarterAssets
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
 
-        public AudioClip LandingAudioClip;
-        public AudioClip[] FootstepAudioClips;
-        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
-
-        [Space(10)]
-        [Tooltip("The height the player can jump")]
-        public float JumpHeight = 1.2f;
-
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-        public float Gravity = -15.0f;
-
-        [Space(10)]
-        [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-        public float JumpTimeout = 0.50f;
-
-        [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-        public float FallTimeout = 0.15f;
+        public float GravityForce = -15.0f;
 
         [Header("Player Grounded")]
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -92,15 +72,9 @@ namespace StarterAssets
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
 
-        // timeout deltatime
-        private float _jumpTimeoutDelta;
-        private float _fallTimeoutDelta;
-
         // animation IDs
         private int _animIDSpeed;
         private int _animIDGrounded;
-        private int _animIDJump;
-        private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -108,7 +82,7 @@ namespace StarterAssets
 #endif
         private Animator _animator;
         private CharacterController _controller;
-        private StarterAssetsInputs _input;
+        private InputManager _input;
         private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
@@ -127,7 +101,6 @@ namespace StarterAssets
             }
         }
 
-
         private void Awake()
         {
             // get a reference to our main camera
@@ -143,7 +116,7 @@ namespace StarterAssets
             
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
+            _input = GetComponent<InputManager>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -151,17 +124,13 @@ namespace StarterAssets
 #endif
 
             AssignAnimationIDs();
-
-            // reset our timeouts on start
-            _jumpTimeoutDelta = JumpTimeout;
-            _fallTimeoutDelta = FallTimeout;
         }
 
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
 
-            JumpAndGravity();
+            Gravity();
             GroundedCheck();
             Move();
         }
@@ -175,8 +144,6 @@ namespace StarterAssets
         {
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDJump = Animator.StringToHash("Jump");
-            _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         }
 
@@ -187,11 +154,6 @@ namespace StarterAssets
                 transform.position.z);
             Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
                 QueryTriggerInteraction.Ignore);
-
-            if (!Grounded)
-            {
-                _playerStateManager.SetPlayerState(PlayerState.Jumping);
-            }
 
             // update animator if using character
             if (_hasAnimator)
@@ -223,24 +185,19 @@ namespace StarterAssets
 
         private void Move()
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed = MoveSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-            if (_playerStateManager.PlayerState != PlayerState.Idle &&
-                _playerStateManager.PlayerState != PlayerState.Running &&
-                _playerStateManager.PlayerState != PlayerState.Jumping)
-            {
-                return;
-            }
+            // if (_playerStateManager.PlayerState != PlayerState.Idle &&
+            //     _playerStateManager.PlayerState != PlayerState.Running)
+            // {
+            //     return;
+            // }
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero || 
-                (_playerStateManager.PlayerState != PlayerState.Idle &&
-                _playerStateManager.PlayerState != PlayerState.Running &&
-                _playerStateManager.PlayerState != PlayerState.Jumping))
+            if (_input.move == Vector2.zero)
             {
                 targetSpeed = 0.0f;
             }
@@ -277,10 +234,7 @@ namespace StarterAssets
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero && 
-                (_playerStateManager.PlayerState == PlayerState.Idle ||
-                _playerStateManager.PlayerState == PlayerState.Running ||
-                _playerStateManager.PlayerState == PlayerState.Jumping))
+            if (_input.move != Vector2.zero)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
@@ -306,79 +260,21 @@ namespace StarterAssets
             }
         }
 
-        private void JumpAndGravity()
+        private void Gravity()
         {
             if (Grounded)
             {
-                // reset the fall timeout timer
-                _fallTimeoutDelta = FallTimeout;
-
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
-                }
-
                 // stop our velocity dropping infinitely when grounded
                 if (_verticalVelocity < 0.0f)
                 {
                     _verticalVelocity = -2f;
                 }
-
-                // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
-                {
-                    if (_playerStateManager.PlayerState != PlayerState.Idle &&
-                        _playerStateManager.PlayerState != PlayerState.Running &&
-                        _playerStateManager.PlayerState != PlayerState.Jumping)
-                    {
-                        return;
-                    }
-
-                    // the square root of H * -2 * G = how much velocity needed to reach desired height
-                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDJump, true);
-                    }
-                }
-
-                // jump timeout
-                if (_jumpTimeoutDelta >= 0.0f)
-                {
-                    _jumpTimeoutDelta -= Time.deltaTime;
-                }
-            }
-            else
-            {
-                // reset the jump timeout timer
-                _jumpTimeoutDelta = JumpTimeout;
-
-                // fall timeout
-                if (_fallTimeoutDelta >= 0.0f)
-                {
-                    _fallTimeoutDelta -= Time.deltaTime;
-                }
-                else
-                {
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDFreeFall, true);
-                    }
-                }
-
-                // if we are not grounded, do not jump
-                _input.jump = false;
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
             if (_verticalVelocity < _terminalVelocity)
             {
-                _verticalVelocity += Gravity * Time.deltaTime;
+                _verticalVelocity += GravityForce * Time.deltaTime;
             }
         }
 
@@ -401,26 +297,6 @@ namespace StarterAssets
             Gizmos.DrawSphere(
                 new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
                 GroundedRadius);
-        }
-
-        private void OnFootstep(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                if (FootstepAudioClips.Length > 0)
-                {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-                }
-            }
-        }
-
-        private void OnLand(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-            }
         }
     }
 }

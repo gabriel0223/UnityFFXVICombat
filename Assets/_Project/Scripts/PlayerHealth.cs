@@ -32,10 +32,10 @@ public class PlayerHealth : HealthBase
 
     private IEnumerator TakeDamageCoroutine()
     {
-        if (_playerStateManager.PlayerState == PlayerState.TakingDamage)
-        {
-            yield break;
-        }
+        // if (_playerStateManager.PlayerState == PlayerState.TakingDamage)
+        // {
+        //     yield break;
+        // }
 
         _animator.SetTrigger("TakeDamage");
         _playerStateManager.SetPlayerState(PlayerState.TakingDamage);

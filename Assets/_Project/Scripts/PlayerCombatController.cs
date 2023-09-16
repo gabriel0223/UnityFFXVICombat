@@ -10,7 +10,7 @@ public class PlayerCombatController : MonoBehaviour
 {
     public event Action OnEnableWeaponCollider;
 
-    [SerializeField] private StarterAssetsInputs _input;
+    [SerializeField] private InputManager _input;
     [SerializeField] private EnemyDetector _enemyDetector;
     [SerializeField] private WeaponController _playerWeapon;
     [SerializeField] private LayerMask _enemyLayer;

@@ -6,7 +6,6 @@ public enum PlayerState
 {
     Idle,
     Running,
-    Jumping,
     Attacking,
     TakingDamage,
     Shifting,

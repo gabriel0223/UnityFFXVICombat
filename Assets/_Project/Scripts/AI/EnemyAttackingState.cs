@@ -13,7 +13,7 @@ public class EnemyAttackingState : EnemyBaseState
     private float _timer;
     private bool _hasAttacked;
 
-    public override void EnterState(EnemyStateManager ctx)
+    public override void EnterState(BaseStateManager ctx)
     {
         _hasAttacked = false;
         _timer = TimeToReturnToMovement;
@@ -22,7 +22,7 @@ public class EnemyAttackingState : EnemyBaseState
         _enemyMovement = ctx.gameObject.GetComponent<EnemyMovement>();
     }
 
-    public override void UpdateState(EnemyStateManager ctx)
+    public override void UpdateState(BaseStateManager ctx)
     {
         if (_hasAttacked)
         {
@@ -30,7 +30,7 @@ public class EnemyAttackingState : EnemyBaseState
 
             if (_timer < 0)
             {
-                ctx.SwitchState(ctx.MovingState);
+                ctx.SwitchState(new EnemyMovingState());
             }
 
             return;
@@ -56,7 +56,7 @@ public class EnemyAttackingState : EnemyBaseState
         _enemyMovement.RotateTowardsDirection(playerDirection);
     }
 
-    public override void ExitState(EnemyStateManager ctx)
+    public override void ExitState(BaseStateManager ctx)
     {
         
     }

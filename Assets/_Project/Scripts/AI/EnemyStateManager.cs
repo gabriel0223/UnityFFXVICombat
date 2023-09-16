@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EnemyStateManager : MonoBehaviour
+public class EnemyStateManager : BaseStateManager
 {
     [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] private float _minTimeBetweenStateReevaluation;
@@ -53,7 +53,7 @@ public class EnemyStateManager : MonoBehaviour
         CurrentState?.UpdateState(this);
     }
 
-    public void SwitchState(EnemyBaseState newState)
+    public override void SwitchState(BaseState newState)
     {
         if (newState == CurrentState || _enemyHealth.CurrentHealth <= 0)
         {
@@ -63,7 +63,7 @@ public class EnemyStateManager : MonoBehaviour
         CurrentState.ExitState(this);
 
         PreviousState = CurrentState;
-        CurrentState = newState;
+        CurrentState = (EnemyBaseState)newState;
 
         CurrentState?.EnterState(this);
     }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class DashController : MonoBehaviour
 {
     [SerializeField] private CharacterController _characterController;
-    [SerializeField] private StarterAssetsInputs _input;
+    [SerializeField] private InputManager _input;
 
     private Camera _mainCamera;
     private Vector3 _inputDirection;
