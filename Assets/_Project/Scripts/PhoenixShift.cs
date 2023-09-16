@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PhoenixShift : MonoBehaviour
 {
     [SerializeField] private Material _projectionMaterial;
+    [SerializeField] private GameObject _beginShiftVfxPrefab;
+    [SerializeField] private GameObject _endShiftVfxPrefab;
     [SerializeField] private CinemachineImpulseSource _cameraImpulseSource;
     [SerializeField] private GameObject _playerMesh;
     [SerializeField] private PlayerStateManager _playerStateManager;
@@ -37,11 +40,19 @@ public class PhoenixShift : MonoBehaviour
 
     public void ExecuteShift()
     {
+        StartCoroutine(ShiftCoroutine());
+    }
+
+    private IEnumerator ShiftCoroutine()
+    {
+        _playerStateManager.SetPlayerState(PlayerState.Shifting);
+
         DisableMeshes();
+        Instantiate(_beginShiftVfxPrefab, transform.position, quaternion.identity);
         _cameraImpulseSource.GenerateImpulse();
 
-        _playerStateManager.SetPlayerState(PlayerState.Shifting);
-        
+        yield return new WaitForSeconds(0.2f);
+
         if (!_combatController.IsOnCombatMode)
         {
             _dashController.DashTowardsInput(_range, _dashDuration);
@@ -71,8 +82,10 @@ public class PhoenixShift : MonoBehaviour
             dashDistance = Mathf.Clamp(dashDistance, 0, _range);
             _dashController.DashTowardsDirection(enemyDirection * dashDistance, _dashDuration, true);
         }
-        
-        DOVirtual.DelayedCall(_dashDuration, OnShiftEnd);
+
+        yield return new WaitForSeconds(_dashDuration);
+
+        OnShiftEnd();
     }
 
     private void DisableMeshes()
@@ -101,6 +114,7 @@ public class PhoenixShift : MonoBehaviour
     private void OnShiftEnd()
     {
         _cameraImpulseSource.GenerateImpulse();
+        Instantiate(_endShiftVfxPrefab, transform.position, quaternion.identity);
         _playerStateManager.SetPlayerState(PlayerState.Idle);
 
         AnimatePhoenixGlow(10, -10 ,0.5f);
