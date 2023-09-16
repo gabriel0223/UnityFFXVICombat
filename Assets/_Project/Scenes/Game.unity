@@ -6900,7 +6900,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -9091,7 +9091,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -17452,6 +17452,7 @@ MonoBehaviour:
     type: 3}
   _endShiftVfxPrefab: {fileID: 719781518664222479, guid: a4fd6b5b035343748b5169706cddefb4,
     type: 3}
+  _input: {fileID: 135756642215747342}
   _cameraImpulseSource: {fileID: 1832331276}
   _playerMesh: {fileID: 919132148111485904}
   _playerStateManager: {fileID: 6982812147058213812}

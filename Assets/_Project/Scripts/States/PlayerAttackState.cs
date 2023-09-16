@@ -31,7 +31,7 @@ public class PlayerAttackState : BaseState
     {
         _inputManager.OnAttackPressed -= HandlePlayerAttack;
         _inputManager.OnPhoenixShiftPressed -= SwitchToPhoenixShift;
-        _playerComboController.OnComboEnd += SwitchToIdleMove;
+        _playerComboController.OnComboEnd -= SwitchToIdleMove;
     }
 
     private void HandlePlayerAttack()

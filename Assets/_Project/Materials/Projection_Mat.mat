@@ -119,10 +119,10 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 2.0114107, g: 0.81427544, b: 0.6950425, a: 0}
+    - _Color: {r: 5.992157, g: 0.72156864, b: 0.21960784, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.94509804, g: 0.3915101, b: 0.34901965, a: 0}
+    - _FresnelColor: {r: 1.8901961, g: 0.78431374, b: 0.69803923, a: 0}
     - _LineRemap: {r: 0, g: 0.87, b: 0, a: 0}
     - _NoiseColor: {r: 1, g: 1, b: 1, a: 0}
     - _NoiseScale: {r: 1, g: 5.31, b: 0, a: 0}

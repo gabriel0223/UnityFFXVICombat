@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
+using StarterAssets;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class PhoenixShift : MonoBehaviour
     [SerializeField] private Material _projectionMaterial;
     [SerializeField] private GameObject _beginShiftVfxPrefab;
     [SerializeField] private GameObject _endShiftVfxPrefab;
+    [SerializeField] private InputManager _input;
     [SerializeField] private CinemachineImpulseSource _cameraImpulseSource;
     [SerializeField] private GameObject _playerMesh;
     [SerializeField] private PlayerStateManager _playerStateManager;
@@ -23,6 +25,8 @@ public class PhoenixShift : MonoBehaviour
     [SerializeField] private float _range;
     [SerializeField] private float _distanceToEnemyMultiplier;
 
+    private Camera _mainCamera;
+    private Vector3 _inputDirection;
     private Renderer[] _meshes;
     private SkinnedMeshRenderer[] _skinnedMeshes;
     private Vector3 _shiftDirection;
@@ -32,6 +36,7 @@ public class PhoenixShift : MonoBehaviour
 
     private void Awake()
     {
+        _mainCamera = Camera.main;
         _meshes = GetComponentsInChildren<Renderer>();
         _skinnedMeshes = GetComponentsInChildren<SkinnedMeshRenderer>();
         _materialInstance = new Material(_skinnedMeshes[0].material);
@@ -44,9 +49,42 @@ public class PhoenixShift : MonoBehaviour
 
     public void StartPhoenixShift()
     {
+        CalculateShiftDirection();
+
+        _animator.speed = 1.5f;
         _animator.SetTrigger("PhoenixShift");
 
         AnimatePhoenixGlow(0, 10 ,0.2f);
+    }
+
+    private void CalculateShiftDirection()
+    {
+        if (_combatController.IsOnCombatMode)
+        {
+            EnemyHealth currentTarget = _combatController.CurrentTarget;
+            Vector3 enemyDirection = (currentTarget.transform.position - transform.position).normalized;
+            float distanceToEnemy = Vector3.Distance(transform.position, currentTarget.transform.position);
+            float dashDistance = distanceToEnemy * _distanceToEnemyMultiplier;
+        
+            dashDistance = Mathf.Clamp(dashDistance, 0, _range);
+            _shiftDirection = enemyDirection * dashDistance;
+        }
+        else
+        {
+            _inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+
+            float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
+                                        _mainCamera.transform.eulerAngles.y;
+
+            Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
+                Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
+
+            _shiftDirection = _input.move == Vector2.zero ? transform.forward * _range
+                : targetDirection * _range;
+        }
+
+        Quaternion directionRotation = Quaternion.LookRotation(_shiftDirection);
+        transform.DORotateQuaternion(directionRotation, 0.1f);
     }
 
     public void ExecuteShift()
@@ -66,43 +104,14 @@ public class PhoenixShift : MonoBehaviour
 
     private IEnumerator ShiftCoroutine()
     {
-        _playerStateManager.SetPlayerState(PlayerState.Shifting);
-
         DisableMeshes();
         Instantiate(_beginShiftVfxPrefab, transform.position, quaternion.identity);
         _cameraImpulseSource.GenerateImpulse();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
 
-        if (!_combatController.IsOnCombatMode)
-        {
-            _dashController.DashTowardsInput(_range, _dashDuration);
-        }
-        else
-        {
-            // EnemyHealth currentTarget = _combatController.CurrentTarget;
-            // float distanceToEnemy = Vector3.Distance(currentTarget.transform.position, transform.position);
-            // Vector3 enemyDirection = currentTarget.transform.position - transform.position;
-            // float dashDistance = _maxDashDistance;
-            //
-            // dashDistance = Mathf.Clamp(dashDistance, 0, _maxDashDistance);
-            //
-            // if (distanceToEnemy < _dashStoppingDistance)
-            // {
-            //     dashDistance = 0;
-            // }
-            //
-            // Vector3 dashDirection = enemyDirection * dashDistance;
-            // _dashController.DashTowardsDirection(dashDirection, 0.3f, true);
-        
-            EnemyHealth currentTarget = _combatController.CurrentTarget;
-            float distanceToEnemy = Vector3.Distance(currentTarget.transform.position, transform.position);
-            Vector3 enemyDirection = (currentTarget.transform.position - transform.position).normalized;
-            float dashDistance = distanceToEnemy * _distanceToEnemyMultiplier;
-        
-            dashDistance = Mathf.Clamp(dashDistance, 0, _range);
-            _dashController.DashTowardsDirection(enemyDirection * dashDistance, _dashDuration, true);
-        }
+        CalculateShiftDirection();
+        _dashController.DashTowardsDirection(_shiftDirection, _dashDuration);
 
         yield return new WaitForSeconds(_dashDuration);
 
@@ -136,9 +145,8 @@ public class PhoenixShift : MonoBehaviour
     {
         _cameraImpulseSource.GenerateImpulse();
         Instantiate(_endShiftVfxPrefab, transform.position, quaternion.identity);
-        _playerStateManager.SetPlayerState(PlayerState.Idle);
 
-        AnimatePhoenixGlow(10, -10 ,0.5f).OnComplete(() => OnShiftEnd?.Invoke());
+        AnimatePhoenixGlow(10, -10 ,0.4f).OnComplete(() => OnShiftEnd?.Invoke());
     }
 
     private Tween AnimatePhoenixGlow(float startValue, float endValue, float duration)

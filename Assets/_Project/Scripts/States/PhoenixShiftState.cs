@@ -41,6 +41,11 @@ public class PhoenixShiftState : BaseState
 
     private void SwitchToIdle()
     {
+        if (_hasSwitchedToAttack)
+        {
+            return;
+        }
+
         _stateManager.SwitchState(new PlayerIdleMovementState());
     }
 

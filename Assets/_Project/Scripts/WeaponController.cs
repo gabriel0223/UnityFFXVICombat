@@ -15,6 +15,8 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private int _initialDamage;
     [SerializeField] private int _damageVariation;
 
+    private float _damageMultiplier = 1f;
+
     private void Awake()
     {
         _collider.enabled = false;
@@ -35,7 +37,8 @@ public class WeaponController : MonoBehaviour
             OnWeaponHitHealth?.Invoke(health, hitDamage);
         }
 
-        damageable.TakeDamage(hitDamage);
+        damageable.TakeDamage((int)(hitDamage * _damageMultiplier));
+        _damageMultiplier = 1f;
 
         CharacterController targetCC = other.gameObject.GetComponent<CharacterController>();
         Vector3 targetCenterPosition = other.bounds.center;
@@ -45,6 +48,11 @@ public class WeaponController : MonoBehaviour
         Vector3 impactPoint = _raycastOrigin.position + (targetDirection * targetDistance) - impactOffset;
 
         SpawnHitVFX(impactPoint);
+    }
+
+    public void SetNextAttackMultiplier(float multiplier)
+    {
+        _damageMultiplier = multiplier;
     }
 
     public void SetColliderActive(bool active)
