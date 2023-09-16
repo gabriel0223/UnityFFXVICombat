@@ -8,6 +8,8 @@ public class PlayerHealth : HealthBase
     [SerializeField] private Animator _animator;
     [SerializeField] private PlayerStateManager _playerStateManager;
 
+    private bool _isTakingDamage;
+
     private void Awake()
     {
         CurrentHealth = _initialHealth;
@@ -25,6 +27,7 @@ public class PlayerHealth : HealthBase
         }
         else
         {
+            OnTakeDamage?.Invoke(this);
             StartCoroutine(TakeDamageCoroutine());
             //OnTakeHit?.Invoke(this);
         }
@@ -32,18 +35,24 @@ public class PlayerHealth : HealthBase
 
     private IEnumerator TakeDamageCoroutine()
     {
-        // if (_playerStateManager.PlayerState == PlayerState.TakingDamage)
-        // {
-        //     yield break;
-        // }
+        if (_isTakingDamage)
+        {
+            yield break;
+        }
 
         _animator.SetTrigger("TakeDamage");
-        _playerStateManager.SetPlayerState(PlayerState.TakingDamage);
-        OnTakeDamage?.Invoke(this);
+        _playerStateManager.SwitchState(new PlayerTakeDamageState());
+        _isTakingDamage = true;
 
         yield return new WaitForSeconds(1f);
 
-        _playerStateManager.SetPlayerState(PlayerState.Idle);
+        if (CurrentHealth <= 0)
+        {
+            yield break;
+        }       
+
+        _isTakingDamage = false;
+        _playerStateManager.SwitchState(new PlayerIdleMovementState());
     }
 
     public override void Die()
