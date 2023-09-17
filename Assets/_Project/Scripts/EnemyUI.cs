@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class EnemyUI : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem _healthSparksPs;
     [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] private CanvasGroup _targetMarker;
     [SerializeField] private CanvasGroup _enemyText;
@@ -53,7 +54,9 @@ public class EnemyUI : MonoBehaviour
     {
         Sequence deathUiSequence = DOTween.Sequence();
 
-        deathUiSequence.AppendInterval(1f);
+        deathUiSequence.AppendInterval(0.5f);
+        deathUiSequence.AppendCallback(() => _healthSparksPs.Play());
+        deathUiSequence.AppendCallback(() => _healthSparksPs.transform.DOScale(Vector3.one * 1.75f, 0.2f));
         deathUiSequence.Join(_healthBar.DOFade(0f, 0.5f));
     }
 }
