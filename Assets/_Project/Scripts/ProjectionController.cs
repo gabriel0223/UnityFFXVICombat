@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ProjectionController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class ProjectionController : MonoBehaviour
         foreach (Renderer mesh in _renderers)
         {
             mesh.material = _materialInstance;
+            mesh.shadowCastingMode = ShadowCastingMode.Off;
         }
 
         Sequence projectionSequence = DOTween.Sequence();

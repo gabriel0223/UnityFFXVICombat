@@ -11,13 +11,16 @@ public class PhoenixShift : MonoBehaviour
 {
     public event Action OnShiftEnd;
 
+    private const float CameraDistortionAmount = 1f;
+
     [SerializeField] private Material _projectionMaterial;
+    [SerializeField] private DistortionSphere _distortionSphere;
     [SerializeField] private GameObject _beginShiftVfxPrefab;
     [SerializeField] private GameObject _endShiftVfxPrefab;
     [SerializeField] private InputManager _input;
+    [SerializeField] private PlayerVFX _playerVFX;
     [SerializeField] private CinemachineImpulseSource _cameraImpulseSource;
     [SerializeField] private GameObject _playerMesh;
-    [SerializeField] private PlayerStateManager _playerStateManager;
     [SerializeField] private PlayerCombatController _combatController; 
     [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
@@ -53,6 +56,7 @@ public class PhoenixShift : MonoBehaviour
 
         _animator.speed = 1.5f;
         _animator.SetTrigger("PhoenixShift");
+        _playerVFX.SetFireVfxSlashActive(true);
 
         AnimatePhoenixGlow(0, 10 ,0.2f);
     }
@@ -120,6 +124,7 @@ public class PhoenixShift : MonoBehaviour
 
     private void DisableMeshes()
     {
+        //_postProcessing.SetLensDistortion(0f);
         SpawnProjection();
 
         foreach (Renderer mesh in _meshes)
@@ -146,7 +151,12 @@ public class PhoenixShift : MonoBehaviour
         _cameraImpulseSource.GenerateImpulse();
         Instantiate(_endShiftVfxPrefab, transform.position, quaternion.identity);
 
-        AnimatePhoenixGlow(10, -10 ,0.4f).OnComplete(() => OnShiftEnd?.Invoke());
+        AnimatePhoenixGlow(10, -10, 0.6f).OnComplete(() => OnShiftEnd?.Invoke());
+
+        Sequence endShiftSequence = DOTween.Sequence();
+        endShiftSequence.Append(_distortionSphere.AnimateDistortion(0f, CameraDistortionAmount, 0.15f));
+        endShiftSequence.Append(_distortionSphere.AnimateDistortion(CameraDistortionAmount, 0, 0.15f));
+        endShiftSequence.AppendCallback(() => _playerVFX.SetFireVfxSlashActive(false));
     }
 
     private Tween AnimatePhoenixGlow(float startValue, float endValue, float duration)
