@@ -11,7 +11,7 @@ public class PhoenixShift : MonoBehaviour
 {
     public event Action OnShiftEnd;
 
-    private const float CameraDistortionAmount = 1f;
+    private const float CameraDistortionAmount = 1.25f;
 
     [SerializeField] private Material _projectionMaterial;
     [SerializeField] private DistortionSphere _distortionSphere;
@@ -55,6 +55,7 @@ public class PhoenixShift : MonoBehaviour
         _animator.speed = 1.5f;
         _animator.SetTrigger("PhoenixShift");
         _playerVFX.SetFireVfxSlashActive(true);
+        _playerVFX.SpawnBeginPhoenixShiftVfx(_shiftDirection);
 
         AnimatePhoenixGlow(0, 10 ,0.2f);
     }
@@ -107,7 +108,6 @@ public class PhoenixShift : MonoBehaviour
     private IEnumerator ShiftCoroutine()
     {
         DisableMeshes();
-        _playerVFX.SpawnBeginPhoenixShiftVfx();
         _cameraImpulseSource.GenerateImpulse();
 
         yield return new WaitForSeconds(0.15f);
@@ -122,7 +122,6 @@ public class PhoenixShift : MonoBehaviour
 
     private void DisableMeshes()
     {
-        //_postProcessing.SetLensDistortion(0f);
         SpawnProjection();
 
         foreach (Renderer mesh in _meshes)
@@ -152,8 +151,8 @@ public class PhoenixShift : MonoBehaviour
         AnimatePhoenixGlow(10, -10, 0.6f).OnComplete(() => OnShiftEnd?.Invoke());
 
         Sequence endShiftSequence = DOTween.Sequence();
-        endShiftSequence.Append(_distortionSphere.AnimateDistortion(0f, CameraDistortionAmount, 0.15f));
-        endShiftSequence.Append(_distortionSphere.AnimateDistortion(CameraDistortionAmount, 0, 0.15f));
+        endShiftSequence.Append(_distortionSphere.AnimateDistortion(0f, CameraDistortionAmount, 0.1f));
+        endShiftSequence.Append(_distortionSphere.AnimateDistortion(CameraDistortionAmount, 0, 0.1f));
         endShiftSequence.AppendCallback(() => _playerVFX.SetFireVfxSlashActive(false));
     }
 

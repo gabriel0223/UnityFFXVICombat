@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
@@ -35,9 +36,10 @@ public class PlayerVFX : MonoBehaviour
         _combatController.OnEnableWeaponCollider -= SpawnSlash;
     }
 
-    public void SpawnBeginPhoenixShiftVfx()
+    public void SpawnBeginPhoenixShiftVfx(Vector3 direction)
     {
-        Instantiate(_beginShiftVfxPrefab, transform.position, Quaternion.identity);
+        Quaternion vfxRotation = Quaternion.LookRotation(direction);
+        Instantiate(_beginShiftVfxPrefab, transform.position, vfxRotation);
     }
 
     public void SpawnEndPhoenixShiftVfx()
