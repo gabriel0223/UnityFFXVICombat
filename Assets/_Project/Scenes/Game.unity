@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.04361412, g: 0.06103334, b: 0.108935, a: 1}
+  m_IndirectSpecularColor: {r: 0.044171527, g: 0.06269923, b: 0.115967035, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -676,7 +676,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &290061045 stripped
 GameObject:
@@ -5470,7 +5470,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -7598,7 +7598,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -8008,161 +8008,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7112133314187129231}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1400493147
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1400493150}
-  - component: {fileID: 1400493149}
-  - component: {fileID: 1400493148}
-  - component: {fileID: 1400493152}
-  - component: {fileID: 1400493151}
-  m_Layer: 0
-  m_Name: VFX_CharacterEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!73398921 &1400493148
-VFXRenderer:
-  serializedVersion: 1
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400493147}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 0
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 257
-  m_RendererPriority: 0
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!2083052967 &1400493149
-VisualEffect:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400493147}
-  m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: cdbe2a7ed829bfd419beb39165ce3dfa, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
-  m_StartSeed: 0
-  m_ResetSeedOnPlay: 1
-  m_ResourceVersion: 1
-  m_PropertySheet:
-    m_Float:
-      m_Array: []
-    m_Vector2f:
-      m_Array: []
-    m_Vector3f:
-      m_Array:
-      - m_Value: {x: -1.9238035e-27, y: -1.5166067e-21, z: -0.0001}
-        m_Name: Transform_angles
-        m_Overridden: 1
-      - m_Value: {x: -0.0003427926, y: 0.95579463, z: 0.0046594837}
-        m_Name: Transform_position
-        m_Overridden: 1
-      - m_Value: {x: 1, y: 1, z: 1}
-        m_Name: Transform_scale
-        m_Overridden: 1
-    m_Vector4f:
-      m_Array: []
-    m_Uint:
-      m_Array: []
-    m_Int:
-      m_Array: []
-    m_Matrix4x4f:
-      m_Array: []
-    m_AnimationCurve:
-      m_Array: []
-    m_Gradient:
-      m_Array: []
-    m_NamedObject:
-      m_Array:
-      - m_Value: {fileID: 415287892363880182}
-        m_Name: SkinnedMeshRenderer
-        m_Overridden: 1
-    m_Bool:
-      m_Array: []
---- !u!4 &1400493150
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400493147}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1400493151
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400493147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fdfea1f838247c40921a07afedde962, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Property:
-    m_Name: Transform
-  Target: {fileID: 5465940245435224574}
---- !u!114 &1400493152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400493147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdafc37f32b176349b1684c4455b98e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ExecuteInEditor: 1
-  m_Bindings:
-  - {fileID: 1400493151}
-  m_VisualEffect: {fileID: 1400493149}
 --- !u!1 &1535727702 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8944336655422409498, guid: f6d148d888ffbf54b9afe9936dfaec1f,
@@ -8472,7 +8317,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1872273882
 GameObject:
@@ -10181,7 +10026,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -11775,7 +11620,7 @@ GameObject:
   - component: {fileID: 2042953257799943855}
   - component: {fileID: 3099756088249012012}
   m_Layer: 0
-  m_Name: Paladin_J_Nordstrom
+  m_Name: Paladin_J_Nordstrom_Helmet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12015,7 +11860,7 @@ GameObject:
   - component: {fileID: 8670697776027961018}
   - component: {fileID: 415287892363880182}
   m_Layer: 0
-  m_Name: Paladin_J_Nordstrom_Helmet
+  m_Name: Paladin_J_Nordstrom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14873,11 +14718,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1bbf0d1bd7b32419c2dd2239553e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _combatController: {fileID: 6982812147058213813}
+  _beginShiftVfxPrefab: {fileID: 8228700138660435486, guid: 71a259041ff57684fbd4ea118241de56,
+    type: 3}
+  _endShiftVfxPrefab: {fileID: 477624775027848115, guid: 78b9e5a74c203f24ba3191e05f079705,
+    type: 3}
   _vfxSlash: {fileID: 2369783264775008799, guid: 06c6ecfe5ae691246811a6cfe051ee82,
     type: 3}
   _vfxFireSlash: {fileID: 4903459762839230325, guid: 3325dd2be51936749a04e62003f251bd,
     type: 3}
+  _combatController: {fileID: 6982812147058213813}
+  _playerSkinnedMesh: {fileID: 415287892363880182}
+  _playerHipsTransform: {fileID: 5465940245435224574}
   _playerWeapon: {fileID: 290061049}
 --- !u!114 &6982812147058213815
 MonoBehaviour:
@@ -14923,10 +14774,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _projectionMaterial: {fileID: 2100000, guid: 9eaa1e5ee8c23ae4b88a441d4a5b5076, type: 2}
   _distortionSphere: {fileID: 740297560}
-  _beginShiftVfxPrefab: {fileID: 8228700138660435486, guid: 71a259041ff57684fbd4ea118241de56,
-    type: 3}
-  _endShiftVfxPrefab: {fileID: 719781518664222479, guid: a4fd6b5b035343748b5169706cddefb4,
-    type: 3}
   _input: {fileID: 135756642215747342}
   _playerVFX: {fileID: 6982812147058213814}
   _cameraImpulseSource: {fileID: 1832331276}

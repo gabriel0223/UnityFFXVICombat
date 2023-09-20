@@ -15,8 +15,6 @@ public class PhoenixShift : MonoBehaviour
 
     [SerializeField] private Material _projectionMaterial;
     [SerializeField] private DistortionSphere _distortionSphere;
-    [SerializeField] private GameObject _beginShiftVfxPrefab;
-    [SerializeField] private GameObject _endShiftVfxPrefab;
     [SerializeField] private InputManager _input;
     [SerializeField] private PlayerVFX _playerVFX;
     [SerializeField] private CinemachineImpulseSource _cameraImpulseSource;
@@ -109,7 +107,7 @@ public class PhoenixShift : MonoBehaviour
     private IEnumerator ShiftCoroutine()
     {
         DisableMeshes();
-        Instantiate(_beginShiftVfxPrefab, transform.position, quaternion.identity);
+        _playerVFX.SpawnBeginPhoenixShiftVfx();
         _cameraImpulseSource.GenerateImpulse();
 
         yield return new WaitForSeconds(0.15f);
@@ -149,7 +147,7 @@ public class PhoenixShift : MonoBehaviour
     private void EndShift()
     {
         _cameraImpulseSource.GenerateImpulse();
-        Instantiate(_endShiftVfxPrefab, transform.position, quaternion.identity);
+        _playerVFX.SpawnEndPhoenixShiftVfx();
 
         AnimatePhoenixGlow(10, -10, 0.6f).OnComplete(() => OnShiftEnd?.Invoke());
 
