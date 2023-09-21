@@ -22,7 +22,7 @@ public class ProjectionController : MonoBehaviour
         }
 
         Sequence projectionSequence = DOTween.Sequence();
-        projectionSequence.AppendInterval(1f);
+        projectionSequence.AppendInterval(0.5f);
         projectionSequence.Append(DOVirtual.Float(1, 0, 1f,
             value => _materialInstance.SetFloat("_Alpha", value)));
         projectionSequence.AppendCallback(() => Destroy(gameObject));

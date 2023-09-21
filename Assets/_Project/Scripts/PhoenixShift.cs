@@ -19,9 +19,13 @@ public class PhoenixShift : MonoBehaviour
     [SerializeField] private PlayerVFX _playerVFX;
     [SerializeField] private CinemachineImpulseSource _cameraImpulseSource;
     [SerializeField] private GameObject _playerMesh;
-    [SerializeField] private PlayerCombatController _combatController; 
+    [SerializeField] private PlayerCombatController _combatController;
+    [SerializeField] private WeaponController _playerWeapon;
     [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
+
+    [Space] [Header("SETTINGS")] 
+    [SerializeField] private AttackData _attackData;
     [SerializeField] private float _dashDuration;
     [SerializeField] private float _range;
     [SerializeField] private float _distanceToEnemyMultiplier;
@@ -56,6 +60,7 @@ public class PhoenixShift : MonoBehaviour
         _animator.SetTrigger("PhoenixShift");
         _playerVFX.SetFireVfxSlashActive(true);
         _playerVFX.SpawnBeginPhoenixShiftVfx(_shiftDirection);
+        _playerWeapon.SetAttackData(_attackData);
 
         AnimatePhoenixGlow(0, 10 ,0.2f);
     }

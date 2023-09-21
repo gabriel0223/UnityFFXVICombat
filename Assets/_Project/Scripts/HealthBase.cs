@@ -13,6 +13,6 @@ public abstract class HealthBase : MonoBehaviour, IDamageable
     public int CurrentHealth { get; protected set; }
     public int MaxHealth => _maxHealth;
 
-    public abstract void TakeDamage(int damage);
+    public abstract void TakeDamage(int damage, DamageType damageType);
     public abstract void Die();
 }

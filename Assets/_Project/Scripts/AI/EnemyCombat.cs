@@ -7,12 +7,14 @@ public class EnemyCombat : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private WeaponController _weapon;
     [SerializeField] private DashController _dashController;
+    [SerializeField] private AttackData _attackData;
     [SerializeField] private float _attackDashSpeed;
     [SerializeField] private float _attackDashDuration;
 
     public void Attack()
     {
-        _animator.SetTrigger("Attack");
+        _weapon.SetAttackData(_attackData);
+        _animator.SetTrigger(_attackData.AnimationName);
     }
 
     public void EnableWeaponCollider()

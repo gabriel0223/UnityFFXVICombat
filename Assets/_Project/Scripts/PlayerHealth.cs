@@ -15,7 +15,7 @@ public class PlayerHealth : HealthBase
         CurrentHealth = _initialHealth;
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, DamageType damageType)
     {
         CurrentHealth -= damage;
 
@@ -29,7 +29,6 @@ public class PlayerHealth : HealthBase
         {
             OnTakeDamage?.Invoke(this);
             StartCoroutine(TakeDamageCoroutine());
-            //OnTakeHit?.Invoke(this);
         }
     }
 

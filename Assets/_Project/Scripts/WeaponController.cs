@@ -15,7 +15,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private int _initialDamage;
     [SerializeField] private int _damageVariation;
 
-    private float _damageMultiplier = 1f;
+    private AttackData _currentAttackDataData;
 
     private void Awake()
     {
@@ -30,15 +30,15 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
-        int hitDamage = _initialDamage + Random.Range(-_damageVariation, _damageVariation);
+        int hitDamage = (int)(_initialDamage * _currentAttackDataData.DamageMultiplier) 
+                        + Random.Range(-_damageVariation, _damageVariation);
 
         if (other.gameObject.TryGetComponent(out HealthBase health))
         {
             OnWeaponHitHealth?.Invoke(health, hitDamage);
         }
 
-        damageable.TakeDamage((int)(hitDamage * _damageMultiplier));
-        _damageMultiplier = 1f;
+        damageable.TakeDamage(hitDamage, _currentAttackDataData.DamageType);
 
         CharacterController targetCC = other.gameObject.GetComponent<CharacterController>();
         Vector3 targetCenterPosition = other.bounds.center;
@@ -50,9 +50,9 @@ public class WeaponController : MonoBehaviour
         SpawnHitVFX(impactPoint);
     }
 
-    public void SetNextAttackMultiplier(float multiplier)
+    public void SetAttackData(AttackData newAttackData)
     {
-        _damageMultiplier = multiplier;
+        _currentAttackDataData = newAttackData;
     }
 
     public void SetColliderActive(bool active)

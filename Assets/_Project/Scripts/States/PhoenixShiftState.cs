@@ -18,6 +18,7 @@ public class PhoenixShiftState : BaseState
 
         _inputManager.OnAttackPressed += HandleAttackPressed;
         _phoenixShift.OnShiftEnd += SwitchToIdle;
+
         _phoenixShift.StartPhoenixShift();
     }
 

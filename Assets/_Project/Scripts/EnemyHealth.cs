@@ -8,6 +8,7 @@ public class EnemyHealth : HealthBase
 {
     public event Action OnTargeted;
     public event Action OnUntargeted;
+    public event Action OnGetFireDamage;
 
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Animator _animator;
@@ -19,7 +20,7 @@ public class EnemyHealth : HealthBase
         CurrentHealth = _initialHealth;
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, DamageType damageType)
     {
         CurrentHealth -= damage;
 
@@ -36,6 +37,11 @@ public class EnemyHealth : HealthBase
         }
 
         OnTakeDamage?.Invoke(this);
+
+        if (damageType == DamageType.Fire)
+        {
+            OnGetFireDamage?.Invoke();
+        }
     }
 
     public override void Die()

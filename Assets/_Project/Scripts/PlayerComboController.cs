@@ -12,6 +12,8 @@ public class PlayerComboController : MonoBehaviour
     [SerializeField] private PlayerCombatController _combatController;
     [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
+    [SerializeField] private WeaponController _playerWeapon;
+    [SerializeField] private AttackData[] _attackList;
     [SerializeField] private float _dashDistanceBetweenHits;
     [SerializeField] private float _maxDashDistance;
     [SerializeField] private float _dashStoppingDistance;
@@ -20,9 +22,7 @@ public class PlayerComboController : MonoBehaviour
     private bool _isInAttackAnimation;
     private bool _isCheckingForAttack;
     private int _currentCombo;
-
-    private readonly string[] _attackList = new[] { "Slash1", "Slash2", "Slash3", "Slash4", "Slash5" };
-    private Queue<string> _attackQueue;
+    private Queue<AttackData> _attackQueue;
     private Vector3 _inputDirection;
 
     public void Attack()
@@ -58,7 +58,7 @@ public class PlayerComboController : MonoBehaviour
 
     private void StartCombo()
     {
-        _attackQueue = new Queue<string>(_attackList);
+        _attackQueue = new Queue<AttackData>(_attackList);
 
         ExecuteNextAttack();
     }
@@ -92,7 +92,10 @@ public class PlayerComboController : MonoBehaviour
 
         if (_attackQueue.Count != 0)
         {
-            _animator.SetTrigger(_attackQueue.Dequeue());
+            AttackData attackData = _attackQueue.Dequeue();
+
+            _playerWeapon.SetAttackData(attackData);
+            _animator.SetTrigger(attackData.AnimationName);
         }
     }
 
