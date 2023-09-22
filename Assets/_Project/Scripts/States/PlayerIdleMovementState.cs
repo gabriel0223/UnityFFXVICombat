@@ -17,6 +17,7 @@ public class PlayerIdleMovementState : BaseState
 
         _inputManager.OnAttackPressed += SwitchToAttack;
         _inputManager.OnPhoenixShiftPressed += SwitchToPhoenixShift;
+        _inputManager.OnDodgePressed += SwitchToDodge;
     }
 
     public override void UpdateState(BaseStateManager ctx)
@@ -28,6 +29,7 @@ public class PlayerIdleMovementState : BaseState
     {
         _inputManager.OnAttackPressed -= SwitchToAttack;
         _inputManager.OnPhoenixShiftPressed -= SwitchToPhoenixShift;
+        _inputManager.OnDodgePressed -= SwitchToDodge;
     }
 
     private void SwitchToAttack()
@@ -38,5 +40,10 @@ public class PlayerIdleMovementState : BaseState
     private void SwitchToPhoenixShift()
     {
         _stateManager.SwitchState(new PhoenixShiftState());
+    }
+
+    private void SwitchToDodge()
+    {
+        _stateManager.SwitchState(new PlayerDodgeState());
     }
 }

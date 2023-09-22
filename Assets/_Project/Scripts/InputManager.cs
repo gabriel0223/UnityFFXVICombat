@@ -10,6 +10,7 @@ namespace StarterAssets
 	{
 		public event Action OnAttackPressed;
 		public event Action OnPhoenixShiftPressed;
+		public event Action OnDodgePressed;
 
 		[Header("Character Input Values")]
 		public Vector2 move;
@@ -43,6 +44,11 @@ namespace StarterAssets
 		public void OnPhoenixShift()
 		{
 			OnPhoenixShiftPressed?.Invoke();
+		}
+
+		public void OnDodge()
+		{
+			OnDodgePressed?.Invoke();
 		}
 
 		public void MoveInput(Vector2 newMoveDirection)

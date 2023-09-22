@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.04361412, g: 0.06103334, b: 0.10893488, a: 1}
+  m_IndirectSpecularColor: {r: 0.043614343, g: 0.061033398, b: 0.10893524, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -388,7 +388,6 @@ GameObject:
   m_Component:
   - component: {fileID: 179908407}
   - component: {fileID: 179908406}
-  - component: {fileID: 179908408}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -428,18 +427,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &179908408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179908405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb3a0f2975da1ad41bca08b284222faa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &230767450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2323,7 +2310,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -5470,7 +5457,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -7598,7 +7585,7 @@ PrefabInstance:
     - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -8550,6 +8537,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409486671650213985, guid: 9b9c768bbc5288d429b00dba514c767a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409486671650213991, guid: 9b9c768bbc5288d429b00dba514c767a,
         type: 3}
@@ -11599,6 +11591,7 @@ GameObject:
   - component: {fileID: 6982812147058213815}
   - component: {fileID: 6982812147058213816}
   - component: {fileID: 6982812147058213817}
+  - component: {fileID: 6982812147058213819}
   - component: {fileID: 4416926082079228798}
   m_Layer: 3
   m_Name: Player
@@ -13012,6 +13005,22 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+--- !u!114 &6982812147058213819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926082079228786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa01d179fb764d949b661f1f5fd22bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dashController: {fileID: 6982812147058213816}
+  _animator: {fileID: 6982812147058213810}
+  _dodgeDistance: 6
+  _dodgeDuration: 0.6
 --- !u!4 &7078722786370105116
 Transform:
   m_ObjectHideFlags: 0
