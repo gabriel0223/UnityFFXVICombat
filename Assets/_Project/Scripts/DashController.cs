@@ -14,6 +14,7 @@ public class DashController : MonoBehaviour
     private Vector3 _dashDirection;
     private float _dashForceMultiplier;
     private bool _isInDash;
+    private Sequence _dashSequence;
 
     private void Awake()
     {
@@ -42,12 +43,14 @@ public class DashController : MonoBehaviour
             transform.DORotateQuaternion(directionRotation, 0.25f);
         }
 
-        Sequence dashSequence = DOTween.Sequence();
-        dashSequence.Append(DOVirtual.Float(0f, 1f, duration / 2, value =>
+        _dashSequence?.Kill();
+        _dashSequence = DOTween.Sequence();
+
+        _dashSequence.Append(DOVirtual.Float(0f, 1f, duration / 2, value =>
             _dashForceMultiplier = value).SetEase(Ease.Unset));
-        dashSequence.Append(DOVirtual.Float(1f, 0f, duration / 2, value =>
+        _dashSequence.Append(DOVirtual.Float(1f, 0f, duration / 2, value =>
             _dashForceMultiplier = value).SetEase(Ease.Unset));
-        dashSequence.AppendCallback(() => _isInDash = false);
+        _dashSequence.AppendCallback(() => _isInDash = false);
     }
 
     public void DashTowardsInput(float distance, float duration, Vector3 noInputDirection, bool rotatesTowardsDirection = true)

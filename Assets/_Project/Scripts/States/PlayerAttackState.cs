@@ -17,6 +17,7 @@ public class PlayerAttackState : BaseState
 
         _inputManager.OnAttackPressed += HandlePlayerAttack;
         _inputManager.OnPhoenixShiftPressed += SwitchToPhoenixShift;
+        _inputManager.OnDodgePressed += SwitchToDodge;
         _playerComboController.OnComboEnd += SwitchToIdleMove;
 
         _playerComboController.Attack();
@@ -31,6 +32,7 @@ public class PlayerAttackState : BaseState
     {
         _inputManager.OnAttackPressed -= HandlePlayerAttack;
         _inputManager.OnPhoenixShiftPressed -= SwitchToPhoenixShift;
+        _inputManager.OnDodgePressed -= SwitchToDodge;
         _playerComboController.OnComboEnd -= SwitchToIdleMove;
     }
 
@@ -47,5 +49,10 @@ public class PlayerAttackState : BaseState
     private void SwitchToPhoenixShift()
     {
         _stateManager.SwitchState(new PhoenixShiftState());
+    }
+
+    private void SwitchToDodge()
+    {
+        _stateManager.SwitchState(new PlayerDodgeState());
     }
 }

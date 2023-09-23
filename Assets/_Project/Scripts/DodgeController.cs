@@ -15,19 +15,54 @@ public class DodgeController : MonoBehaviour
     [SerializeField] private float _dodgeDistance;
     [SerializeField] private float _dodgeDuration;
 
-    public void Dodge()
+    private bool _isCheckingForDodge = true;
+    private bool _isNewDodgeBuffered;
+    private bool _isPlayingDodgeAnimation;
+
+    public void TriggerDodge()
     {
+        if (!_isCheckingForDodge)
+        {
+            return;
+        }
+
+        if (_isPlayingDodgeAnimation)
+        {
+            _isNewDodgeBuffered = true;
+            return;
+        }
+
         _animator.SetTrigger("Dodge");
 
         _animator.SetFloat("DodgeX", 0);
         _animator.SetFloat("DodgeY", _inputManager.move.magnitude == 0? 0 : 1);
 
+        _isCheckingForDodge = false;
+        _isNewDodgeBuffered = false;
+        _isPlayingDodgeAnimation = true;
+    }
+
+    public void ExecuteDodgeMovement()
+    {
         _dashController.DashTowardsInput(_dodgeDistance, _dodgeDuration, -transform.forward, 
             _inputManager.move.magnitude != 0);
     }
 
+    public void StartCheckingForDodge()
+    {
+        _isCheckingForDodge = true;
+    }
+
     public void OnDodgeAnimationEnd()
     {
+        _isPlayingDodgeAnimation = false;
+
+        if (_isNewDodgeBuffered)
+        {
+            TriggerDodge();
+            return;
+        }
+
         OnDodgeEnd?.Invoke();
     }
 }

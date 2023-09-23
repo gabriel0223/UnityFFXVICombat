@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.044179417, g: 0.06270751, b: 0.11596978, a: 1}
+  m_IndirectSpecularColor: {r: 0.04361412, g: 0.06103334, b: 0.108935, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12974,7 +12974,7 @@ MonoBehaviour:
     AnimationName: PhoenixShift
     DamageMultiplier: 1.3
     DamageType: 1
-  _dashDuration: 0.4
+  _dashDuration: 0.7
   _range: 60
   _distanceToEnemyMultiplier: 4
 --- !u!114 &6982812147058213818
@@ -13021,8 +13021,8 @@ MonoBehaviour:
   _combatController: {fileID: 6982812147058213813}
   _inputManager: {fileID: 135756642215747342}
   _animator: {fileID: 6982812147058213810}
-  _dodgeDistance: 7
-  _dodgeDuration: 0.6
+  _dodgeDistance: 10
+  _dodgeDuration: 0.5
 --- !u!4 &7078722786370105116
 Transform:
   m_ObjectHideFlags: 0
