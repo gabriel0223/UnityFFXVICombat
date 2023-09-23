@@ -50,19 +50,19 @@ public class DashController : MonoBehaviour
         dashSequence.AppendCallback(() => _isInDash = false);
     }
 
-    public void DashTowardsInput(float distance, float duration)
+    public void DashTowardsInput(float distance, float duration, Vector3 noInputDirection, bool rotatesTowardsDirection = true)
     {
         _inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
         float inputDirectionAngle = Mathf.Atan2(_inputDirection.x, _inputDirection.z) * Mathf.Rad2Deg +
                                     _mainCamera.transform.eulerAngles.y;
 
-        Vector3 targetDirection = _inputDirection.magnitude == 0? transform.forward :
+        Vector3 targetDirection = _inputDirection.magnitude == 0? noInputDirection :
             Quaternion.Euler(0.0f, inputDirectionAngle, 0.0f) * Vector3.forward;
 
-        Vector3 dashDirection = _input.move == Vector2.zero ? transform.forward * distance
+        Vector3 dashDirection = _input.move == Vector2.zero ? noInputDirection * distance
             : targetDirection * distance;
 
-        DashTowardsDirection(dashDirection, duration, true);
+        DashTowardsDirection(dashDirection, duration, rotatesTowardsDirection);
     }
 }

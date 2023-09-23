@@ -12,7 +12,7 @@ public class PlayerDodgeState : BaseState
 
         _dodgeController = ctx.gameObject.GetComponent<DodgeController>();
 
-        _dodgeController.Dodge(-ctx.transform.forward);
+        _dodgeController.Dodge();
         _dodgeController.OnDodgeEnd += SwitchToIdleMove;
     }
 

@@ -83,7 +83,7 @@ public class PlayerComboController : MonoBehaviour
 
     private void DashForward()
     {
-        _dashController.DashTowardsInput(_dashDistanceBetweenHits, 0.3f);
+        _dashController.DashTowardsInput(_dashDistanceBetweenHits, 0.3f, transform.forward);
     }
 
     private void ExecuteNextAttack()
