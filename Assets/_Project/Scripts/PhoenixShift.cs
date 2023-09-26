@@ -10,6 +10,7 @@ using UnityEngine;
 public class PhoenixShift : MonoBehaviour
 {
     public event Action OnShiftEnd;
+    public event Action OnShiftHitEnemy;
 
     private const float CameraDistortionAmount = 1.25f;
 
@@ -23,8 +24,8 @@ public class PhoenixShift : MonoBehaviour
     [SerializeField] private WeaponController _playerWeapon;
     [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
-
-    [Space] [Header("SETTINGS")] 
+    [Space] 
+    [Header("SETTINGS")] 
     [SerializeField] private AttackData _attackData;
     [SerializeField] private float _dashDuration;
     [SerializeField] private float _range;
@@ -36,6 +37,7 @@ public class PhoenixShift : MonoBehaviour
     private SkinnedMeshRenderer[] _skinnedMeshes;
     private Vector3 _shiftDirection;
     private Material _materialInstance;
+    private bool _isExecutingShift;
 
     public bool IsWaitingForAttack { get; private set; }
 
@@ -52,6 +54,16 @@ public class PhoenixShift : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        WeaponController.OnWeaponHitHealth += HandleShiftHitEnemy;
+    }
+
+    private void OnDisable()
+    {
+        WeaponController.OnWeaponHitHealth -= HandleShiftHitEnemy;
+    }
+
     public void StartPhoenixShift()
     {
         CalculateShiftDirection();
@@ -61,8 +73,19 @@ public class PhoenixShift : MonoBehaviour
         _playerVFX.SetFireVfxSlashActive(true);
         _playerVFX.SpawnBeginPhoenixShiftVfx(_shiftDirection);
         _playerWeapon.SetAttackData(_attackData);
+        _isExecutingShift = true;
 
         AnimatePhoenixGlow(0, 10 ,0.2f);
+    }
+
+    private void HandleShiftHitEnemy(HealthBase health, int damage)
+    {
+        if (health.gameObject.GetComponent<EnemyHealth>() == null || !_isExecutingShift)
+        {
+            return;
+        }
+        
+        OnShiftHitEnemy?.Invoke();
     }
 
     private void CalculateShiftDirection()
@@ -159,6 +182,7 @@ public class PhoenixShift : MonoBehaviour
         endShiftSequence.Append(_distortionSphere.AnimateDistortion(0f, CameraDistortionAmount, 0.1f));
         endShiftSequence.Append(_distortionSphere.AnimateDistortion(CameraDistortionAmount, 0, 0.1f));
         endShiftSequence.AppendCallback(() => _playerVFX.SetFireVfxSlashActive(false));
+        endShiftSequence.AppendCallback(() => _isExecutingShift = false);
     }
 
     private Tween AnimatePhoenixGlow(float startValue, float endValue, float duration)

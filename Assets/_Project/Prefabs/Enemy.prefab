@@ -214,7 +214,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0, y: 1.3700002, z: 0.069999166}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: -0.012628198, y: 0.09317011, z: 0.000038146973}
+  - {x: -0.012628198, y: 0.09317011, z: 0.00003862381}
   m_RotationOffsets:
   - {x: -25.676683, y: -11.216614, z: 5.440113}
   m_AffectTranslationX: 1
@@ -387,8 +387,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lv. 30 Vampire
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4ba99b26f7eb27c4fa1a3cfb7055ec65, type: 2}
-  m_sharedMaterial: {fileID: -926818493459523426, guid: 4ba99b26f7eb27c4fa1a3cfb7055ec65,
+  m_fontAsset: {fileID: 11400000, guid: 70b66f33688ed8949b8253239b57e9c8, type: 2}
+  m_sharedMaterial: {fileID: -8970590565925792773, guid: 70b66f33688ed8949b8253239b57e9c8,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

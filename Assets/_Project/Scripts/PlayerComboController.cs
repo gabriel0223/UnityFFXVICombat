@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerComboController : MonoBehaviour
 {
     public event Action OnComboEnd;
+    public event Action OnFullComboComplete; 
 
     [SerializeField] private PlayerCombatController _combatController;
     [SerializeField] private DashController _dashController;
@@ -24,6 +25,16 @@ public class PlayerComboController : MonoBehaviour
     private int _currentCombo;
     private Queue<AttackData> _attackQueue;
     private Vector3 _inputDirection;
+
+    private void OnEnable()
+    {
+        WeaponController.OnWeaponHitHealth += HandleWeaponHitEnemy;
+    }
+
+    private void OnDisable()
+    {
+        WeaponController.OnWeaponHitHealth -= HandleWeaponHitEnemy;
+    }
 
     public void Attack()
     {
@@ -56,9 +67,23 @@ public class PlayerComboController : MonoBehaviour
         }
     }
 
+    private void HandleWeaponHitEnemy(HealthBase health, int damage)
+    {
+        if (health.gameObject.GetComponent<EnemyHealth>() == null)
+        {
+            return;
+        }
+
+        if (_currentCombo == _attackList.Length)
+        {
+            OnFullComboComplete?.Invoke();
+        }
+    }
+
     private void StartCombo()
     {
         _attackQueue = new Queue<AttackData>(_attackList);
+        _currentCombo = 0;
 
         ExecuteNextAttack();
     }
@@ -102,6 +127,7 @@ public class PlayerComboController : MonoBehaviour
     public void OnAttackAnimationStart()
     {
         _isInAttackAnimation = true;
+        _currentCombo++;
     }
 
     public void OnAttackAnimationEnd()

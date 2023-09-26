@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class WeaponController : MonoBehaviour
 {
-    public static event Action<HealthBase, int> OnWeaponHitHealth; 
+    public static event Action<HealthBase, int> OnWeaponHitHealth;
 
     [SerializeField] private GameObject _vfxImpactPrefab;
     [SerializeField] private Transform _raycastOrigin;
