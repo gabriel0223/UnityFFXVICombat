@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
 
@@ -14,7 +16,11 @@ public class PlayerVFX : MonoBehaviour
     [SerializeField] private GameObject _endShiftVfxPrefab;
     [SerializeField] private GameObject _vfxSlash;
     [SerializeField] private GameObject _vfxFireSlash;
+    [SerializeField] private Material _phoenixProjectionMaterial;
+    [SerializeField] private Material _dodgeProjectionMaterial;
     [SerializeField] private PlayerCombatController _combatController;
+    [SerializeField] private DodgeController _dodgeController;
+    [SerializeField] private GameObject _playerMesh;
     [SerializeField] private SkinnedMeshRenderer _playerSkinnedMesh;
     [SerializeField] private Transform _playerHipsTransform;
     [SerializeField] private Transform _playerWeapon;
@@ -29,11 +35,13 @@ public class PlayerVFX : MonoBehaviour
     private void OnEnable()
     {
         _combatController.OnEnableWeaponDamage += SpawnSlash;
+        _dodgeController.OnPrecisionDodge += HandlePrecisionDodgeVFX;
     }
 
     private void OnDisable()
     {
         _combatController.OnEnableWeaponDamage -= SpawnSlash;
+        _dodgeController.OnPrecisionDodge -= HandlePrecisionDodgeVFX;
     }
 
     public void SpawnBeginPhoenixShiftVfx(Vector3 direction)
@@ -52,9 +60,49 @@ public class PlayerVFX : MonoBehaviour
         transformBinder.Target = _playerHipsTransform;
     }
 
+    public void SpawnPhoenixProjection()
+    {
+        GameObject projection = Instantiate(_playerMesh, _playerMesh.transform.position, _playerMesh.transform.rotation);
+        projection.transform.parent = null;
+
+        Renderer[] projectionMeshes = projection.GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer mesh in projectionMeshes)
+        {
+            mesh.material = _phoenixProjectionMaterial;
+        }
+
+        projection.AddComponent<ProjectionController>();
+    }
+
     public void SetFireVfxSlashActive(bool state)
     {
         _currentVfxSlash = state? _vfxFireSlash : _vfxSlash;
+    }
+
+    private void HandlePrecisionDodgeVFX()
+    {
+        SpawnDodgeProjection();
+
+        Sequence dodgeSlowMoSequence = DOTween.Sequence();
+
+        dodgeSlowMoSequence.Append(DOVirtual.Float(1f, 0.5f, 0.1f,value => Time.timeScale = value));
+        dodgeSlowMoSequence.Append(DOVirtual.Float(0.5f, 1f, 0.1f,value => Time.timeScale = value));
+    }
+
+    private void SpawnDodgeProjection()
+    {
+        GameObject projection = Instantiate(_playerMesh, _playerMesh.transform.position, _playerMesh.transform.rotation);
+        projection.transform.parent = null;
+
+        Renderer[] projectionMeshes = projection.GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer mesh in projectionMeshes)
+        {
+            mesh.material = _dodgeProjectionMaterial;
+        }
+
+        projection.AddComponent<ProjectionController>();
     }
 
     private void SpawnSlash()

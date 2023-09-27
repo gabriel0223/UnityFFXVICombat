@@ -50,7 +50,7 @@ PrefabInstance:
     - target: {fileID: 636523543773709152, guid: b22abd0f0b158b34d8ec5a67093ca621,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 636523543773709152, guid: b22abd0f0b158b34d8ec5a67093ca621,
         type: 3}
@@ -141,7 +141,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 70b66f33688ed8949b8253239b57e9c8,
+      objectReference: {fileID: 11400000, guid: da7c69c114ade7748a8f870392fcd07f,
         type: 2}
     - target: {fileID: 3013009255037028644, guid: b22abd0f0b158b34d8ec5a67093ca621,
         type: 3}
@@ -167,8 +167,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: -8970590565925792773, guid: 70b66f33688ed8949b8253239b57e9c8,
-        type: 2}
+      objectReference: {fileID: 2100000, guid: ff7119b4a3094874cb36b8eef8fe0fef, type: 2}
     - target: {fileID: 3013009255037028644, guid: b22abd0f0b158b34d8ec5a67093ca621,
         type: 3}
       propertyPath: m_fontColor32.rgba

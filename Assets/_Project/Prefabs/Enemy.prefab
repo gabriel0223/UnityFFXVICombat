@@ -387,8 +387,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lv. 30 Vampire
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 70b66f33688ed8949b8253239b57e9c8, type: 2}
-  m_sharedMaterial: {fileID: -8970590565925792773, guid: 70b66f33688ed8949b8253239b57e9c8,
+  m_fontAsset: {fileID: 11400000, guid: da7c69c114ade7748a8f870392fcd07f, type: 2}
+  m_sharedMaterial: {fileID: -5054695618220572745, guid: da7c69c114ade7748a8f870392fcd07f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

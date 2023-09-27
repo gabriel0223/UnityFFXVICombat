@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 6434246190259164558, guid: 8c0f094da00132043b8323282ebc220b,
         type: 3}
       propertyPath: m_Name
-      value: ActionIndicator
+      value: ShiftStrikeIndicator
       objectReference: {fileID: 0}
     - target: {fileID: 6434246190259164559, guid: 8c0f094da00132043b8323282ebc220b,
         type: 3}
@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 6434246190259164559, guid: 8c0f094da00132043b8323282ebc220b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6434246190259164559, guid: 8c0f094da00132043b8323282ebc220b,
         type: 3}

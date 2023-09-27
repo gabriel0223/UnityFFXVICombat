@@ -14,12 +14,10 @@ public class PhoenixShift : MonoBehaviour
 
     private const float CameraDistortionAmount = 1.25f;
 
-    [SerializeField] private Material _projectionMaterial;
     [SerializeField] private DistortionSphere _distortionSphere;
     [SerializeField] private InputManager _input;
     [SerializeField] private PlayerVFX _playerVFX;
     [SerializeField] private CinemachineImpulseSource _cameraImpulseSource;
-    [SerializeField] private GameObject _playerMesh;
     [SerializeField] private PlayerCombatController _combatController;
     [SerializeField] private WeaponController _playerWeapon;
     [SerializeField] private DashController _dashController;
@@ -150,7 +148,7 @@ public class PhoenixShift : MonoBehaviour
 
     private void DisableMeshes()
     {
-        SpawnProjection();
+        _playerVFX.SpawnPhoenixProjection();
 
         foreach (Renderer mesh in _meshes)
         {
@@ -192,20 +190,5 @@ public class PhoenixShift : MonoBehaviour
         return DOVirtual.Float(startValue, endValue, duration,
             value => _materialInstance.SetColor(
                 "_OutlineColor", currentColor * Mathf.Pow(2, value)));
-    }
-
-    private void SpawnProjection()
-    {
-        GameObject projection = Instantiate(_playerMesh, _playerMesh.transform.position, _playerMesh.transform.rotation);
-        projection.transform.parent = null;
-
-        Renderer[] projectionMeshes = projection.GetComponentsInChildren<Renderer>();
-
-        foreach (Renderer mesh in projectionMeshes)
-        {
-            mesh.material = _projectionMaterial;
-        }
-
-        projection.AddComponent<ProjectionController>();
     }
 }
