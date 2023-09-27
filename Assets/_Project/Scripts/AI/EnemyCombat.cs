@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyCombat : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    [SerializeField] private WeaponController _weapon;
+    [SerializeField] private EnemyWeapon _weapon;
     [SerializeField] private DashController _dashController;
     [SerializeField] private AttackData _attackData;
     [SerializeField] private float _attackDashSpeed;
@@ -17,14 +17,20 @@ public class EnemyCombat : MonoBehaviour
         _animator.SetTrigger(_attackData.AnimationName);
     }
 
-    public void EnableWeaponCollider()
+    public void EnableWeaponDamage()
     {
-        _weapon.SetColliderActive(true);
+        _weapon.EndDodgeWindow();
+        _weapon.SetCanDoDamage(true);
     }
 
-    public void DisableWeaponCollider()
+    public void DisableWeaponDamage()
     {
-        _weapon.SetColliderActive(false);
+        _weapon.SetCanDoDamage(false);
+    }
+
+    public void StartDodgeWindow()
+    {
+        _weapon.StartDodgeWindow();
     }
 
     public void DashForward()

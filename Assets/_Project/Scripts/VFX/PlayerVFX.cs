@@ -28,12 +28,12 @@ public class PlayerVFX : MonoBehaviour
 
     private void OnEnable()
     {
-        _combatController.OnEnableWeaponCollider += SpawnSlash;
+        _combatController.OnEnableWeaponDamage += SpawnSlash;
     }
 
     private void OnDisable()
     {
-        _combatController.OnEnableWeaponCollider -= SpawnSlash;
+        _combatController.OnEnableWeaponDamage -= SpawnSlash;
     }
 
     public void SpawnBeginPhoenixShiftVfx(Vector3 direction)

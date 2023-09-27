@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
 {
-    public event Action OnEnableWeaponCollider;
+    public event Action OnEnableWeaponDamage;
 
     [SerializeField] private InputManager _input;
     [SerializeField] private EnemyDetector _enemyDetector;
@@ -155,16 +155,16 @@ public class PlayerCombatController : MonoBehaviour
         SetTarget(closestEnemy);
     }
 
-    public void EnableWeaponCollider()
+    public void EnableWeaponDamage()
     {
-        _playerWeapon.SetColliderActive(true);
+        _playerWeapon.SetCanDoDamage(true);
 
-        OnEnableWeaponCollider?.Invoke();
+        OnEnableWeaponDamage?.Invoke();
     }
 
-    public void DisableWeaponCollider()
+    public void DisableWeaponDamage()
     {
-        _playerWeapon.SetColliderActive(false);
+        _playerWeapon.SetCanDoDamage(false);
     }
 
     private void OnDrawGizmos()

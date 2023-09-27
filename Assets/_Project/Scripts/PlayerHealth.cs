@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerHealth : HealthBase
@@ -30,6 +31,12 @@ public class PlayerHealth : HealthBase
             OnTakeDamage?.Invoke(this);
             StartCoroutine(TakeDamageCoroutine());
         }
+    }
+
+    public void EnableInvulnerability(float timer)
+    {
+        IsInvulnerable = true;
+        DOVirtual.DelayedCall(timer, () => IsInvulnerable = false);
     }
 
     private IEnumerator TakeDamageCoroutine()

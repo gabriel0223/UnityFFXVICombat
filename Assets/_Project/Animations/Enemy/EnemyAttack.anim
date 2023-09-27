@@ -49353,6 +49353,13 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0.41666666
+    functionName: StartDodgeWindow
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.5833333
     functionName: DashForward
     data: 
@@ -49360,15 +49367,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.6166667
-    functionName: EnableWeaponCollider
+  - time: 0.65
+    functionName: EnableWeaponDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.6666667
-    functionName: DisableWeaponCollider
+  - time: 0.68333334
+    functionName: DisableWeaponDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

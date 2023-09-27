@@ -15,14 +15,45 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private int _initialDamage;
     [SerializeField] private int _damageVariation;
 
+    private bool _canDoDamage;
     private AttackData _currentAttackDataData;
+    private List<Collider> _enemiesHitInThisAttack;
 
-    private void Awake()
+    private void Update()
     {
-        _collider.enabled = false;
+        if (!_canDoDamage)
+        {
+            return;
+        }
+
+        CheckForOverlaps();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void CheckForOverlaps()
+    {
+        Vector3 boxCenter = _collider.bounds.center;
+        Vector3 halfExtents = _collider.bounds.extents;
+        Quaternion boxOrientation = transform.rotation;
+        
+        Collider[] overlappingColliders = Physics.OverlapBox(boxCenter, halfExtents, boxOrientation, _targetLayer);
+
+        if (overlappingColliders.Length == 0)
+        {
+            return;
+        }
+
+        foreach (Collider collider in overlappingColliders)
+        {
+            if (_enemiesHitInThisAttack.Contains(collider))
+            {
+                return;
+            }
+
+            HandleOverlap(collider);
+        }
+    }
+
+    private void HandleOverlap(Collider other)
     {
         if (!other.gameObject.TryGetComponent(out IDamageable damageable) || 
             ((1 << other.gameObject.layer) & _targetLayer) == 0)
@@ -35,16 +66,22 @@ public class WeaponController : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out HealthBase health))
         {
+            if (health.IsInvulnerable)
+            {
+                return;
+            }
+
             OnWeaponHitHealth?.Invoke(health, hitDamage);
         }
 
         damageable.TakeDamage(hitDamage, _currentAttackDataData.DamageType);
+        _enemiesHitInThisAttack.Add(other);
 
-        CharacterController targetCC = other.gameObject.GetComponent<CharacterController>();
+        CharacterController targetCc = other.gameObject.GetComponent<CharacterController>();
         Vector3 targetCenterPosition = other.bounds.center;
         Vector3 targetDirection = (targetCenterPosition - _raycastOrigin.position).normalized;
         float targetDistance = Vector3.Distance(_raycastOrigin.position, targetCenterPosition);
-        Vector3 impactOffset = targetDirection + (transform.root.position - targetCenterPosition) * targetCC.radius / 2;
+        Vector3 impactOffset = targetDirection + (transform.root.position - targetCenterPosition) * targetCc.radius / 2;
         Vector3 impactPoint = _raycastOrigin.position + (targetDirection * targetDistance) - impactOffset;
 
         SpawnHitVFX(impactPoint);
@@ -55,9 +92,10 @@ public class WeaponController : MonoBehaviour
         _currentAttackDataData = newAttackData;
     }
 
-    public void SetColliderActive(bool active)
+    public void SetCanDoDamage(bool state)
     {
-        _collider.enabled = active;
+        _canDoDamage = state;
+        _enemiesHitInThisAttack = new List<Collider>();
     }
 
     private void SpawnHitVFX(Vector3 position)

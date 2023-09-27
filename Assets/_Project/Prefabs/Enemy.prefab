@@ -214,7 +214,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0, y: 1.3700002, z: 0.069999166}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: -0.012628198, y: 0.09317011, z: 0.00003862381}
+  - {x: -0.012628198, y: 0.09317011, z: 0.000038146973}
   m_RotationOffsets:
   - {x: -25.676683, y: -11.216614, z: 5.440113}
   m_AffectTranslationX: 1
@@ -11002,9 +11002,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7409486671616409551}
-  - component: {fileID: 799744033}
+  - component: {fileID: 5441591757122183792}
   - component: {fileID: 2288977933756408141}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CurvedBlade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11027,7 +11027,7 @@ Transform:
   m_Father: {fileID: 9180134930209735209}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -13.869, y: 279.69598, z: -218.35}
---- !u!114 &799744033
+--- !u!114 &5441591757122183792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11036,7 +11036,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7409486671616409550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c09e5ce3a5cea2e4fa63e18bcd71690c, type: 3}
+  m_Script: {fileID: 11500000, guid: d4b87c9fb456df446b47cb497fa66a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _vfxImpactPrefab: {fileID: 3039276805359735027, guid: 471c1eeda3365744fb4837d76a160b2a,
@@ -11236,7 +11236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7409486671650213988}
-  _weapon: {fileID: 799744033}
+  _weapon: {fileID: 5441591757122183792}
   _dashController: {fileID: 1658449514}
   _attackData:
     AnimationName: Attack

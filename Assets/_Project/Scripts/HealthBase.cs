@@ -11,6 +11,7 @@ public abstract class HealthBase : MonoBehaviour, IDamageable
     [SerializeField] protected int _maxHealth;
     [SerializeField] protected int _initialHealth;
     public int CurrentHealth { get; protected set; }
+    public bool IsInvulnerable { get; protected set; }
     public int MaxHealth => _maxHealth;
 
     public abstract void TakeDamage(int damage, DamageType damageType);
