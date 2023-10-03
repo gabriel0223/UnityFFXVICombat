@@ -77,12 +77,7 @@ public class WeaponController : MonoBehaviour
         damageable.TakeDamage(hitDamage, _currentAttackDataData.DamageType);
         _enemiesHitInThisAttack.Add(other);
 
-        CharacterController targetCc = other.gameObject.GetComponent<CharacterController>();
-        Vector3 targetCenterPosition = other.bounds.center;
-        Vector3 targetDirection = (targetCenterPosition - _raycastOrigin.position).normalized;
-        float targetDistance = Vector3.Distance(_raycastOrigin.position, targetCenterPosition);
-        Vector3 impactOffset = targetDirection + (transform.root.position - targetCenterPosition) * targetCc.radius / 2;
-        Vector3 impactPoint = _raycastOrigin.position + (targetDirection * targetDistance) - impactOffset;
+        Vector3 impactPoint = GetImpactPoint(other);
 
         SpawnHitVFX(impactPoint);
     }
@@ -96,6 +91,18 @@ public class WeaponController : MonoBehaviour
     {
         _canDoDamage = state;
         _enemiesHitInThisAttack = new List<Collider>();
+    }
+
+    public Vector3 GetImpactPoint(Collider collider)
+    {
+        CharacterController targetCc = collider.gameObject.GetComponent<CharacterController>();
+        Vector3 targetCenterPosition = collider.bounds.center;
+        Vector3 targetDirection = (targetCenterPosition - _raycastOrigin.position).normalized;
+        float targetDistance = Vector3.Distance(_raycastOrigin.position, targetCenterPosition);
+        Vector3 impactOffset = targetDirection + (transform.root.position - targetCenterPosition) * targetCc.radius / 2;
+        Vector3 impactPoint = _raycastOrigin.position + (targetDirection * targetDistance) - impactOffset;
+
+        return impactPoint;
     }
 
     private void SpawnHitVFX(Vector3 position)

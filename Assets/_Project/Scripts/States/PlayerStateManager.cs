@@ -23,6 +23,8 @@ public class PlayerStateManager : BaseStateManager
     private void Update()
     {
         CurrentState?.UpdateState(this);
+
+        Debug.Log(CurrentState);
     }
 
     public override void SwitchState(BaseState newState)

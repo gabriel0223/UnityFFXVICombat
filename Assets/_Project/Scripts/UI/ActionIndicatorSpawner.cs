@@ -13,12 +13,14 @@ public class ActionIndicatorSpawner : MonoBehaviour
     [SerializeField] private ActionIndicatorView _comboIndicatorPrefab;
     [SerializeField] private ActionIndicatorView _shiftStrikeIndicatorPrefab;
     [SerializeField] private ActionIndicatorView _precisionDodgeIndicatorPrefab;
+    [SerializeField] private ActionIndicatorView _precisionCounterIndicatorPrefab;
 
     private void OnEnable()
     {
         _comboController.OnFullComboComplete += HandleFullComboComplete;
         _phoenixShift.OnShiftHitEnemy += HandleShiftHitEnemy;
         _dodgeController.OnPrecisionDodge += HandlePrecisionDodge;
+        _dodgeController.OnPrecisionCounter += HandlePrecisionCounter;
     }
 
     private void OnDisable()
@@ -26,6 +28,7 @@ public class ActionIndicatorSpawner : MonoBehaviour
         _comboController.OnFullComboComplete -= HandleFullComboComplete;
         _phoenixShift.OnShiftHitEnemy -= HandleShiftHitEnemy;
         _dodgeController.OnPrecisionDodge -= HandlePrecisionDodge;
+        _dodgeController.OnPrecisionCounter -= HandlePrecisionCounter;
     }
 
     private void HandleFullComboComplete()
@@ -43,6 +46,11 @@ public class ActionIndicatorSpawner : MonoBehaviour
         SpawnActionIndicator(ActionType.PrecisionDodge);
     }
 
+    private void HandlePrecisionCounter()
+    {
+        SpawnActionIndicator(ActionType.PrecisionCounter);
+    }
+
     private void SpawnActionIndicator(ActionType actionType)
     {
         switch (actionType)
@@ -57,6 +65,7 @@ public class ActionIndicatorSpawner : MonoBehaviour
                 Instantiate(_precisionDodgeIndicatorPrefab, _actionIndicatorsContainer);
                 break;
             case ActionType.PrecisionCounter:
+                Instantiate(_precisionCounterIndicatorPrefab, _actionIndicatorsContainer);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null);

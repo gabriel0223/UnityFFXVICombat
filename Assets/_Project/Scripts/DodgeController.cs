@@ -10,12 +10,14 @@ public class DodgeController : MonoBehaviour
 {
     public event Action OnDodgeEnd;
     public event Action OnPrecisionDodge;
+    public event Action OnPrecisionCounter;
 
     [SerializeField] private DashController _dashController;
     [SerializeField] private PlayerCombatController _combatController;
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private InputManager _inputManager;
     [SerializeField] private PlayerVFX _playerVfx;
+    [SerializeField] private WeaponController _weaponController;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _dodgeDistance;
     [SerializeField] private float _dodgeDuration;
@@ -28,6 +30,8 @@ public class DodgeController : MonoBehaviour
     [SerializeField] private float _counterDashRange;
     [SerializeField] private float _counterDashDuration;
     [SerializeField] private Color _counterOutlineColor;
+    [SerializeField] private GameObject _counterImpactVfx;
+    [SerializeField] private AttackData _counterAttackData;
 
     private EnemyHealth _dodgedAttacker;
     private bool _isCheckingForDodge = true;
@@ -40,11 +44,15 @@ public class DodgeController : MonoBehaviour
     private void OnEnable()
     {
         _inputManager.OnAttackPressed += HandleAttackPressed;
+        _playerHealth.OnTakeDamage += HandleTakeDamage;
+        WeaponController.OnWeaponHitHealth += HandleWeaponHitHealth;
     }
 
     private void OnDisable()
     {
         _inputManager.OnAttackPressed -= HandleAttackPressed;
+        _playerHealth.OnTakeDamage -= HandleTakeDamage;
+        WeaponController.OnWeaponHitHealth -= HandleWeaponHitHealth;
     }
 
     private void Update()
@@ -80,6 +88,7 @@ public class DodgeController : MonoBehaviour
 
         _isCheckingForDodge = false;
         _isNewDodgeBuffered = false;
+        _isCheckingForCounter = false;
         _isPlayingDodgeAnimation = true;
         _isPrecisionCounterBuffered = false;
         _isPrecisionDodge = CanPrecisionDodge();
@@ -146,6 +155,19 @@ public class DodgeController : MonoBehaviour
         OnDodgeEnd?.Invoke();
     }
 
+    public void StartCheckingForCounter()
+    {
+        _isCheckingForCounter = true;
+    }
+
+    public void ExecutePrecisionCounter()
+    {
+        Vector3 attackerDirection = (_dodgedAttacker.gameObject.transform.position - transform.position).normalized;
+
+        _dashController.DashTowardsDirection(attackerDirection * _counterDashRange, _counterDashDuration, true);
+        _playerVfx.AnimateCharacterOutlineIntensity(_counterOutlineColor, 0, 10, 0.1f);
+    } 
+
     private bool CanPrecisionDodge()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position + new Vector3(0f, 1f, 0f), 
@@ -179,21 +201,42 @@ public class DodgeController : MonoBehaviour
             return;
         }
 
+        TriggerPrecisionCounter();
+    }
+
+    private void TriggerPrecisionCounter()
+    {
         _animator.SetTrigger("PrecisionCounter");
+        _weaponController.SetAttackData(_counterAttackData);
+        _playerHealth.EnableInvulnerability(_invulnerabilityTimer);
+
         _isPrecisionCounterBuffered = true;
         _isCheckingForCounter = false;
     }
 
-    public void StartCheckingForCounter()
+    private void HandleWeaponHitHealth(HealthBase health, int damage)
     {
-        _isCheckingForCounter = true;
+        if (!_isPlayingDodgeAnimation || !_isPrecisionCounterBuffered)
+        {
+            return;
+        }
+
+        Collider enemyHitCollider = health.gameObject.GetComponent<Collider>();
+        Vector3 impactPoint = _weaponController.GetImpactPoint(enemyHitCollider);
+
+        Instantiate(_counterImpactVfx, impactPoint, Quaternion.identity);
+
+        _isPrecisionCounterBuffered = false;
+
+        OnPrecisionCounter?.Invoke();
     }
 
-    public void ExecutePrecisionCounter()
+    private void HandleTakeDamage(HealthBase health)
     {
-        Vector3 attackerDirection = (_dodgedAttacker.gameObject.transform.position - transform.position).normalized;
-
-        _dashController.DashTowardsDirection(attackerDirection * _counterDashRange, _counterDashDuration, true);
-        _playerVfx.AnimateCharacterOutlineIntensity(_counterOutlineColor, 0, 10, 0.25f);
-    }                                                                                                      
+        _isCheckingForDodge = true;
+        _isNewDodgeBuffered = false;
+        _isCheckingForCounter = false;
+        _isPlayingDodgeAnimation = false;
+        _isPrecisionCounterBuffered = false;
+    }
 }
