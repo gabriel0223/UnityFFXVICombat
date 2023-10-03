@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.04361327, g: 0.06102565, b: 0.10892308, a: 1}
+  m_IndirectSpecularColor: {r: 0.043613933, g: 0.06103328, b: 0.10893607, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13124,6 +13124,7 @@ MonoBehaviour:
   _dashDuration: 0.5
   _range: 50
   _distanceToEnemyMultiplier: 4
+  _outlineColor: {r: 0.8509804, g: 0.19607843, b: 0.11764706, a: 0}
 --- !u!114 &6982812147058213818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13168,6 +13169,7 @@ MonoBehaviour:
   _combatController: {fileID: 6982812147058213813}
   _playerHealth: {fileID: 6982812147058213815}
   _inputManager: {fileID: 135756642215747342}
+  _playerVfx: {fileID: 6982812147058213814}
   _animator: {fileID: 6982812147058213810}
   _dodgeDistance: 10
   _dodgeDuration: 0.5
@@ -13177,6 +13179,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   _invulnerabilityTimer: 0.4
+  _counterDashRange: 10
+  _counterDashDuration: 0.4
+  _counterOutlineColor: {r: 0.17254901, g: 0.27009994, b: 0.94509804, a: 0}
 --- !u!4 &7078722786370105116
 Transform:
   m_ObjectHideFlags: 0

@@ -23,18 +23,16 @@ public class PhoenixShift : MonoBehaviour
     [SerializeField] private DashController _dashController;
     [SerializeField] private Animator _animator;
     [Space] 
-    [Header("SETTINGS")] 
+    [Header("SETTINGS")]
     [SerializeField] private AttackData _attackData;
     [SerializeField] private float _dashDuration;
     [SerializeField] private float _range;
     [SerializeField] private float _distanceToEnemyMultiplier;
+    [SerializeField] private Color _outlineColor;
 
     private Camera _mainCamera;
     private Vector3 _inputDirection;
-    private Renderer[] _meshes;
-    private SkinnedMeshRenderer[] _skinnedMeshes;
     private Vector3 _shiftDirection;
-    private Material _materialInstance;
     private bool _isExecutingShift;
 
     public bool IsWaitingForAttack { get; private set; }
@@ -42,14 +40,6 @@ public class PhoenixShift : MonoBehaviour
     private void Awake()
     {
         _mainCamera = Camera.main;
-        _meshes = GetComponentsInChildren<Renderer>();
-        _skinnedMeshes = GetComponentsInChildren<SkinnedMeshRenderer>();
-        _materialInstance = new Material(_skinnedMeshes[0].material);
-
-        foreach (SkinnedMeshRenderer skinnedMesh in _skinnedMeshes)
-        {
-            skinnedMesh.material = _materialInstance;
-        }
     }
 
     private void OnEnable()
@@ -73,7 +63,7 @@ public class PhoenixShift : MonoBehaviour
         _playerWeapon.SetAttackData(_attackData);
         _isExecutingShift = true;
 
-        AnimatePhoenixGlow(0, 10 ,0.2f);
+        _playerVFX.AnimateCharacterOutlineIntensity(_outlineColor, 0, 10, 0.2f);
     }
 
     private void HandleShiftHitEnemy(HealthBase health, int damage)
@@ -149,11 +139,7 @@ public class PhoenixShift : MonoBehaviour
     private void DisableMeshes()
     {
         _playerVFX.SpawnPhoenixProjection();
-
-        foreach (Renderer mesh in _meshes)
-        {
-            mesh.enabled = false;
-        }
+        _playerVFX.SetCharacterMeshesEnabled(false);
 
         _animator.speed = 0;
         DOVirtual.DelayedCall(_dashDuration, EnableMeshes);
@@ -163,10 +149,7 @@ public class PhoenixShift : MonoBehaviour
     {
         _animator.speed = 1;
 
-        foreach (Renderer mesh in _meshes)
-        {
-            mesh.enabled = true;
-        }
+        _playerVFX.SetCharacterMeshesEnabled(true);
     }
 
     private void EndShift()
@@ -174,21 +157,13 @@ public class PhoenixShift : MonoBehaviour
         _cameraImpulseSource.GenerateImpulse();
         _playerVFX.SpawnEndPhoenixShiftVfx();
 
-        AnimatePhoenixGlow(10, -10, 0.6f).OnComplete(() => OnShiftEnd?.Invoke());
+        _playerVFX.AnimateCharacterOutlineIntensity(_outlineColor, 10, -10, 0.6f).
+            OnComplete(() => OnShiftEnd?.Invoke());
 
         Sequence endShiftSequence = DOTween.Sequence();
         endShiftSequence.Append(_distortionSphere.AnimateDistortion(0f, CameraDistortionAmount, 0.1f));
         endShiftSequence.Append(_distortionSphere.AnimateDistortion(CameraDistortionAmount, 0, 0.1f));
         endShiftSequence.AppendCallback(() => _playerVFX.SetFireVfxSlashActive(false));
         endShiftSequence.AppendCallback(() => _isExecutingShift = false);
-    }
-
-    private Tween AnimatePhoenixGlow(float startValue, float endValue, float duration)
-    {
-        Color currentColor = _materialInstance.GetColor("_OutlineColor");
-
-        return DOVirtual.Float(startValue, endValue, duration,
-            value => _materialInstance.SetColor(
-                "_OutlineColor", currentColor * Mathf.Pow(2, value)));
     }
 }

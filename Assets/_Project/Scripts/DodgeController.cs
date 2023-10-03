@@ -15,6 +15,7 @@ public class DodgeController : MonoBehaviour
     [SerializeField] private PlayerCombatController _combatController;
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private InputManager _inputManager;
+    [SerializeField] private PlayerVFX _playerVfx;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _dodgeDistance;
     [SerializeField] private float _dodgeDuration;
@@ -24,11 +25,41 @@ public class DodgeController : MonoBehaviour
     [SerializeField] private LayerMask _dodgeableLayer;
     [Tooltip("How long will the player be invulnerable after pressing the dodge button")]
     [SerializeField] private float _invulnerabilityTimer;
+    [SerializeField] private float _counterDashRange;
+    [SerializeField] private float _counterDashDuration;
+    [SerializeField] private Color _counterOutlineColor;
 
+    private EnemyHealth _dodgedAttacker;
     private bool _isCheckingForDodge = true;
     private bool _isNewDodgeBuffered;
     private bool _isPlayingDodgeAnimation;
     private bool _isPrecisionDodge;
+    private bool _isPrecisionCounterBuffered;
+    private bool _isCheckingForCounter;
+
+    private void OnEnable()
+    {
+        _inputManager.OnAttackPressed += HandleAttackPressed;
+    }
+
+    private void OnDisable()
+    {
+        _inputManager.OnAttackPressed -= HandleAttackPressed;
+    }
+
+    private void Update()
+    {
+        if (!_isPlayingDodgeAnimation || _combatController.CurrentTarget == null)
+        {
+            return;
+        }
+
+        EnemyHealth currentTarget = _combatController.CurrentTarget;
+        Vector3 targetDirection = (currentTarget.transform.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+    }
 
     public void TriggerDodge()
     {
@@ -50,23 +81,10 @@ public class DodgeController : MonoBehaviour
         _isCheckingForDodge = false;
         _isNewDodgeBuffered = false;
         _isPlayingDodgeAnimation = true;
+        _isPrecisionCounterBuffered = false;
         _isPrecisionDodge = CanPrecisionDodge();
 
         _playerHealth.EnableInvulnerability(_invulnerabilityTimer);
-    }
-
-    private void Update()
-    {
-        if (!_isPlayingDodgeAnimation || _combatController.CurrentTarget == null)
-        {
-            return;
-        }
-
-        EnemyHealth currentTarget = _combatController.CurrentTarget;
-        Vector3 targetDirection = (currentTarget.transform.position - transform.position).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
     }
 
     public void ExecuteDodgeMovement()
@@ -104,6 +122,11 @@ public class DodgeController : MonoBehaviour
 
     public void OnDodgeAnimationEnd()
     {
+        if (_isPrecisionCounterBuffered)
+        {
+            return;
+        }
+
         _isPlayingDodgeAnimation = false;
 
         if (_isNewDodgeBuffered)
@@ -111,6 +134,14 @@ public class DodgeController : MonoBehaviour
             TriggerDodge();
             return;
         }
+
+        OnDodgeEnd?.Invoke();
+    }
+
+    public void OnCounterAnimationEnd()
+    {
+        _isPlayingDodgeAnimation = false;
+        _playerVfx.AnimateCharacterOutlineIntensity(_counterOutlineColor, 10, -10, 0.5f);
 
         OnDodgeEnd?.Invoke();
     }
@@ -126,7 +157,43 @@ public class DodgeController : MonoBehaviour
         }
 
         IDodgeable[] dodgeables = colliders.Select(c => c.gameObject.GetComponent<IDodgeable>()).ToArray();
+        IDodgeable dodgeable = dodgeables.FirstOrDefault(d => d.IsInDodgeWindow);
 
-        return dodgeables.Any(dodgeable => dodgeable.IsInDodgeWindow);
+        if (dodgeable == null)
+        {
+            return false;
+        }
+
+        if (dodgeable.gameObject.transform.root.TryGetComponent(out EnemyHealth enemyHealth))
+        {
+            _dodgedAttacker = enemyHealth;
+        }
+
+        return true;
     }
+
+    private void HandleAttackPressed()
+    {
+        if (!_isPrecisionDodge || _dodgedAttacker == null || !_isCheckingForCounter)
+        {
+            return;
+        }
+
+        _animator.SetTrigger("PrecisionCounter");
+        _isPrecisionCounterBuffered = true;
+        _isCheckingForCounter = false;
+    }
+
+    public void StartCheckingForCounter()
+    {
+        _isCheckingForCounter = true;
+    }
+
+    public void ExecutePrecisionCounter()
+    {
+        Vector3 attackerDirection = (_dodgedAttacker.gameObject.transform.position - transform.position).normalized;
+
+        _dashController.DashTowardsDirection(attackerDirection * _counterDashRange, _counterDashDuration, true);
+        _playerVfx.AnimateCharacterOutlineIntensity(_counterOutlineColor, 0, 10, 0.25f);
+    }                                                                                                      
 }

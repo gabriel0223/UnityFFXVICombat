@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IDodgeable
 {   
+    GameObject gameObject { get ; } 
     public bool IsInDodgeWindow { get; set; }
     public void StartDodgeWindow();
     public void EndDodgeWindow();

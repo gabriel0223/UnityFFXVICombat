@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateManager : BaseStateManager
-{
+{ 
     public BaseState CurrentState { get; private set; }
     public BaseState PreviousState { get; private set; }
     public PlayerIdleMovementState IdleMovementState { get; private set; }
@@ -23,11 +23,6 @@ public class PlayerStateManager : BaseStateManager
     private void Update()
     {
         CurrentState?.UpdateState(this);
-    }
-
-    public void SetPlayerState(PlayerState newPlayerState)
-    {
-        //PlayerState = newPlayerState;
     }
 
     public override void SwitchState(BaseState newState)

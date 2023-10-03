@@ -230,7 +230,7 @@ Material:
     - _EnableGeometricSpecularAA: 1
     - _EnergyConservingSpecularColor: 1
     - _EnvironmentReflections: 1
-    - _FresnelPower: 5
+    - _FresnelPower: 3.5
     - _GlossMapScale: 1
     - _Glossiness: 0.4472136
     - _GlossyReflections: 1

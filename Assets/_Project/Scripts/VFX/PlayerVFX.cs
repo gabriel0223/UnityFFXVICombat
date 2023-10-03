@@ -26,6 +26,21 @@ public class PlayerVFX : MonoBehaviour
     [SerializeField] private Transform _playerWeapon;
 
     private GameObject _currentVfxSlash;
+    private Renderer[] _meshes;
+    private SkinnedMeshRenderer[] _skinnedMeshes;
+    private Material _materialInstance;
+
+    private void Awake()
+    {
+        _meshes = GetComponentsInChildren<Renderer>();
+        _skinnedMeshes = GetComponentsInChildren<SkinnedMeshRenderer>();
+        _materialInstance = new Material(_skinnedMeshes[0].material);
+
+        foreach (SkinnedMeshRenderer skinnedMesh in _skinnedMeshes)
+        {
+            skinnedMesh.material = _materialInstance;
+        }
+    }
 
     private void Start()
     {
@@ -80,14 +95,31 @@ public class PlayerVFX : MonoBehaviour
         _currentVfxSlash = state? _vfxFireSlash : _vfxSlash;
     }
 
+    public void SetCharacterMeshesEnabled(bool state)
+    {
+        foreach (Renderer mesh in _meshes)
+        {
+            mesh.enabled = state;
+        }
+    }
+
+    public Tween AnimateCharacterOutlineIntensity(Color initialColor, float startValue, float endValue, float duration)
+    {
+        _materialInstance.SetColor("_OutlineColor", initialColor);
+
+        return DOVirtual.Float(startValue, endValue, duration,
+            value => _materialInstance.SetColor(
+                "_OutlineColor", initialColor * Mathf.Pow(2, value)));
+    }
+
     private void HandlePrecisionDodgeVFX()
     {
         SpawnDodgeProjection();
 
         Sequence dodgeSlowMoSequence = DOTween.Sequence();
 
-        dodgeSlowMoSequence.Append(DOVirtual.Float(1f, 0.5f, 0.1f,value => Time.timeScale = value));
-        dodgeSlowMoSequence.Append(DOVirtual.Float(0.5f, 1f, 0.1f,value => Time.timeScale = value));
+        dodgeSlowMoSequence.Append(DOVirtual.Float(1f, 0.5f, 0.2f,value => Time.timeScale = value));
+        dodgeSlowMoSequence.Append(DOVirtual.Float(0.5f, 1f, 0.2f,value => Time.timeScale = value));
     }
 
     private void SpawnDodgeProjection()
