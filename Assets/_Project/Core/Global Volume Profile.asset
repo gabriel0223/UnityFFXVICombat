@@ -24,7 +24,7 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 11.5
   compensation:
     m_OverrideState: 1
     m_Value: 0
@@ -378,7 +378,7 @@ MonoBehaviour:
     m_Value: 1
   albedo:
     m_OverrideState: 1
-    m_Value: {r: 0.9559245, g: 1, b: 0.86226416, a: 1}
+    m_Value: {r: 0.968, g: 1, b: 0.9, a: 1}
   globalLightProbeDimmer:
     m_OverrideState: 1
     m_Value: 1
@@ -389,7 +389,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 2
   anisotropy:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   sliceDistributionUniformity:
     m_OverrideState: 1
@@ -561,10 +561,10 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.8512078, y: 0.9362427, z: 1, w: 0.09367682}
+    m_Value: {x: 0.9669, y: 1, z: 0.97794807, w: 0.09367682}
   midtones:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_OverrideState: 1
+    m_Value: {x: 0.9311118, y: 0.9521995, z: 1, w: 0.13736264}
   highlights:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: 0}
@@ -863,7 +863,7 @@ MonoBehaviour:
     m_Value: 0.3
   contrast:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 10
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -935,7 +935,7 @@ MonoBehaviour:
     m_Value: 0
   cloudPreset:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 1
   cumulusMap:
     m_OverrideState: 1
     m_Value: {fileID: 0}
@@ -1128,7 +1128,7 @@ MonoBehaviour:
     m_Value: 1
   ambientLightProbeDimmer:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.412
   sunLightDimmer:
     m_OverrideState: 1
     m_Value: 1

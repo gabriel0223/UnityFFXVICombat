@@ -25,6 +25,7 @@ public class PlayerVFX : MonoBehaviour
     [SerializeField] private Transform _playerHipsTransform;
     [SerializeField] private Transform _playerWeapon;
     [SerializeField] private Light _outlineLight;
+    [SerializeField] private float _outlineLightIntensity;
 
     private GameObject _currentVfxSlash;
     private Renderer[] _meshes;
@@ -113,7 +114,7 @@ public class PlayerVFX : MonoBehaviour
             value =>
             {
                 _materialInstance.SetColor("_OutlineColor", initialColor * Mathf.Pow(2, value));
-                _outlineLight.intensity = value;
+                _outlineLight.intensity = value * _outlineLightIntensity;
 
             });
     }
