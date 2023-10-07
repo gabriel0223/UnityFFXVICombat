@@ -24,6 +24,7 @@ public class PlayerVFX : MonoBehaviour
     [SerializeField] private SkinnedMeshRenderer _playerSkinnedMesh;
     [SerializeField] private Transform _playerHipsTransform;
     [SerializeField] private Transform _playerWeapon;
+    [SerializeField] private Light _outlineLight;
 
     private GameObject _currentVfxSlash;
     private Renderer[] _meshes;
@@ -106,10 +107,15 @@ public class PlayerVFX : MonoBehaviour
     public Tween AnimateCharacterOutlineIntensity(Color initialColor, float startValue, float endValue, float duration)
     {
         _materialInstance.SetColor("_OutlineColor", initialColor);
+        _outlineLight.color = initialColor;
 
         return DOVirtual.Float(startValue, endValue, duration,
-            value => _materialInstance.SetColor(
-                "_OutlineColor", initialColor * Mathf.Pow(2, value)));
+            value =>
+            {
+                _materialInstance.SetColor("_OutlineColor", initialColor * Mathf.Pow(2, value));
+                _outlineLight.intensity = value;
+
+            });
     }
 
     private void HandlePrecisionDodgeVFX()

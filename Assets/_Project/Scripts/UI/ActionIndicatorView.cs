@@ -51,5 +51,7 @@ public class ActionIndicatorView : MonoBehaviour
             sequence.Join(star.DOFade(0f, 0.2f));
             sequence.Join(starTransform.DOAnchorPosX(starTransform.anchoredPosition.x + 700, 0.5f));
         }
+
+        sequence.AppendCallback(() => Destroy(gameObject));
     }
 }

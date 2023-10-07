@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using DG.Tweening;
 using StarterAssets;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class DodgeController : MonoBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private InputManager _inputManager;
     [SerializeField] private PlayerVFX _playerVfx;
+    [SerializeField] private CinemachineImpulseSource _cameraImpulseSource;
     [SerializeField] private WeaponController _weaponController;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _dodgeDistance;
@@ -228,6 +230,7 @@ public class DodgeController : MonoBehaviour
 
         _isPrecisionCounterBuffered = false;
 
+        _cameraImpulseSource.GenerateImpulse();
         OnPrecisionCounter?.Invoke();
     }
 
