@@ -10,7 +10,7 @@ using UnityEngine.VFX.Utility;
 
 public class PlayerVFX : MonoBehaviour
 {
-    private const float SlashYOffset = 120f;
+    private const float SlashYOffset = 90f;
 
     [SerializeField] private GameObject _beginShiftVfxPrefab;
     [SerializeField] private GameObject _endShiftVfxPrefab;
@@ -153,6 +153,6 @@ public class PlayerVFX : MonoBehaviour
         Quaternion offsetRotation = Quaternion.Euler(0, SlashYOffset, 0);
         Quaternion newSlashRotation = slash.transform.localRotation * offsetRotation;
 
-        slash.transform.localRotation = newSlashRotation;
+        slash.transform.rotation = newSlashRotation;
     }
 }

@@ -95,7 +95,7 @@ public class DodgeController : MonoBehaviour
         _isPrecisionCounterBuffered = false;
         _isPrecisionDodge = CanPrecisionDodge();
 
-        _playerHealth.EnableInvulnerability(_invulnerabilityTimer);
+        _playerHealth.StartInvulnerabilityTimer(_invulnerabilityTimer);
     }
 
     public void ExecuteDodgeMovement()
@@ -153,6 +153,7 @@ public class DodgeController : MonoBehaviour
     {
         _isPlayingDodgeAnimation = false;
         _playerVfx.AnimateCharacterOutlineIntensity(_counterOutlineColor, 10, -10, 0.5f);
+        _playerHealth.SetInvulnerability(false);
 
         OnDodgeEnd?.Invoke();
     }
@@ -210,7 +211,7 @@ public class DodgeController : MonoBehaviour
     {
         _animator.SetTrigger("PrecisionCounter");
         _weaponController.SetAttackData(_counterAttackData);
-        _playerHealth.EnableInvulnerability(_invulnerabilityTimer);
+        _playerHealth.SetInvulnerability(true);
 
         _isPrecisionCounterBuffered = true;
         _isCheckingForCounter = false;

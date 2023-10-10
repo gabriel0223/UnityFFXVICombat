@@ -33,7 +33,12 @@ public class PlayerHealth : HealthBase
         }
     }
 
-    public void EnableInvulnerability(float timer)
+    public void SetInvulnerability(bool state)
+    {
+        IsInvulnerable = state;
+    }
+
+    public void StartInvulnerabilityTimer(float timer)
     {
         IsInvulnerable = true;
         DOVirtual.DelayedCall(timer, () => IsInvulnerable = false);

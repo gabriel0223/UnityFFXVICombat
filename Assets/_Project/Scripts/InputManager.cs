@@ -11,6 +11,8 @@ namespace StarterAssets
 		public event Action OnAttackPressed;
 		public event Action OnPhoenixShiftPressed;
 		public event Action OnDodgePressed;
+		public event Action OnShowAbilitiesPressed;
+		public event Action OnShowAbilitiesReleased;
 
 		[Header("Character Input Values")]
 		public Vector2 move;
@@ -22,6 +24,26 @@ namespace StarterAssets
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
+
+		private PlayerInputAsset _playerInputAsset;
+
+		private void Awake()
+		{
+			_playerInputAsset = new PlayerInputAsset();
+		}
+
+		private void OnEnable()
+		{
+			_playerInputAsset.Enable();
+
+			_playerInputAsset.Player.ShowAbilities.performed += ctx => OnShowAbilitiesPressed?.Invoke();
+			_playerInputAsset.Player.ShowAbilities.canceled += ctx => OnShowAbilitiesReleased?.Invoke();
+		}
+
+		private void OnDisable()
+		{
+			_playerInputAsset.Disable();
+		}
 
 		public void OnMove(InputValue value)
 		{
