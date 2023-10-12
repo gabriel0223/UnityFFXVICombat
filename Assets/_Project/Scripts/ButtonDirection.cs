@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SkillType
+public enum ButtonDirection
 {
-    Attack,
-    PhoenixShift,
+    West,
+    North,
+    East,
+    South
 }

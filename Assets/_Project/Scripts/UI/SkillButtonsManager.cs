@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using StarterAssets;
 using UnityEngine;
@@ -10,6 +11,7 @@ using UnityEngine.UI;
 public class SkillButtonsManager : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
+    [SerializeField] private AbilityManager _abilityManager;
     [SerializeField] private SkillButtonView[] _skillButtons;
     [SerializeField] private RectTransform _showAbilitiesButtomPrompt;
     [SerializeField] private CanvasGroup _circles;
@@ -19,6 +21,20 @@ public class SkillButtonsManager : MonoBehaviour
     {
         _inputManager.OnShowAbilitiesPressed += HandleShowAbilitiesPressed;
         _inputManager.OnShowAbilitiesReleased += HandleShowAbilitiesReleased;
+    }
+
+    private void Start()
+    {
+        foreach (SkillButtonView skillButton in _skillButtons)
+        {
+            ButtonDirection buttonDirection = skillButton.ButtonDirection;
+            EikonicAbility matchingAbility = _abilityManager.GetCorrespondentAbility(buttonDirection);
+
+            if (matchingAbility != null)
+            {
+                skillButton.SetAbilityData(matchingAbility.AbilityData);
+            }
+        }
     }
 
     private void HandleShowAbilitiesPressed()

@@ -5,6 +5,7 @@ using System.Numerics;
 using DG.Tweening;
 using StarterAssets;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
@@ -14,26 +15,27 @@ using Vector3 = UnityEngine.Vector3;
 public class SkillButtonAnimationPlayer : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
-    [SerializeField] private SkillType _skillType;
     [SerializeField] private RectTransform _targetTransform;
     [SerializeField] private float _sizeMultiplier;
     [SerializeField] private float _animationDuration;
 
+    private SkillButtonView _skillButton;
     private Vector3 _initialScale;
 
     private void Awake()
     {
+        _skillButton = GetComponent<SkillButtonView>();
         _initialScale = _targetTransform.localScale;
     }
 
     private void OnEnable()
     {
-        switch (_skillType)
+        switch (_skillButton.ButtonDirection)
         {
-            case SkillType.Attack:
+            case ButtonDirection.West:
                 _inputManager.OnAttackPressed += HandleInputPressed;
                 break;
-            case SkillType.PhoenixShift:
+            case ButtonDirection.East:
                 _inputManager.OnPhoenixShiftPressed += HandleInputPressed;
                 break;
         }
@@ -41,12 +43,12 @@ public class SkillButtonAnimationPlayer : MonoBehaviour
 
     private void OnDisable()
     {
-        switch (_skillType)
+        switch (_skillButton.ButtonDirection)
         {
-            case SkillType.Attack:
+            case ButtonDirection.West:
                 _inputManager.OnAttackPressed -= HandleInputPressed;
                 break;
-            case SkillType.PhoenixShift:
+            case ButtonDirection.East:
                 _inputManager.OnPhoenixShiftPressed -= HandleInputPressed;
                 break;
         }

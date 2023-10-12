@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d144a4867023e469b5a789efbd1c2c, type: 3}
+  m_Name: InfernalSkyfall
+  m_EditorClassIdentifier: 
+  Name: Infernal Skyfall
+  ButtonDirection: 0
+  Icon: {fileID: 21300000, guid: 2e6796116225b0b4f91e4774986d0c32, type: 3}
+  Duration: 2
+  Cooldown: 15
