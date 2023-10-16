@@ -9,13 +9,13 @@ using UnityEngine.Serialization;
 using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
-/// This class can be attached to skill buttons that play an animation when
+/// This class can be attached to skill buttons that play a scale animation when
 /// the player executes the input
 /// </summary>
 public class SkillButtonAnimationPlayer : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
-    [SerializeField] private RectTransform _targetTransform;
+    [SerializeField] private RectTransform[] _targetTransforms;
     [SerializeField] private float _sizeMultiplier;
     [SerializeField] private float _animationDuration;
 
@@ -25,11 +25,13 @@ public class SkillButtonAnimationPlayer : MonoBehaviour
     private void Awake()
     {
         _skillButton = GetComponent<SkillButtonView>();
-        _initialScale = _targetTransform.localScale;
+        _initialScale = _targetTransforms[0].localScale;
     }
 
     private void OnEnable()
     {
+        _inputManager.OnEikonicAbilityPressed += HandleEikonicAbilityPressed;
+
         switch (_skillButton.ButtonDirection)
         {
             case ButtonDirection.West:
@@ -43,6 +45,8 @@ public class SkillButtonAnimationPlayer : MonoBehaviour
 
     private void OnDisable()
     {
+        _inputManager.OnEikonicAbilityPressed -= HandleEikonicAbilityPressed;
+
         switch (_skillButton.ButtonDirection)
         {
             case ButtonDirection.West:
@@ -56,10 +60,23 @@ public class SkillButtonAnimationPlayer : MonoBehaviour
 
     private void HandleInputPressed()
     {
-        DOTween.Kill(_targetTransform);
+        foreach (RectTransform targetTransform in _targetTransforms)
+        {
+            DOTween.Kill(targetTransform);
 
-        _targetTransform.localScale = _initialScale;
-        _targetTransform.DOScale(Vector3.one * _sizeMultiplier, _animationDuration).SetEase(Ease.InOutSine)
-            .SetLoops(2, LoopType.Yoyo);
+            targetTransform.localScale = _initialScale;
+            targetTransform.DOScale(Vector3.one * _sizeMultiplier, _animationDuration).SetEase(Ease.InOutSine)
+                .SetLoops(2, LoopType.Yoyo);
+        }
+    }
+
+    private void HandleEikonicAbilityPressed(ButtonDirection buttonDirection)
+    {
+        if (buttonDirection != _skillButton.ButtonDirection)
+        {
+            return;
+        }
+
+        HandleInputPressed();
     }
 }

@@ -12,6 +12,8 @@ public class SkillButtonView : MonoBehaviour
     [SerializeField] private CanvasGroup _skillSlotCanvasGroup;
     [SerializeField] private CanvasGroup _eikonicAbilitySlotCanvasGroup;
     [SerializeField] private Image _eikonicAbilityIcon;
+    [SerializeField] private GameObject _eikonicAbilityDarkPanel;
+    [SerializeField] private Image _eikonicAbilityCooldownBar;
     [SerializeField] private TMP_Text _skillNameText;
     [SerializeField] private float _switchAnimationDuration;
     [SerializeField] private float _switchSizeMultiplier;
@@ -50,5 +52,18 @@ public class SkillButtonView : MonoBehaviour
     {
         _abilityData = abilityData;
         _eikonicAbilityIcon.sprite = abilityData.Icon;
+    }
+
+    public void HandleAbilityExecuted()
+    {
+        _eikonicAbilityDarkPanel.SetActive(true);
+        _eikonicAbilityCooldownBar.DOFillAmount(1, _abilityData.Cooldown)
+            .OnComplete(HandleAbilityCooldownEnded);
+    }
+
+    private void HandleAbilityCooldownEnded()
+    {
+        _eikonicAbilityDarkPanel.SetActive(false);
+        _eikonicAbilityCooldownBar.fillAmount = 0;
     }
 }

@@ -13,6 +13,7 @@ namespace StarterAssets
 		public event Action OnDodgePressed;
 		public event Action OnShowAbilitiesPressed;
 		public event Action OnShowAbilitiesReleased;
+		public event Action<ButtonDirection> OnEikonicAbilityPressed;
 
 		[Header("Character Input Values")]
 		public Vector2 move;
@@ -26,6 +27,7 @@ namespace StarterAssets
 		public bool cursorInputForLook = true;
 
 		private PlayerInputAsset _playerInputAsset;
+		private bool _isInEikonicAbilityMode;
 
 		private void Awake()
 		{
@@ -36,8 +38,8 @@ namespace StarterAssets
 		{
 			_playerInputAsset.Enable();
 
-			_playerInputAsset.Player.ShowAbilities.performed += ctx => OnShowAbilitiesPressed?.Invoke();
-			_playerInputAsset.Player.ShowAbilities.canceled += ctx => OnShowAbilitiesReleased?.Invoke();
+			_playerInputAsset.Player.ShowAbilities.performed += HandleShowAbilitiesPressed;
+			_playerInputAsset.Player.ShowAbilities.canceled += HandleShowAbilitiesReleased;
 		}
 
 		private void OnDisable()
@@ -60,7 +62,22 @@ namespace StarterAssets
 
 		public void OnAttack()
 		{
-			OnAttackPressed?.Invoke();
+			if (_isInEikonicAbilityMode)
+			{
+				OnEikonicAbilityPressed?.Invoke(ButtonDirection.West);
+			}
+			else
+			{
+				OnAttackPressed?.Invoke();
+			}
+		}
+
+		public void OnFire()
+		{
+			if (_isInEikonicAbilityMode)
+			{
+				OnEikonicAbilityPressed?.Invoke(ButtonDirection.North);
+			}
 		}
 
 		public void OnPhoenixShift()
@@ -86,6 +103,20 @@ namespace StarterAssets
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);
+		}
+
+		private void HandleShowAbilitiesPressed(InputAction.CallbackContext ctx)
+		{
+			OnShowAbilitiesPressed?.Invoke();
+
+			_isInEikonicAbilityMode = true;
+		}
+
+		private void HandleShowAbilitiesReleased(InputAction.CallbackContext ctx)
+		{
+			OnShowAbilitiesReleased?.Invoke();
+
+			_isInEikonicAbilityMode = false;
 		}
 
 		private void SetCursorState(bool newState)

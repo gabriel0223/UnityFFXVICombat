@@ -21,6 +21,14 @@ public class SkillButtonsManager : MonoBehaviour
     {
         _inputManager.OnShowAbilitiesPressed += HandleShowAbilitiesPressed;
         _inputManager.OnShowAbilitiesReleased += HandleShowAbilitiesReleased;
+        _abilityManager.OnEikonicAbilityExecuted += HandleEikonicAbilityExecuted;
+    }
+
+    private void OnDisable()
+    {
+        _inputManager.OnShowAbilitiesPressed += HandleShowAbilitiesPressed;
+        _inputManager.OnShowAbilitiesReleased += HandleShowAbilitiesReleased;
+        _abilityManager.OnEikonicAbilityExecuted -= HandleEikonicAbilityExecuted;
     }
 
     private void Start()
@@ -70,5 +78,15 @@ public class SkillButtonsManager : MonoBehaviour
 
         Sequence showAnimation = DOTween.Sequence();
         showAnimation.Append(_showAbilitiesButtomPrompt.DOScale(Vector3.one, 0.1f));
+    }
+
+    private void HandleEikonicAbilityExecuted(ButtonDirection buttonDirection, EikonicAbility eikonicAbility)
+    {
+        SkillButtonView skillButton = _skillButtons.FirstOrDefault(b => b.ButtonDirection == buttonDirection);
+
+        if (skillButton != null)
+        {
+            skillButton.HandleAbilityExecuted();
+        }
     }
 }

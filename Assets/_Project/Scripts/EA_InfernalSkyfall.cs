@@ -6,6 +6,6 @@ public class EA_InfernalSkyfall : EikonicAbility
 {
     public override void Activate()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("METEOR");
     }
 }
