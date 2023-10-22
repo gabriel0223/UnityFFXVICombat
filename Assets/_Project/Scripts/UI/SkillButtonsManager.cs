@@ -36,12 +36,14 @@ public class SkillButtonsManager : MonoBehaviour
         foreach (SkillButtonView skillButton in _skillButtons)
         {
             ButtonDirection buttonDirection = skillButton.ButtonDirection;
-            EikonicAbility matchingAbility = _abilityManager.GetCorrespondentAbility(buttonDirection);
 
-            if (matchingAbility != null)
+            if (!_abilityManager.Abilities.ContainsKey(buttonDirection))
             {
-                skillButton.SetAbilityData(matchingAbility.AbilityData);
+                continue;
             }
+
+            AbilityData matchingAbility = _abilityManager.Abilities[buttonDirection].AbilityData;
+            skillButton.SetAbilityData(matchingAbility);
         }
     }
 

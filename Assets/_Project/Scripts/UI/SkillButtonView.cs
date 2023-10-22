@@ -58,6 +58,7 @@ public class SkillButtonView : MonoBehaviour
     {
         _eikonicAbilityDarkPanel.SetActive(true);
         _eikonicAbilityCooldownBar.DOFillAmount(1, _abilityData.Cooldown)
+            .SetEase(Ease.Linear)
             .OnComplete(HandleAbilityCooldownEnded);
     }
 

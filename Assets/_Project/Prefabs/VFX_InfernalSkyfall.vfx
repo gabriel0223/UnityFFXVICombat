@@ -198,7 +198,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 975
     y: -243
-    width: 5387
+    width: 5388
     height: 2048
 --- !u!114 &114350483966674976
 MonoBehaviour:
@@ -7963,7 +7963,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615227}
   m_ExposedName: ExplosionSparksColor
   m_Exposed: 1
-  m_Order: 11
+  m_Order: 10
   m_Category: 
   m_Min:
     m_Type:
@@ -10631,7 +10631,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615364}
   m_ExposedName: ImpactDecalColor
   m_Exposed: 1
-  m_Order: 12
+  m_Order: 11
   m_Category: 
   m_Min:
     m_Type:

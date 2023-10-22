@@ -15,5 +15,5 @@ MonoBehaviour:
   Name: Infernal Skyfall
   ButtonDirection: 0
   Icon: {fileID: 21300000, guid: 2e6796116225b0b4f91e4774986d0c32, type: 3}
-  Duration: 2
+  Duration: 6
   Cooldown: 15

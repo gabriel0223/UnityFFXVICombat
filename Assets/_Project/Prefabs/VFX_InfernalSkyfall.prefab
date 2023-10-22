@@ -50,13 +50,19 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 20
+      - m_Value: 25
         m_Name: Rate
+        m_Overridden: 1
+      - m_Value: 6
+        m_Name: Radius
         m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0, y: 10, z: -3}
+        m_Name: InitialPosition
+        m_Overridden: 1
     m_Vector4f:
       m_Array:
       - m_Value: {x: 0.7490196, y: 0.078431375, z: 0, w: 1}

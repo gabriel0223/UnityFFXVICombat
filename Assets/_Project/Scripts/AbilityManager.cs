@@ -33,22 +33,21 @@ public class AbilityManager : MonoBehaviour
         _inputManager.OnEikonicAbilityPressed -= HandleAbilityPressed;
     }
 
-    public EikonicAbility GetCorrespondentAbility(ButtonDirection buttonDirection)
-    {
-        return Abilities.FirstOrDefault(a => a.Key == buttonDirection).Value;
-    }
-
     private void HandleAbilityPressed(ButtonDirection buttonDirection)
     {
-        EikonicAbility eikonicAbility = GetCorrespondentAbility(buttonDirection);
+        EikonicAbility eikonicAbility = Abilities[buttonDirection];
 
         if (eikonicAbility.CurrentCooldown > 0)
         {
             return;
         }
 
-        eikonicAbility = Instantiate(eikonicAbility);
-        eikonicAbility.Activate();
+        if (!eikonicAbility.gameObject.activeInHierarchy)
+        {
+            eikonicAbility = Instantiate(eikonicAbility);
+        }
+
+        eikonicAbility.Activate(transform.position);
         _abilities[buttonDirection] = eikonicAbility;
 
         OnEikonicAbilityExecuted?.Invoke(buttonDirection, eikonicAbility);

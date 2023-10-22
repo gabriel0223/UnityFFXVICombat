@@ -7,15 +7,13 @@ public abstract class EikonicAbility : MonoBehaviour
 {
     [SerializeField] protected AbilityData _abilityData;
 
+    protected bool _isFinished;
+
     public AbilityData AbilityData => _abilityData;
     public float CurrentCooldown { get; protected set; }
 
-    abstract public void Activate();
-
-    private void Awake()
-    {
-        CurrentCooldown = AbilityData.Cooldown;
-    }
+    abstract public void Activate(Vector3 position);
+    abstract public void End();
 
     private void Update()
     {

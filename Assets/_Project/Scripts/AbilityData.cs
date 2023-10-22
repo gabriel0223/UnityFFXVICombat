@@ -7,7 +7,6 @@ using UnityEngine.Serialization;
 public class AbilityData : ScriptableObject
 {
     public string Name;
-    public ButtonDirection ButtonDirection;
     public Sprite Icon;
     public float Duration;
     public float Cooldown;

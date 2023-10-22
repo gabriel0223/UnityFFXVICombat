@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5657137927318027623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.009128229, y: 0.06471813, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,3 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _abilityData: {fileID: 11400000, guid: b3eb083f394f7724bb1c5a6456035bdc, type: 2}
+  _abilityVfxPrefab: {fileID: 6665762265254333107, guid: 169200a32ff56a74bb35148bd5157f6c,
+    type: 3}
+  _delayToStartDoingDamage: 1
+  _damage: 100
+  _damageRate: 1
+  _radius: 5
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
