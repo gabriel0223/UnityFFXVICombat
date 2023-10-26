@@ -6131,7 +6131,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615055}
   m_ExposedName: FireColor
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 1
   m_Category: 
   m_Min:
     m_Type:
@@ -8559,7 +8559,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615158}
   m_ExposedName: PlayerMesh
   m_Exposed: 1
-  m_Order: 3
+  m_Order: 2
   m_Category: 
   m_Min:
     m_Type:
@@ -8639,7 +8639,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615160}
   m_ExposedName: Transform
   m_Exposed: 1
-  m_Order: 4
+  m_Order: 3
   m_Category: 
   m_Min:
     m_Type:
@@ -9127,7 +9127,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615174}
   m_ExposedName: SkinnedFireColor
   m_Exposed: 1
-  m_Order: 5
+  m_Order: 4
   m_Category: 
   m_Min:
     m_Type:

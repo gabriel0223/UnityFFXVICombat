@@ -123,7 +123,6 @@ SubShader {
 		#pragma multi_compile __ UNITY_UI_ALPHACLIP
 
 		#include "UnityCG.cginc"
-		#include "UnityUI.cginc"
 		#include "TMPro_Properties.cginc"
 		#include "TMPro.cginc"
 

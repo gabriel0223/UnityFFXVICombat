@@ -11190,7 +11190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyHealth: {fileID: 7409486671650213989}
-  _minTimeBetweenStateReevaluation: 2
+  _minTimeBetweenStateReevaluation: 1.5
   _maxTimeBetweenStateReevaluation: 4
 --- !u!114 &199716881
 MonoBehaviour:

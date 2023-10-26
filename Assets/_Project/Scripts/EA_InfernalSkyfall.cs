@@ -77,7 +77,7 @@ public class EA_InfernalSkyfall : EikonicAbility
 
             foreach (Collider enemy in enemiesOnRadius)
             {
-                enemy.gameObject.GetComponent<IDamageable>().TakeDamage(_damage, DamageType.Normal);
+                enemy.gameObject.GetComponent<IDamageable>().TakeDamage(_damage, DamageType.Fire);
             }
 
             yield return new WaitForSeconds(_damageRate);
