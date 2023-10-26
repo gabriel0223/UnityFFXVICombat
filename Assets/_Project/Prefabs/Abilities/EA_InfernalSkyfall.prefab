@@ -57,6 +57,7 @@ MonoBehaviour:
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
+  _playerOutlineColor: {r: 0.8666667, g: 0.27450982, b: 0.2, a: 0}
 --- !u!320 &4211953392791604408
 PlayableDirector:
   m_ObjectHideFlags: 0

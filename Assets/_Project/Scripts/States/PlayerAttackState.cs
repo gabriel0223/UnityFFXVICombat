@@ -7,6 +7,7 @@ public class PlayerAttackState : BaseState
 {
     private InputManager _inputManager;
     private PlayerComboController _playerComboController;
+    private AbilityManager _abilityManager;
 
     public override void EnterState(BaseStateManager ctx)
     {
@@ -14,11 +15,15 @@ public class PlayerAttackState : BaseState
 
         _inputManager = ctx.gameObject.GetComponent<InputManager>();
         _playerComboController = ctx.gameObject.GetComponent<PlayerComboController>();
+        _abilityManager = ctx.gameObject.GetComponent<AbilityManager>();
+
+        _abilityManager.SetCanUseAbilities(true);
 
         _inputManager.OnAttackPressed += HandlePlayerAttack;
         _inputManager.OnPhoenixShiftPressed += SwitchToPhoenixShift;
         _inputManager.OnDodgePressed += SwitchToDodge;
         _playerComboController.OnComboEnd += SwitchToIdleMove;
+        _abilityManager.OnEikonicAbilityExecuted += SwitchToAbilityUse;
 
         _playerComboController.Attack();
     }
@@ -30,10 +35,13 @@ public class PlayerAttackState : BaseState
 
     public override void ExitState(BaseStateManager ctx)
     {
+        _abilityManager.SetCanUseAbilities(false);
+
         _inputManager.OnAttackPressed -= HandlePlayerAttack;
         _inputManager.OnPhoenixShiftPressed -= SwitchToPhoenixShift;
         _inputManager.OnDodgePressed -= SwitchToDodge;
         _playerComboController.OnComboEnd -= SwitchToIdleMove;
+        _abilityManager.OnEikonicAbilityExecuted -= SwitchToAbilityUse;
     }
 
     private void HandlePlayerAttack()
@@ -54,5 +62,10 @@ public class PlayerAttackState : BaseState
     private void SwitchToDodge()
     {
         _stateManager.SwitchState(new PlayerDodgeState());
+    }
+
+    private void SwitchToAbilityUse(ButtonDirection buttonDirection, EikonicAbility ability)
+    {
+        _stateManager.SwitchState(new PlayerUsingAbilityState());
     }
 }
