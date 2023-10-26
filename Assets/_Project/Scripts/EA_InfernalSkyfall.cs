@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.VFX;
 
 public class EA_InfernalSkyfall : EikonicAbility
 {
+    [SerializeField] private PlayableDirector _playableDirector;
     [SerializeField] private VisualEffect _abilityVfxPrefab;
     [SerializeField] private float _delayToStartDoingDamage;
     [SerializeField] private int _damage;
@@ -16,11 +19,14 @@ public class EA_InfernalSkyfall : EikonicAbility
 
     private VisualEffect _abilityVfxInstance; 
     
-    public override void Activate(Vector3 position)
+    public override void Activate(AbilityManager ctx)
     {
         _isFinished = false;
-        transform.position = position;
+        transform.position = ctx.transform.position;
         CurrentCooldown = AbilityData.Cooldown;
+        _playableDirector.SetGenericBinding(_playableDirector.playableAsset.outputs.First().sourceObject,
+            ctx.gameObject.GetComponent<Animator>());
+        _playableDirector.Play();
 
         _abilityVfxInstance = Instantiate(_abilityVfxPrefab, transform.position, Quaternion.identity);
 

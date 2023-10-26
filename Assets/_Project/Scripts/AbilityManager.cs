@@ -44,10 +44,10 @@ public class AbilityManager : MonoBehaviour
 
         if (!eikonicAbility.gameObject.activeInHierarchy)
         {
-            eikonicAbility = Instantiate(eikonicAbility);
+            eikonicAbility = Instantiate(eikonicAbility, transform.position, transform.rotation);
         }
 
-        eikonicAbility.Activate(transform.position);
+        eikonicAbility.Activate(this);
         _abilities[buttonDirection] = eikonicAbility;
 
         OnEikonicAbilityExecuted?.Invoke(buttonDirection, eikonicAbility);

@@ -12,7 +12,7 @@ public abstract class EikonicAbility : MonoBehaviour
     public AbilityData AbilityData => _abilityData;
     public float CurrentCooldown { get; protected set; }
 
-    abstract public void Activate(Vector3 position);
+    abstract public void Activate(AbilityManager ctx);
     abstract public void End();
 
     private void Update()
