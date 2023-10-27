@@ -372,7 +372,7 @@ MonoBehaviour:
     m_Value: 123.51
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 103.58
+    m_Value: 46.3
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
@@ -487,10 +487,10 @@ MonoBehaviour:
     m_Value: 55261.973
   aerosolDensity:
     m_OverrideState: 1
-    m_Value: 0.01192826
+    m_Value: 0.031
   aerosolTint:
     m_OverrideState: 1
-    m_Value: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   aerosolMaximumAltitude:
     m_OverrideState: 1
     m_Value: 8289.296
