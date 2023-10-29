@@ -9,8 +9,8 @@ using UnityEngine.Serialization;
 using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
-/// This class can be attached to skill buttons that play a scale animation when
-/// the player executes the input
+/// This script can be attached to skill buttons that play a scale animation when
+/// the player performs the input
 /// </summary>
 public class SkillButtonAnimationPlayer : MonoBehaviour
 {

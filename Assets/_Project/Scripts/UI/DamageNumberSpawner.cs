@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Spawn damage numbers in the UI when a character takes damage
+/// </summary>
 public class DamageNumberSpawner : MonoBehaviour
 {
     private const float CharacterYOffset = 1f;

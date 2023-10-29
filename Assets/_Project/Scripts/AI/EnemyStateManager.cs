@@ -4,17 +4,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// A state manager for the enemies' AI. It can switch between
+/// states, and update and reevaluate them.
+/// </summary>
 public class EnemyStateManager : BaseStateManager
 {
-    [SerializeField] private EnemyHealth _enemyHealth;
+    [Tooltip("Minimum time for a state reevaluation to happen")]
     [SerializeField] private float _minTimeBetweenStateReevaluation;
+    [Tooltip("Maximum time for a state reevaluation to happen")]
     [SerializeField] private float _maxTimeBetweenStateReevaluation;
+
+    private EnemyHealth _enemyHealth;
 
     public EnemyBaseState CurrentState { get; private set; }
     public EnemyBaseState PreviousState { get; private set; }
     public EnemyMovingState MovingState { get; private set; }
     public EnemyBeingHitState BeingHitState { get; private set; }
     public EnemyAttackingState AttackingState { get; private set; }
+
+    private void Awake()
+    {
+        _enemyHealth = GetComponent<EnemyHealth>();
+
+        MovingState = new EnemyMovingState();
+        BeingHitState = new EnemyBeingHitState();
+        AttackingState = new EnemyAttackingState();
+    }
 
     private void OnEnable()
     {
@@ -26,13 +42,6 @@ public class EnemyStateManager : BaseStateManager
     {
         _enemyHealth.OnDie -= HandleEnemyDie;
         _enemyHealth.OnTakeDamage -= HandleEnemyTakeHit;
-    }
-
-    private void Awake()
-    {
-        MovingState = new EnemyMovingState();
-        BeingHitState = new EnemyBeingHitState();
-        AttackingState = new EnemyAttackingState();
     }
 
     private void Start()
@@ -68,6 +77,11 @@ public class EnemyStateManager : BaseStateManager
         CurrentState?.EnterState(this);
     }
 
+    /// <summary>
+    /// Reevaluates the enemy state after a random time.
+    /// Each state can implement its own reevaluation, which can change
+    /// behaviour or transition to a different state.
+    /// </summary>
     private IEnumerator StateReevalutation()
     {
         while (CurrentState != null)

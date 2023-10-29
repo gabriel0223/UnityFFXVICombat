@@ -6,14 +6,20 @@ using Random = UnityEngine.Random;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private CharacterController _characterController;
-    [SerializeField] private Animator _animator;
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _chaseSpeed;
     [SerializeField] private float _rotationSpeed;
 
+    private CharacterController _characterController;
+    private Animator _animator;
     private Vector3 _moveDirection;
     private bool _isChashing;
+
+    private void Awake()
+    {
+        _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {

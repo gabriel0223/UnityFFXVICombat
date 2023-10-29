@@ -41,16 +41,11 @@ public class EnemyAttackingState : EnemyBaseState
 
         if (distanceToPlayer >= DistanceToAttack)
         {
-            _enemyMovement.SetMovementDirection(playerDirection);
-            _enemyMovement.SetIsChashing(true);
+            ChasePlayer(playerDirection);
         }
         else
         {
-            _enemyCombat.Attack();
-            _hasAttacked = true;
-
-            _enemyMovement.SetIsChashing(false);
-            _enemyMovement.SetMovementDirection(Vector3.zero);
+            AttackPlayer();
         }
 
         _enemyMovement.RotateTowardsDirection(playerDirection);
@@ -64,5 +59,20 @@ public class EnemyAttackingState : EnemyBaseState
     public override void ReevaluateState(EnemyStateManager ctx)
     {
         
+    }
+
+    private void ChasePlayer(Vector3 playerDirection)
+    {
+        _enemyMovement.SetMovementDirection(playerDirection);
+        _enemyMovement.SetIsChashing(true);
+    }
+
+    private void AttackPlayer()
+    {
+        _enemyCombat.Attack();
+        _hasAttacked = true;
+
+        _enemyMovement.SetIsChashing(false);
+        _enemyMovement.SetMovementDirection(Vector3.zero);
     }
 }

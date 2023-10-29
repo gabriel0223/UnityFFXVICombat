@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Makes sure the world UI object with this script is always
+/// facing the camera.
+/// </summary>
 public class WorldUIFaceCamera : MonoBehaviour
 {
     private Camera _mainCamera;
@@ -13,6 +17,7 @@ public class WorldUIFaceCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward, _mainCamera.transform.rotation * Vector3.up);
+        transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward, 
+            _mainCamera.transform.rotation * Vector3.up);
     }
 }

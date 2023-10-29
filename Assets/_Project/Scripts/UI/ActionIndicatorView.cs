@@ -5,6 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls the visuals of individual action indicators.
+/// </summary>
 public class ActionIndicatorView : MonoBehaviour
 {
     [SerializeField] private float _delayToShowText;

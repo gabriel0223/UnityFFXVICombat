@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A state manager that controls player states and their transitions.
+/// </summary>
 public class PlayerStateManager : BaseStateManager
 { 
     public BaseState CurrentState { get; private set; }
@@ -23,8 +26,6 @@ public class PlayerStateManager : BaseStateManager
     private void Update()
     {
         CurrentState?.UpdateState(this);
-
-        Debug.Log(CurrentState);
     }
 
     public override void SwitchState(BaseState newState)

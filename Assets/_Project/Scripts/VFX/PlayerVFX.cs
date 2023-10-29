@@ -18,14 +18,15 @@ public class PlayerVFX : MonoBehaviour
     [SerializeField] private GameObject _vfxFireSlash;
     [SerializeField] private Material _phoenixProjectionMaterial;
     [SerializeField] private Material _dodgeProjectionMaterial;
-    [SerializeField] private PlayerCombatController _combatController;
-    [SerializeField] private DodgeController _dodgeController;
     [SerializeField] private GameObject _playerMesh;
     [SerializeField] private SkinnedMeshRenderer _playerSkinnedMesh;
     [SerializeField] private Transform _playerHipsTransform;
     [SerializeField] private Transform _playerWeapon;
     [SerializeField] private Light _outlineLight;
     [SerializeField] private float _outlineLightIntensity;
+
+    private PlayerCombatController _combatController;
+    private DodgeController _dodgeController;
 
     private GameObject _currentVfxSlash;
     private Renderer[] _meshes;
@@ -34,6 +35,9 @@ public class PlayerVFX : MonoBehaviour
 
     private void Awake()
     {
+        _combatController = GetComponent<PlayerCombatController>();
+        _dodgeController = GetComponent<DodgeController>();
+
         _meshes = GetComponentsInChildren<Renderer>();
         _skinnedMeshes = GetComponentsInChildren<SkinnedMeshRenderer>();
         _materialInstance = new Material(_skinnedMeshes[0].material);

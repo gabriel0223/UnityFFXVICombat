@@ -6,6 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls the behaviour of health bars.
+/// </summary>
 public class HealthBarView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _currentHpText;

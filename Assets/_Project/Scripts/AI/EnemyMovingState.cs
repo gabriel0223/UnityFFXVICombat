@@ -12,6 +12,12 @@ public class EnemyMovingState : EnemyBaseState
         Back,
     }
 
+    /// <summary>
+    /// The probability of the enemy attacking the player
+    /// between each reevaluation.
+    /// </summary>
+    private const float AttackPercentage = 50;
+
     private const float RetreatDistance = 1f;
     private const float AttackingDistance = 3f;
     private const float DistanceToStartChase = 8f;
@@ -71,9 +77,9 @@ public class EnemyMovingState : EnemyBaseState
 
         if (distanceToPlayer <= AttackingDistance)
         {
-            int randomNum = Random.Range(0, 10);
+            int randomNum = Random.Range(0, 100);
 
-            if (randomNum >= 4)
+            if (randomNum <= AttackPercentage)
             {
                 ctx.SwitchState(ctx.AttackingState);
             }
@@ -84,6 +90,12 @@ public class EnemyMovingState : EnemyBaseState
         }
     }
 
+    /// <summary>
+    /// Returns a movement direction for the enemy to move.
+    /// They can orbit the player going left or right, or
+    /// move towards the player to get closer.
+    /// </summary>
+    /// <returns></returns>
     private MovementDirection GetRandomMovementDirection()
     {
         int randomNum = Random.Range(0, 3);

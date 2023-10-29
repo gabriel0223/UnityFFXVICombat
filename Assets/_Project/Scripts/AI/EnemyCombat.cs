@@ -1,15 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyCombat : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
     [SerializeField] private EnemyWeapon _weapon;
-    [SerializeField] private DashController _dashController;
     [SerializeField] private AttackData _attackData;
     [SerializeField] private float _attackDashSpeed;
     [SerializeField] private float _attackDashDuration;
+
+    private Animator _animator; 
+    private DashController _dashController;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _dashController = GetComponent<DashController>();
+    }
 
     public void Attack()
     {

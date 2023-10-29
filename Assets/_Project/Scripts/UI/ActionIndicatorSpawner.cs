@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+/// <summary>
+/// Spawns Action Indicators in the UI when the player
+/// performs the actions.
+/// </summary>
 public class ActionIndicatorSpawner : MonoBehaviour
 {
     [SerializeField] private Transform _actionIndicatorsContainer;
