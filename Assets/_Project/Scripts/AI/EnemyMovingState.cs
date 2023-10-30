@@ -16,7 +16,7 @@ public class EnemyMovingState : EnemyBaseState
     /// The probability of the enemy attacking the player
     /// between each reevaluation.
     /// </summary>
-    private const float AttackPercentage = 50;
+    private const float AttackPercentage = 65;
 
     private const float RetreatDistance = 1f;
     private const float AttackingDistance = 3f;

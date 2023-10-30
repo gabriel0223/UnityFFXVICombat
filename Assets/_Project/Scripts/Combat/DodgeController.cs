@@ -97,7 +97,7 @@ public class DodgeController : MonoBehaviour
             return;
         }
 
-        _animator.SetTrigger("Dodge");
+        _animator.SetTrigger(AnimationParameters.Dodge);
         _animator.SetFloat("DodgeX", 0);
         _animator.SetFloat("DodgeY", _inputManager.move.magnitude == 0? 0 : 1);
 

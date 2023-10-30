@@ -9,4 +9,5 @@ public static class AnimationParameters
     public static readonly string[] EnemyTakeDamage = {"TakeDamage1", "TakeDamage2"};
     public const string PrecisionCounter = "PrecisionCounter";
     public const string PhoenixShift = "PhoenixShift";
+    public const string Dodge = "Dodge";
 }
