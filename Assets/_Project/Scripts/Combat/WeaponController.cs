@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Pool;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -12,7 +15,7 @@ public class WeaponController : MonoBehaviour
 {
     public static event Action<HealthBase, int> OnWeaponHitHealth;
 
-    [SerializeField] private GameObject _vfxImpactPrefab;
+    [SerializeField] private VisualEffect _vfxImpactPrefab;
     [SerializeField] private Transform _raycastOrigin;
     [SerializeField] private Collider _collider;
     [SerializeField] private LayerMask _targetLayer;
@@ -22,6 +25,27 @@ public class WeaponController : MonoBehaviour
     private bool _canDoDamage;
     private AttackData _currentAttackDataData;
     private List<Collider> _enemiesHitInThisAttack;
+    private ObjectPool<VisualEffect> _vfxPool;
+
+    private void Start()
+    {
+        _vfxPool = new ObjectPool<VisualEffect>(
+            () =>
+            {
+                return Instantiate(_vfxImpactPrefab);
+            }, vfx =>
+            {
+                vfx.gameObject.SetActive(true);
+                vfx.Play();
+            }, vfx =>
+            {
+                vfx.gameObject.SetActive(false);
+            },
+            vfx =>
+            {
+                Destroy(vfx.gameObject);
+            }, false, 5, 10);
+    }
 
     private void Update()
     {
@@ -124,6 +148,9 @@ public class WeaponController : MonoBehaviour
 
     private void SpawnHitVFX(Vector3 position)
     {
-        Instantiate(_vfxImpactPrefab, position, Quaternion.identity);
+        VisualEffect vfx = _vfxPool.Get();
+        vfx.transform.position = position;
+
+        DOVirtual.DelayedCall(1f, () => _vfxPool.Release(vfx));
     }
 }

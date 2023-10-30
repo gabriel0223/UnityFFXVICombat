@@ -11039,7 +11039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b87c9fb456df446b47cb497fa66a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxImpactPrefab: {fileID: 3039276805359735027, guid: 471c1eeda3365744fb4837d76a160b2a,
+  _vfxImpactPrefab: {fileID: 3039276805359735037, guid: 471c1eeda3365744fb4837d76a160b2a,
     type: 3}
   _raycastOrigin: {fileID: 1826947648}
   _collider: {fileID: 2288977933756408141}
@@ -11158,8 +11158,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 1000
   _initialHealth: 1000
-  _controller: {fileID: 7409486671650213990}
-  _animator: {fileID: 7409486671650213988}
 --- !u!114 &1405522574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11189,7 +11187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3666e06d1d52d1b4ea1d607baa4cc9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyHealth: {fileID: 7409486671650213989}
   _minTimeBetweenStateReevaluation: 1.5
   _maxTimeBetweenStateReevaluation: 4
 --- !u!114 &199716881
@@ -11204,8 +11201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54919783cabd6f4fa196461f7cb04ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 7409486671650213990}
-  _animator: {fileID: 7409486671650213988}
   _movementSpeed: 0.4
   _chaseSpeed: 3
   _rotationSpeed: 10
@@ -11221,8 +11216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8a1663235444c47afedd2b2c2882c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 7409486671650213990}
-  _input: {fileID: 0}
 --- !u!114 &7273164373027076900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11235,9 +11228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7672d65fce2b38f4399c7f5f90ce2537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 7409486671650213988}
   _weapon: {fileID: 5441591757122183792}
-  _dashController: {fileID: 1658449514}
   _attackData:
     AnimationName: Attack
     DamageMultiplier: 1

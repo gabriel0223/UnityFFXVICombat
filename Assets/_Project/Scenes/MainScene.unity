@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 235.26938, g: 244.8816, b: 269.537, a: 1}
+  m_IndirectSpecularColor: {r: 235.71786, g: 245.62372, b: 271.23267, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09e5ce3a5cea2e4fa63e18bcd71690c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxImpactPrefab: {fileID: 3061738688281092236, guid: f39adb54817353e4c948d4c54d4d9a87,
+  _vfxImpactPrefab: {fileID: 3061738688281092226, guid: f39adb54817353e4c948d4c54d4d9a87,
     type: 3}
   _raycastOrigin: {fileID: 2072584283}
   _collider: {fileID: 290061047}
@@ -27421,13 +27421,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1bbf0d1bd7b32419c2dd2239553e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beginShiftVfxPrefab: {fileID: 8228700138660435486, guid: 71a259041ff57684fbd4ea118241de56,
+  _beginShiftVfxPrefab: {fileID: 8228700138660435484, guid: 71a259041ff57684fbd4ea118241de56,
     type: 3}
-  _endShiftVfxPrefab: {fileID: 477624775027848115, guid: 78b9e5a74c203f24ba3191e05f079705,
+  _endShiftVfxPrefab: {fileID: 477624775027848127, guid: 78b9e5a74c203f24ba3191e05f079705,
     type: 3}
-  _vfxSlash: {fileID: 2369783264775008799, guid: 06c6ecfe5ae691246811a6cfe051ee82,
+  _vfxSlash: {fileID: 4528373341372582181, guid: 06c6ecfe5ae691246811a6cfe051ee82,
     type: 3}
-  _vfxFireSlash: {fileID: 4903459762839230325, guid: 3325dd2be51936749a04e62003f251bd,
+  _vfxFireSlash: {fileID: 4312324410649412485, guid: 3325dd2be51936749a04e62003f251bd,
     type: 3}
   _phoenixProjectionMaterial: {fileID: 2100000, guid: 3b62d0da7b8349545823ebd03cf0275b,
     type: 2}
@@ -27467,7 +27467,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8a1663235444c47afedd2b2c2882c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _input: {fileID: 135756642215747342}
 --- !u!114 &6982812147058213817
 MonoBehaviour:
   m_ObjectHideFlags: 0
