@@ -2,7 +2,7 @@
 
 This project is a recreation of Final Fantasy XVI's combat system in Unity. It uses Unity's High Definition Render Pipeline (HDRP) to achieve graphical fidelity, and showcases many of the features present in the original game. Although this is primarily a recreation, the main idea was ensuring a fluid, visually appealing third-person combat experience. Developers and enthusiasts are encouraged to utilize this as a reference, learning resource, or foundation for further development.
 
-![Fighting gif (1) (1)](https://github.com/gabriel0223/UnityFFXVICombat/assets/70488342/986af26b-e702-483c-90a1-a0f4460e974b)
+![Fighting gif (1) (1)](https://github.com/gabriel0223/UnityFFXVICombat/assets/70488342/08478762-75f9-4f8c-b2c3-61d072ef74ec)
 
 ## Features
 * Combo system. The player has a queue of attacks to be executed in order, and each one can be configured independently.
@@ -13,7 +13,7 @@ This project is a recreation of Final Fantasy XVI's combat system in Unity. It u
 * Precision counter. If the player attacks right after a precision dodge, it triggers a precision counter attack.
 * Eikonic abilities. A modular ability system that supports camera movements, animations, VFX, and several different settings.
 
-![Counter gif (1)](https://github.com/gabriel0223/UnityFFXVICombat/assets/70488342/946ae6a4-0431-4408-ad04-c439cb38673f)
+![Counter gif (1)](https://github.com/gabriel0223/UnityFFXVICombat/assets/70488342/90c10f30-9874-4e1f-948f-124bc2ad1811)
 
 ## Controls
 * **Move:** W,A,S,D
@@ -22,7 +22,7 @@ This project is a recreation of Final Fantasy XVI's combat system in Unity. It u
 * **Dodge:** Space
 * **Show Eikonic Abilities:** Shift
 
-![Ability gif](https://github.com/gabriel0223/UnityFFXVICombat/assets/70488342/c2321f83-812c-4ee4-ad22-61ee48089952)
+![Ability gif](https://github.com/gabriel0223/UnityFFXVICombat/assets/70488342/5fdeb11c-3ec6-4cfb-b42d-baa9afa281a1)
 
 ## Credits
 * [Curved Blade](https://sketchfab.com/3d-models/curved-blade-2662d417e7664a35a0cc6fd7f87ffe81) by iceboxX708: 
