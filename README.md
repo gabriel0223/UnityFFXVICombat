@@ -25,9 +25,10 @@ This project is a recreation of Final Fantasy XVI's combat system in Unity. It u
 ![Ability gif](https://github.com/gabriel0223/UnityFFXVICombat/assets/70488342/5fdeb11c-3ec6-4cfb-b42d-baa9afa281a1)
 
 ## Credits
-* [Curved Blade](https://sketchfab.com/3d-models/curved-blade-2662d417e7664a35a0cc6fd7f87ffe81) by iceboxX708: 
-* [Buster Sword](https://sketchfab.com/3d-models/buster-sword-5c99b7fccca64f18a340b58237a5dfc5 ) by Boris_Lebedev: 
-* [Old Wood House](https://sketchfab.com/3d-models/0ld-wood-house-5489d066519d4f5c920762001a352f98) by Ashwani-Tyagi: 
-* [Wood Fence](https://sketchfab.com/3d-models/modular-fence-pack-asset-one-material-df54e425868a4f1aaafaa304463d9858) by BlackMonolith: 
+* [UIGradient](https://github.com/azixMcAze/Unity-UIGradient) by azixMcAze
+* [Curved Blade](https://sketchfab.com/3d-models/curved-blade-2662d417e7664a35a0cc6fd7f87ffe81) by iceboxX708 
+* [Buster Sword](https://sketchfab.com/3d-models/buster-sword-5c99b7fccca64f18a340b58237a5dfc5 ) by Boris_Lebedev 
+* [Old Wood House](https://sketchfab.com/3d-models/0ld-wood-house-5489d066519d4f5c920762001a352f98) by Ashwani-Tyagi 
+* [Wood Fence](https://sketchfab.com/3d-models/modular-fence-pack-asset-one-material-df54e425868a4f1aaafaa304463d9858) by BlackMonolith 
 
 *FINAL FANTASY is a registered trademark of Square Enix Holdings Co., Ltd.*
