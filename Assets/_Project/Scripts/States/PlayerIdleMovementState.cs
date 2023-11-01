@@ -42,6 +42,7 @@ public class PlayerIdleMovementState : BaseState
 
     private void SwitchToAttack()
     {
+        Debug.Log("switched to attack");
         _stateManager.SwitchState(new PlayerAttackState());
     }
 

@@ -28,7 +28,7 @@ public class PlayerComboController : MonoBehaviour
     private Animator _animator;
 
     private bool _isInAttackAnimation;
-    private bool _isCheckingForAttack;
+    private bool _isCheckingForAttackInput;
     private int _currentCombo;
     private Queue<AttackData> _attackQueue;
     private Vector3 _inputDirection;
@@ -52,7 +52,7 @@ public class PlayerComboController : MonoBehaviour
 
     public void Attack()
     {
-        bool isInLastAttack = _isCheckingForAttack && _attackQueue.Count == 0;
+        bool isInLastAttack = _isCheckingForAttackInput && _attackQueue.Count == 0;
         
         if (!_isInAttackAnimation || isInLastAttack)
         {
@@ -60,15 +60,18 @@ public class PlayerComboController : MonoBehaviour
         }
         else
         {
-            if (!_isCheckingForAttack)
+            if (!_isCheckingForAttackInput)
             {
                 return;
             }
-        
+
             ExecuteNextAttack();
         }
     }
 
+    /// <summary>
+    /// Performs an attack and dashes forward.
+    /// </summary>
     public void ComboDashForward()
     {
         if (_combatController.IsOnCombatMode)
@@ -79,6 +82,50 @@ public class PlayerComboController : MonoBehaviour
         {
             DashForward();
         }
+    }
+
+    public void OnAttackAnimationStart()
+    {
+        _isInAttackAnimation = true;
+        _currentCombo++;
+    }
+
+    public void OnAttackAnimationEnd()
+    {
+        //if it's in the middle of the combo, return
+        if (_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name.Contains("Slash"))
+        {
+            return;
+        }
+    
+        OnComboEnd?.Invoke();
+        Reset();
+    }
+
+    /// <summary>
+    /// Start checking for attack input to trigger next
+    /// attack in the sequence.
+    /// </summary>
+    public void StartCheckingForAttack()
+    {
+        _isCheckingForAttackInput = true;
+    }
+
+    /// <summary>
+    /// Stop checking for attack input to trigger next
+    /// attack in the sequence.
+    /// </summary>
+    public void EndCheckingForAttack()
+    {
+        //if there's no attack buffered
+        if (_isCheckingForAttackInput)
+        {
+            _isInAttackAnimation = false;
+            
+            OnComboEnd?.Invoke();
+        }
+
+        _isCheckingForAttackInput = false;
     }
 
     private void HandleWeaponHitEnemy(HealthBase health, int damage)
@@ -127,7 +174,7 @@ public class PlayerComboController : MonoBehaviour
 
     private void ExecuteNextAttack()
     {
-        _isCheckingForAttack = false;
+        _isCheckingForAttackInput = false;
 
         if (_attackQueue.Count != 0)
         {
@@ -138,36 +185,13 @@ public class PlayerComboController : MonoBehaviour
         }
     }
 
-    public void OnAttackAnimationStart()
+    /// <summary>
+    /// Reset combo values to initial values.
+    /// </summary>
+    private void Reset()
     {
-        _isInAttackAnimation = true;
-        _currentCombo++;
-    }
-
-    public void OnAttackAnimationEnd()
-    {
-        //if it's in the middle of the combo, return
-        if (_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name.Contains("Slash"))
-        {
-            return;
-        }
-
+        _attackQueue = new Queue<AttackData>(_attackList);
+        _isCheckingForAttackInput = false;
         _isInAttackAnimation = false;
-    }
-
-    public void StartCheckingForAttack()
-    {
-        _isCheckingForAttack = true;
-    }
-
-    public void EndCheckingForAttack()
-    {
-        //if there's no attack buffered
-        if (_isCheckingForAttack)
-        {
-            OnComboEnd?.Invoke();
-        }
-
-        _isCheckingForAttack = false;
     }
 }
